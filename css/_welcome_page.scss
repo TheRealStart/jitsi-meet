@@ -4,7 +4,8 @@ body.welcome-page {
 }
 
 .welcome {
-    background-image: $welcomePageHeaderBackground;
+    //background-image: $welcomePageHeaderBackground;
+    background: #2a43d4;
     display: flex;
     flex-direction: column;
     font-family: $welcomePageFontFamily;

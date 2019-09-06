@@ -6,10 +6,11 @@ import { connect } from '../../base/redux';
 import { createDeepLinkingPageEvent, sendAnalytics } from '../../analytics';
 import { translate } from '../../base/i18n';
 import { Platform } from '../../base/react';
-import { DialInSummary } from '../../invite';
 
-import { _TNS } from '../constants';
-import { generateDeepLinkingURL } from '../functions';
+// import { DialInSummary } from '../../invite';
+
+// import { _TNS } from '../constants';
+// import { generateDeepLinkingURL } from '../functions';
 
 declare var interfaceConfig: Object;
 
@@ -88,20 +89,21 @@ class DeepLinkingMobilePage extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _room, t } = this.props;
-        const { NATIVE_APP_NAME, SHOW_DEEP_LINKING_IMAGE } = interfaceConfig;
-        const downloadButtonClassName
-            = `${_SNS}__button ${_SNS}__button_primary`;
+        // const { _room, t } = this.props;
+        // const { NATIVE_APP_NAME, SHOW_DEEP_LINKING_IMAGE } = interfaceConfig;
+        /* const downloadButtonClassName
+            = `${_SNS}__button ${_SNS}__button_primary`; */
 
         return (
             <div className = { _SNS }>
-                <div className = 'header'>
+                {/* <div className = 'header'>
                     <img
                         className = 'logo'
                         src = 'images/logo-deep-linking.png' />
-                </div>
+                </div>*/}
                 <div className = { `${_SNS}__body` }>
-                    {
+                    <h2>Mobile version is coming soon, please use our website from your Desktop browser.</h2>
+                    {/* {
                         SHOW_DEEP_LINKING_IMAGE
                             ? <img
                                 className = 'image'
@@ -119,21 +121,21 @@ class DeepLinkingMobilePage extends Component<Props> {
                         <button className = { downloadButtonClassName }>
                             { t(`${_TNS}.downloadApp`) }
                         </button>
-                    </a>
-                    <a
+                    </a>*/}
+                    {/* <a
                         className = { `${_SNS}__href` }
                         href = { generateDeepLinkingURL() }
                         onClick = { this._onOpenApp }
                         rel = 'noopener noreferrer'
-                        target = '_blank'>
-                        {/* <button className = { `${_SNS}__button` }> */}
-                        { t(`${_TNS}.openApp`) }
-                        {/* </button> */}
-                    </a>
-                    <DialInSummary
+                        target = '_blank'>*/}
+                    {/* <button className = { `${_SNS}__button` }> */}
+                    {/* { t(`${_TNS}.openApp`) }*/}
+                    {/* </button> */}
+                    {/* </a>*/}
+                    {/* <DialInSummary
                         className = 'deep-linking-dial-in'
                         clickableNumbers = { true }
-                        room = { _room } />
+                        room = { _room } />*/}
                 </div>
             </div>
         );
