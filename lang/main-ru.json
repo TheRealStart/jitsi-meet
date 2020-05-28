@@ -350,7 +350,7 @@
         "answer": "Ответ",
         "audioCallTitle": "Входящий звонок",
         "decline": "Отклонить",
-        "productLabel": "из Jitsi Meet",
+        "productLabel": "из Fiesta.app",
         "videoCallTitle": "Входящий видеозвонок"
     },
     "info": {
@@ -538,7 +538,7 @@
         "newDeviceAction": "Использовать",
         "newDeviceAudioTitle": "Обнаружено новое аудиоустройство",
         "newDeviceCameraTitle": "Обнаружена новая камера",
-        "oldElectronClientDescription1": "Похоже, вы используете старую версию клиента Jitsi Meet, которая имеет известные уязвимости в системе безопасности. Убедитесь, что вы обновили до нашей ",
+        "oldElectronClientDescription1": "Похоже, вы используете старую версию клиента Fiesta.app, которая имеет известные уязвимости в системе безопасности. Убедитесь, что вы обновили до нашей ",
         "oldElectronClientDescription2": "последней версии",
         "oldElectronClientDescription3": " сейчас!",
         "passwordRemovedRemotely": "$t(lockRoomPasswordUppercase) удален другим участником.",
@@ -763,6 +763,8 @@
             "toggleFilmstrip": "Включить диафильм",
             "videoblur": "Вкл/Выкл размытие фона",
             "videomute": "Вкл/Выкл видео"
+            "muteEveryone": "Выкл. микрофон у всех",
+            "unMuteEveryone": "Вкл. микрофон у всех",
         },
         "addPeople": "Добавить людей к вашему сеансу связи",
         "audioOnlyOff": "Отключить режим экономии пропуской способности",
@@ -877,6 +879,7 @@
     },
     "videothumbnail": {
         "domute": "Выключить звук",
+        "doUnMute": "Включить звук",
         "domuteOthers": "Выключить остальных",
         "flip": "Отразить",
         "grantModerator": "Сделать модератором",
