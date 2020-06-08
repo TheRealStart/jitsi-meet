@@ -12,6 +12,9 @@ import LocalThumbnail from './LocalThumbnail';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
+import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
+import { MEDIA_TYPE } from '../../../base/media';
+
 /**
  * Filmstrip component's property types.
  */
@@ -35,7 +38,12 @@ type Props = {
     /**
      * The indicator which determines whether the filmstrip is visible.
      */
-    _visible: boolean
+    _visible: boolean,
+
+    /**
+     * The tracks in the conference.
+     */
+    _tracks: Array<Object>
 };
 
 /**
@@ -154,7 +162,20 @@ class Filmstrip extends Component<Props> {
             ...participants
         ];
 
-        if (isNarrowAspectRatio) {
+        for (const participant of sortedParticipants) {
+
+            const videoTrack = getTrackByMediaTypeAndParticipant(this.props._tracks, MEDIA_TYPE.VIDEO, participant.id);
+
+            if (videoTrack) {
+                participant.videoMuted = videoTrack.muted;
+            } else {
+                participant.videoMuted = true;
+            }
+        }
+
+        sortedParticipants.sort((a, b) => a.videoMuted - b.videoMuted);
+
+        if (isNarrowAspectRatio_) {
             // When the narrow aspect ratio is used, we want to have the remote
             // participants from right to left with the newest added/joined to
             // the leftmost side. The local participant is the leftmost item.
@@ -180,7 +201,18 @@ function _mapStateToProps(state) {
         _aspectRatio: state['features/base/responsive-ui'].aspectRatio,
         _enabled: enabled,
         _participants: participants.filter(p => !p.local),
-        _visible: isFilmstripVisible(state)
+
+        /**
+         * The indicator which determines whether the filmstrip is visible. The
+         * mobile/react-native Filmstrip is visible when there are at least 2
+         * participants in the conference (including the local one).
+         *
+         * @private
+         * @type {boolean}
+         */
+        _visible: isFilmstripVisible(state),
+
+        _tracks: state['features/base/tracks']
     };
 }
 

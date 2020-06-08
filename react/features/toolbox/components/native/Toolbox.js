@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { Container } from '../../../base/react';
@@ -15,6 +15,8 @@ import VideoMuteButton from '../VideoMuteButton';
 
 import OverflowMenuButton from './OverflowMenuButton';
 import styles from './styles';
+import { TileViewButton } from '../../../video-layout';
+import { setToolboxVisible } from '../../index';
 
 /**
  * The type of {@link Toolbox}'s React {@code Component} props.
@@ -37,10 +39,27 @@ type Props = {
     dispatch: Function
 };
 
+type State = {
+    tileTooltipVisible: boolean
+};
+
 /**
  * Implements the conference toolbox on React Native.
  */
-class Toolbox extends PureComponent<Props> {
+class Toolbox extends PureComponent<Props, State> {
+    /**
+     * Initializes a new toolbox instance.
+     *
+     * @param {Object} props - The read-only properties with which the new
+     * instance is to be initialized.
+     */
+    constructor(props) {
+        super(props);
+
+        // Bind event handlers so they are only bound once per instance.
+        this.onTileViewClick = this.onTileViewClick.bind(this);
+    }
+
     /**
      * Implements React's {@link Component#render()}.
      *
@@ -55,6 +74,26 @@ class Toolbox extends PureComponent<Props> {
                 { this._renderToolbar() }
             </Container>
         );
+    }
+
+    state = {
+        tileTooltipVisible: false
+    };
+
+    // eslint-disable-next-line require-jsdoc
+    componentDidMount() {
+        this.props.dispatch(setToolboxVisible(true));
+        setTimeout(() => {
+            this.setState({
+                tileTooltipVisible: true
+            });
+        }, 5000);
+
+        setTimeout(() => {
+            this.setState({
+                tileTooltipVisible: false
+            });
+        }, 10000);
     }
 
     /**
@@ -88,6 +127,14 @@ class Toolbox extends PureComponent<Props> {
         };
     }
 
+    // eslint-disable-next-line require-jsdoc
+    onTileViewClick: () => void;
+
+    // eslint-disable-next-line require-jsdoc
+    onTileViewClick() {
+        this.setState({ tileTooltipVisible: false });
+    }
+
     /**
      * Renders the toolbar. In order to avoid a weird visual effect in which the
      * toolbar is (visually) rendered and then visibly changes its size, it is
@@ -99,6 +146,50 @@ class Toolbox extends PureComponent<Props> {
         const { _styles } = this.props;
         const { buttonStyles, buttonStylesBorderless, hangupButtonStyles, toggledButtonStyles } = _styles;
 
+        const tileTooltipWrapper = {
+            position: 'relative'
+        };
+
+        const tileTooltip = {
+            position: 'absolute',
+            bottom: 60,
+            right: '0%',
+            backgroundColor: '#ffffff',
+            borderRadius: 10,
+            width: 150,
+            padding: 15
+        };
+
+        const tileTooltipTitle = {
+            fontWeight: 'bold',
+            textAlign: 'center',
+            color: '#000000',
+            marginBottom: 5,
+            fontSize: 16
+        };
+
+        const tileTooltipText = {
+            textAlign: 'center',
+            color: '#000000',
+            lineHeight: 20
+        };
+
+        const tileTooltipArrow = {
+            position: 'absolute',
+            right: 27,
+            bottom: -6,
+            width: 0,
+            height: 0,
+            backgroundColor: 'transparent',
+            borderStyle: 'solid',
+            borderLeftWidth: 5,
+            borderRightWidth: 5,
+            borderTopWidth: 6,
+            borderLeftColor: 'transparent',
+            borderRightColor: 'transparent',
+            borderTopColor: '#ffffff'
+        };
+
         return (
             <View
                 accessibilityRole = 'toolbar'
@@ -107,14 +198,30 @@ class Toolbox extends PureComponent<Props> {
                 <ChatButton
                     styles = { buttonStylesBorderless }
                     toggledStyles = { this._getChatButtonToggledStyle(toggledButtonStyles) } />
+                <VideoMuteButton
+                    styles = { buttonStyles }
+                    toggledStyles = { toggledButtonStyles } />
                 <AudioMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
                 <HangupButton
                     styles = { hangupButtonStyles } />
-                <VideoMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
+
+                <View style = { tileTooltipWrapper }>
+                    {
+                        this.state.tileTooltipVisible && <View style = { tileTooltip }>
+                            <Text style = { tileTooltipTitle }>Let's fiesta!</Text>
+                            <Text style = { tileTooltipText }>Tap to toggle between grid and full screen view.</Text>
+                            <View style = { tileTooltipArrow } />
+                        </View>
+                    }
+
+                    <TileViewButton
+                        afterClick = { this.onTileViewClick }
+                        styles = { buttonStyles }
+                        toggledStyles = { toggledButtonStyles } />
+                </View>
+
                 <OverflowMenuButton
                     styles = { buttonStylesBorderless }
                     toggledStyles = { toggledButtonStyles } />

@@ -39,10 +39,10 @@ type Props = AbstractButtonProps & {
  * every participant (except the local one)
  */
 class UnMuteEveryoneButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.unMuteEveryone';
+    accessibilityLabel = 'toolbar.accessibilityLabel.unMuteAll';
     icon = IconMuteEveryone;
-    label = 'toolbar.unMuteEveryone';
-    tooltip = 'toolbar.unMuteEveryone';
+    label = 'toolbar.unMuteAll';
+    tooltip = 'toolbar.unMuteAll';
 
     /**
      * Handles clicking / pressing the button, and opens a confirmation dialog.

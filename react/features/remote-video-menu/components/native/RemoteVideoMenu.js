@@ -15,9 +15,9 @@ import { hideRemoteVideoMenu } from '../../actions';
 
 import GrantModeratorButton from './GrantModeratorButton';
 import KickButton from './KickButton';
-import MuteButton from './MuteButton';
 import PinButton from './PinButton';
 import styles from './styles';
+import ToggleMuteButton from "./ToggleMuteButton";
 
 /**
  * Size of the rendered avatar in the menu.
@@ -94,6 +94,20 @@ class RemoteVideoMenu extends PureComponent<Props> {
             participantID: participant.id,
             styles: this.props._bottomSheetStyles.buttons
         };
+
+        const buttons = [];
+
+        if (!_disableRemoteMute) {
+            buttons.push(<ToggleMuteButton { ...buttonProps } />);
+        }
+
+        if (!_disableKick) {
+            buttons.push(<KickButton { ...buttonProps } />);
+        }
+
+        buttons.push(<PinButton { ...buttonProps } />);
+
+        { /* buttons.push(<PrivateMessageButton { ...buttonProps } />); */ }
 
         return (
             <BottomSheet

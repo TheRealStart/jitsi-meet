@@ -12,6 +12,9 @@ import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
 
+import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
+import { MEDIA_TYPE } from '../../../base/media';
+
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
@@ -34,6 +37,13 @@ type Props = {
      * The participants in the conference.
      */
     _participants: Array<Object>,
+    onClick: Function,
+
+    /**
+     * The tracks in the conference.
+     */
+    _tracks: Array<Object>
+};
 
     /**
      * Application's viewport height.
@@ -159,6 +169,15 @@ class TileView extends Component<Props> {
         let localParticipant;
 
         for (const participant of this.props._participants) {
+
+            const videoTrack = getTrackByMediaTypeAndParticipant(this.props._tracks, MEDIA_TYPE.VIDEO, participant.id);
+
+            if (videoTrack) {
+                participant.videoMuted = videoTrack.muted;
+            } else {
+                participant.videoMuted = true;
+            }
+
             if (participant.local) {
                 localParticipant = participant;
             } else {
@@ -166,7 +185,9 @@ class TileView extends Component<Props> {
             }
         }
 
-        localParticipant && participants.push(localParticipant);
+        participants.sort((a, b) => a.videoMuted - b.videoMuted);
+
+        localParticipant && participants.unshift(localParticipant);
 
         return participants;
     }
@@ -289,6 +310,7 @@ function _mapStateToProps(state) {
         _height: responsiveUi.clientHeight,
         _participants: state['features/base/participants'],
         _width: responsiveUi.clientWidth
+        _tracks: state['features/base/tracks']
     };
 }
 
