@@ -168,6 +168,7 @@ class TileView extends Component<Props> {
     _getSortedParticipants() {
         let participants = [];
         let localParticipant;
+        let otherParticipant;
 
         for (const participant of this.props._participants) {
             let sortWeight = 0;
@@ -186,6 +187,12 @@ class TileView extends Component<Props> {
 
             if (participant.local) {
                 localParticipant = participant;
+            } else if(
+                !participant.local &&
+                !otherParticipant &&
+                participant.role !== "moderator"
+            ) {
+                otherParticipant = participant;
             } else {
                 participants.push(participant);
             }
@@ -193,6 +200,7 @@ class TileView extends Component<Props> {
 
         participants = _.sortBy(participants, "sortWeight");
 
+        otherParticipant && participants.unshift(otherParticipant);
         localParticipant && participants.unshift(localParticipant);
 
         return participants;
