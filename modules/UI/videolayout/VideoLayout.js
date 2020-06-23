@@ -2,6 +2,8 @@
 
 import Logger from 'jitsi-meet-logger';
 
+const logger = require('jitsi-meet-logger').getLogger(__filename);
+import _ from "lodash";
 import { MEDIA_TYPE, VIDEO_TYPE } from '../../../react/features/base/media';
 import {
     getLocalParticipant as getLocalParticipantFromStore,
@@ -21,7 +23,7 @@ import { VIDEO_CONTAINER_TYPE } from './VideoContainer';
 
 const logger = Logger.getLogger(__filename);
 
-const remoteVideos = {};
+let remoteVideos = {};
 let localVideoThumbnail = null;
 
 let eventEmitter = null;
@@ -55,6 +57,46 @@ function getAllThumbnails() {
         ...localVideoThumbnail ? [ localVideoThumbnail ] : [],
         ...Object.values(remoteVideos)
     ];
+}
+
+function getSortedParticipants() {
+    const participants = APP.store.getState()["features/base/participants"];
+    let sortedParticipants = [],
+        otherParticipant
+
+    for (const participant of participants) {
+        const participantThumb = remoteVideos[participant.id];
+        if(!participantThumb || participant.local) continue;
+
+        const isModerator = Boolean( participant && participant.role === "moderator");
+        const isVideoMuted = participantThumb.isVideoMuted;
+
+        let sortWeight = 0;
+        if (!isVideoMuted) {
+            sortWeight -= 1;
+        }
+        if (participant.raisedHand) {
+            sortWeight -= 2;
+        }
+        if (isModerator) {
+            sortWeight -= 4;
+        }
+        participant.sortWeight = sortWeight;
+
+        if (
+            !participant.local && !otherParticipant &&
+            !isModerator && !isVideoMuted
+        ) {
+            otherParticipant = participant;
+        } else {
+            sortedParticipants.push(participant);
+        }
+    }
+
+    sortedParticipants = _.sortBy(sortedParticipants, "sortWeight");
+
+    otherParticipant && sortedParticipants.unshift(otherParticipant);
+    return sortedParticipants;
 }
 
 /**
@@ -812,6 +854,18 @@ const VideoLayout = {
     _updateLargeVideoIfDisplayed(participantId, force = false) {
         if (this.isCurrentlyOnLarge(participantId)) {
             this.updateLargeVideo(participantId, force);
+        }
+    },
+
+    sortParticipants() {
+        const sortedParticipants = getSortedParticipants();
+        $("#localVideoTileViewContainer").css({order: -1})
+        if(!_.isEmpty(sortedParticipants)) {
+            _.map(sortedParticipants, (participant, orderKey) => {
+                const $participant = $('.remote-videos-container')
+                    .find(`#participant_${participant.id}`);
+                $participant.css({order: orderKey})
+            })
         }
     },
 
