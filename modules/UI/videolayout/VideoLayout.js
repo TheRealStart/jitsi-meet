@@ -1,6 +1,7 @@
 /* global APP, $, interfaceConfig  */
 
 import Logger from 'jitsi-meet-logger';
+import {JitsiParticipantConnectionStatus} from "../../../react/features/base/lib-jitsi-meet";
 
 const logger = require('jitsi-meet-logger').getLogger(__filename);
 import _ from "lodash";
@@ -62,17 +63,22 @@ function getAllThumbnails() {
 function getSortedParticipants() {
     const participants = APP.store.getState()["features/base/participants"];
     let sortedParticipants = [],
-        otherParticipant
+        otherParticipant;
+    const { INACTIVE, INTERRUPTED } = JitsiParticipantConnectionStatus;
 
     for (const participant of participants) {
         const participantThumb = remoteVideos[participant.id];
+        const connectionStatus = APP.conference.getParticipantConnectionStatus(participant.id);
         if(!participantThumb || participant.local) continue;
 
         const isModerator = Boolean( participant && participant.role === "moderator");
         const isVideoMuted = participantThumb.isVideoMuted;
 
         let sortWeight = 0;
-        if (!isVideoMuted) {
+        if (!isVideoMuted &&
+            connectionStatus !== INACTIVE &&
+            connectionStatus !== INTERRUPTED
+        ) {
             sortWeight -= 1;
         }
         if (participant.raisedHand) {
