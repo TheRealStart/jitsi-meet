@@ -76,6 +76,8 @@ function getSortedParticipants() {
         const isModerator = Boolean(participant && participant.role === "moderator");
         const isVideoMuted = participantThumb.isVideoMuted;
 
+        logger.info(`Sort issue 77`, {isModerator, isVideoMuted, participant});
+
         if (isModerator) {
             moderators.push(participant);
         } else {
@@ -94,9 +96,11 @@ function getSortedParticipants() {
             sortedParticipants.push(participant);
         }
     }
-
+    logger.info(`Sort issue 95`, {sortedParticipants});
     sortedParticipants = _.sortBy(sortedParticipants, "sortWeight");
     otherParticipant = sortedParticipants.shift();
+
+    logger.info(`Sort issue 101`, {sortedParticipants, otherParticipant});
 
     return [otherParticipant, ...moderators, ...sortedParticipants]
             .filter(Boolean);
@@ -862,6 +866,8 @@ const VideoLayout = {
 
     sortParticipants() {
         const sortedParticipants = getSortedParticipants();
+        logger.log('Sort issue 864', {sortedParticipants})
+
         $("#localVideoTileViewContainer").css({order: -1})
         if(!_.isEmpty(sortedParticipants)) {
             _.map(sortedParticipants, (participant, orderKey) => {
