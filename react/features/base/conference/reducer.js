@@ -17,7 +17,8 @@ import {
     LOCK_STATE_CHANGED,
     P2P_STATUS_CHANGED,
     SET_DESKTOP_SHARING_ENABLED,
-    SET_FOLLOW_ME,
+    SET_FOLLOW_ME, SET_LOCK_UNMUTE,
+    SET_MAX_RECEIVER_VIDEO_QUALITY,
     SET_PASSWORD,
     SET_PENDING_SUBJECT_CHANGE,
     SET_ROOM,
@@ -33,6 +34,8 @@ const DEFAULT_STATE = {
     leaving: undefined,
     locked: undefined,
     membersOnly: undefined,
+    unMuteLocked: false,
+    maxReceiverVideoQuality: VIDEO_QUALITY_LEVELS.HIGH,
     password: undefined,
     passwordRequired: undefined
 };
@@ -87,6 +90,9 @@ ReducerRegistry.register(
 
         case SET_PASSWORD:
             return _setPassword(state, action);
+
+        case SET_LOCK_UNMUTE:
+            return _setLockUnMute(state, action);
 
         case SET_PENDING_SUBJECT_CHANGE:
             return set(state, 'pendingSubjectChange', action.subject);
@@ -405,6 +411,30 @@ function _setPassword(state, { conference, method, password }) {
     return state;
 }
 
+
+/**
+ * Reduces a specific Redux action SET_LOCK_UNMUTE of the feature base/conference.
+ *
+ * @param {Object} state - The Redux state of the feature base/conference.
+ * @param {Action} action - The Redux action SET_LOCK_UNMUTE to reduce.
+ * @private
+ * @returns {Object} The new state of the feature base/conference after the
+ * reduction of the specified action.
+ */
+function _setLockUnMute(state,  { conference, method, status }) {
+    switch (method) {
+        case conference.join:
+            console.log("ZZZ reducer _setLockUnMute")
+            break;
+
+        case conference.lockUnMute:
+            return assign(state, {
+                unMuteLocked: status
+            });
+    }
+
+    return state;
+}
 /**
  * Reduces a specific Redux action SET_ROOM of the feature base/conference.
  *
