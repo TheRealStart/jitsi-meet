@@ -160,10 +160,10 @@ class Filmstrip extends Component<Props> {
     _sort(participants, isNarrowAspectRatio) {
         // XXX Array.prototype.sort() is not appropriate because (1) it operates
         // in place and (2) it is not necessarily stable.
-        const { INACTIVE, INTERRUPTED } = JitsiParticipantConnectionStatus;
-        let sortedParticipants = [
-            ...participants
-        ];
+        const { INACTIVE } = JitsiParticipantConnectionStatus;
+
+        let sortedParticipants = [],
+            moderators = [];
 
         for (const participant of sortedParticipants) {
             const { connectionStatus } = participant;
@@ -171,26 +171,28 @@ class Filmstrip extends Component<Props> {
                 this.props._tracks, MEDIA_TYPE.VIDEO, participant.id
             );
             const isVideoMuted = Boolean(videoTrack && videoTrack.muted);
-            const isVideoEnabled = !isVideoMuted &&
-                connectionStatus !== INACTIVE &&
-                connectionStatus !== INTERRUPTED;
 
             const isModerator = Boolean(
                 participant &&
                 participant.role === PARTICIPANT_ROLE.MODERATOR
             );
 
-            let sortWeight = 0;
-            if(isVideoEnabled) {
-                sortWeight -= 1;
+            if (isModerator) {
+                moderators.push(participant);
+            } else {
+                let sortWeight = 0;
+                if (isVideoMuted || !connectionStatus || connectionStatus === INACTIVE) {
+                    sortWeight = 1;
+                }
+
+                if (participant.raisedHand) {
+                    sortWeight -= 1;
+                }
+
+                participant.sortWeight = sortWeight;
+
+                sortedParticipants.push(participant);
             }
-            if(participant.raisedHand) {
-                sortWeight -= 2;
-            }
-            if(isModerator) {
-                sortWeight -= 4;
-            }
-            participant.sortWeight = sortWeight;
         }
 
         sortedParticipants = _.sortBy(participants, "sortWeight");
