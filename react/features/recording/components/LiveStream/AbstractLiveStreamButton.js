@@ -4,8 +4,12 @@ import { openDialog } from '../../../base/dialog';
 import { IconLiveStreaming } from '../../../base/icons';
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import { getLocalParticipant } from '../../../base/participants';
-import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/components';
-import { getActiveSession } from '../../functions';
+import {
+    AbstractButton,
+    type AbstractButtonProps
+} from '../../../base/toolbox';
+
+import { getActiveSession, startLiveStream } from '../../functions';
 
 import {
     StartLiveStreamDialog,
@@ -41,7 +45,14 @@ export type Props = AbstractButtonProps & {
     /**
      * The i18n translate function.
      */
-    t: Function
+    t: Function,
+
+    /**
+     * Room name
+     */
+    room: string,
+
+    reduxState: Object
 };
 
 /**
@@ -71,11 +82,15 @@ export default class AbstractLiveStreamButton<P: Props> extends AbstractButton<P
      * @returns {void}
      */
     _handleClick() {
-        const { _isLiveStreamRunning, dispatch } = this.props;
+        const { _isLiveStreamRunning, dispatch, room, reduxState} = this.props;
 
-        dispatch(openDialog(
-            _isLiveStreamRunning ? StopLiveStreamDialog : StartLiveStreamDialog
-        ));
+        if(_isLiveStreamRunning) {
+            dispatch(openDialog(
+                StopLiveStreamDialog
+            ));
+        } else {
+            startLiveStream(reduxState, room);
+        }
     }
 
     /**
@@ -151,17 +166,15 @@ export function _mapStateToProps(state: Object, ownProps: Props) {
         }
     }
 
-    // disable the button if the recording is running.
-    if (getActiveSession(state, JitsiRecordingConstants.mode.FILE)) {
-        _disabled = true;
-        _tooltip = 'dialog.liveStreamingDisabledBecauseOfActiveRecordingTooltip';
-    }
+    const { room } = state['features/base/conference'];
 
     return {
         _disabled,
         _isLiveStreamRunning: Boolean(
             getActiveSession(state, JitsiRecordingConstants.mode.STREAM)),
-        _tooltip,
-        visible
+        disabledByFeatures,
+        visible,
+        room,
+        reduxState: state
     };
 }

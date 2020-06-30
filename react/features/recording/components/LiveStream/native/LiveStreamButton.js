@@ -3,7 +3,19 @@
 import { LIVE_STREAMING_ENABLED, getFeatureFlag } from '../../../../base/flags';
 import { translate } from '../../../../base/i18n';
 import { connect } from '../../../../base/redux';
-import AbstractLiveStreamButton, { _mapStateToProps as _abstractMapStateToProps } from '../AbstractLiveStreamButton';
+
+import AbstractLiveStreamButton, {
+    _mapStateToProps as _abstractMapStateToProps,
+    type Props
+} from '../AbstractLiveStreamButton';
+import {getLocalParticipant} from "../../../../base/participants";
+
+/**
+ * An implementation of a button for starting and stopping live streaming.
+ */
+class LiveStreamButton extends AbstractLiveStreamButton<Props> {
+    icon = IconLiveStreaming;
+}
 
 /**
  * Maps (parts of) the redux state to the associated props for this component.
@@ -17,10 +29,13 @@ import AbstractLiveStreamButton, { _mapStateToProps as _abstractMapStateToProps 
 export function mapStateToProps(state: Object, ownProps: Object) {
     const enabled = getFeatureFlag(state, LIVE_STREAMING_ENABLED, true);
     const abstractProps = _abstractMapStateToProps(state, ownProps);
+    const localParticipant = getLocalParticipant(state);
 
     return {
         ...abstractProps,
-        visible: enabled && abstractProps.visible
+        visible: enabled &&
+            abstractProps.visible &&
+            localParticipant.role === "moderator"
     };
 }
 

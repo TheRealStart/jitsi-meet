@@ -6,6 +6,7 @@ import AbstractLiveStreamButton, {
     _mapStateToProps as _abstractMapStateToProps,
     type Props
 } from '../AbstractLiveStreamButton';
+import {getLocalParticipant} from "../../../../base/participants";
 
 declare var interfaceConfig: Object;
 
@@ -26,6 +27,7 @@ declare var interfaceConfig: Object;
 function _mapStateToProps(state: Object, ownProps: Props) {
     const abstractProps = _abstractMapStateToProps(state, ownProps);
     let { visible } = ownProps;
+    const localParticipant = getLocalParticipant(state);
 
     if (typeof visible === 'undefined') {
         visible = interfaceConfig.TOOLBAR_BUTTONS.includes('livestreaming') && abstractProps.visible;
@@ -33,7 +35,9 @@ function _mapStateToProps(state: Object, ownProps: Props) {
 
     return {
         ...abstractProps,
-        visible
+        _disabled,
+        _liveStreamDisabledTooltipKey,
+        visible: visible && localParticipant.role === "moderator"
     };
 }
 
