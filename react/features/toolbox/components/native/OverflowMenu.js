@@ -21,6 +21,10 @@ import { TileViewButton } from '../../../video-layout';
 import { VideoShareButton } from '../../../youtube-player/components';
 import HelpButton from '../HelpButton';
 
+import LockUnMuteGuestsButton from "./LockUnMuteGuestsButton";
+
+// import HelpButton from '../HelpButton';
+
 import AudioOnlyButton from './AudioOnlyButton';
 
 // import MoreOptionsButton from './MoreOptionsButton';
@@ -143,6 +147,7 @@ class OverflowMenu extends PureComponent<Props, State> {
                 <LobbyModeButton { ...buttonProps } />
                 <MuteGuestsButton { ...buttonProps } />
                 <UnMuteGuestsButton { ...buttonProps } />
+                <LockUnMuteGuestsButton { ...buttonProps } />
 
                 { /* <MuteEveryoneButton { ...buttonProps } /> */ }
 
