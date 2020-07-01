@@ -87,7 +87,29 @@ const TILE_ASPECT_RATIO = 1;
  *
  * @extends Component
  */
-class TileView extends Component<Props> {
+class TileView extends Component<Props, State> {
+    state = {
+        height: 0,
+        width: 0,
+
+        sortedParticipants: []
+    };
+
+    sortInterval: IntervalID;
+
+    /**
+     * Initializes a new {@code TileView} instance.
+     *
+     * @param {Object} props - The read-only properties with which the new
+     * instance is to be initialized.
+     */
+    constructor(props: Props) {
+        super(props);
+
+        // Bind event handler so it is only bound once per instance.
+        this._onDimensionsChanged = this._onDimensionsChanged.bind(this);
+    }
+
     /**
      * Implements React's {@link Component#componentDidMount}.
      *
@@ -95,6 +117,16 @@ class TileView extends Component<Props> {
      */
     componentDidMount() {
         this._updateReceiverQuality();
+
+        this.sortInterval = setInterval(() => {
+            this.setState({
+                sortedParticipants: this._getSortedParticipants()
+            })
+        }, 5000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.sortInterval);
     }
 
     /**
@@ -282,6 +314,7 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _renderThumbnails() {
+        const {sortedParticipants} = this.state;
         const styleOverrides = {
             aspectRatio: TILE_ASPECT_RATIO,
             flex: 0,
@@ -289,7 +322,7 @@ class TileView extends Component<Props> {
             width: null
         };
 
-        return this._getSortedParticipants()
+        return sortedParticipants
             .map(participant => (
                 <Thumbnail
                     disableTint = { true }

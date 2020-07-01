@@ -49,18 +49,29 @@ type Props = {
     _tracks: Array<Object>
 };
 
+type State = {
+    sortedParticipants: []
+}
+
 /**
  * Implements a React {@link Component} which represents the filmstrip on
  * mobile/React Native.
  *
  * @extends Component
  */
-class Filmstrip extends Component<Props> {
+class Filmstrip extends Component<Props, State> {
+
+    state: {
+        sortedParticipants: []
+    }
+
     /**
      * Whether the local participant should be rendered separately from the
      * remote participants i.e. outside of their {@link ScrollView}.
      */
     _separateLocalThumbnail: boolean;
+
+    sortInterval: IntervalID;
 
     /**
      * Constructor of the component.
@@ -88,6 +99,22 @@ class Filmstrip extends Component<Props> {
         // do not have much of a choice but to continue rendering LocalThumbnail
         // as any other remote Thumbnail on Android.
         this._separateLocalThumbnail = Platform.OS !== 'android';
+
+        this.state = {
+            sortedParticipants: []
+        }
+    }
+
+    componentDidMount() {
+        this.sortInterval = setInterval(() => {
+            this.setState({
+                sortedParticipants: this._getSortedParticipants()
+            })
+        }, 5000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.sortInterval);
     }
 
     /**
@@ -103,8 +130,12 @@ class Filmstrip extends Component<Props> {
             return null;
         }
 
-        const isNarrowAspectRatio = _aspectRatio === ASPECT_RATIO_NARROW;
-        const filmstripStyle = isNarrowAspectRatio ? styles.filmstripNarrow : styles.filmstripWide;
+        const {sortedParticipants} = this.state;
+        const isNarrowAspectRatio_ = isNarrowAspectRatio(this);
+        const filmstripStyle
+            = isNarrowAspectRatio_
+                ? styles.filmstripNarrow
+                : styles.filmstripWide;
 
         return (
             <Container
@@ -125,8 +156,7 @@ class Filmstrip extends Component<Props> {
                             && <LocalThumbnail />
                     }
                     {
-
-                        this._sort(_participants, isNarrowAspectRatio)
+                        sortedParticipants && sortedParticipants
                             .map(p => (
                                 <Thumbnail
                                     key = { p.id }
@@ -157,15 +187,16 @@ class Filmstrip extends Component<Props> {
      * @returns {Participant[]} A new array containing the elements of the
      * specified {@code participants} array sorted in display order.
      */
-    _sort(participants, isNarrowAspectRatio) {
+    _getSortedParticipants( ) {
         // XXX Array.prototype.sort() is not appropriate because (1) it operates
         // in place and (2) it is not necessarily stable.
         const { INACTIVE } = JitsiParticipantConnectionStatus;
+        // const isNarrowAspectRatio_ = isNarrowAspectRatio(this);
 
         let sortedParticipants = [],
             moderators = [];
 
-        for (const participant of sortedParticipants) {
+        for (const participant of this.props._participants) {
             const { connectionStatus } = participant;
             const videoTrack = getTrackByMediaTypeAndParticipant(
                 this.props._tracks, MEDIA_TYPE.VIDEO, participant.id
@@ -195,9 +226,10 @@ class Filmstrip extends Component<Props> {
             }
         }
 
-        sortedParticipants = _.sortBy(participants, "sortWeight");
+        sortedParticipants = _.sortBy(sortedParticipants, "sortWeight");
 
-        return sortedParticipants;
+        return [...moderators, ...sortedParticipants]
+            .filter(Boolean);
     }
 }
 
