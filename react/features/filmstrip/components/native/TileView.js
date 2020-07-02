@@ -119,10 +119,11 @@ class TileView extends Component<Props, State> {
         this._updateReceiverQuality();
 
         this.sortInterval = setInterval(() => {
+
             this.setState({
                 sortedParticipants: this._getSortedParticipants()
-            })
-        }, 5000)
+            });
+        }, 5000);
     }
 
     componentWillUnmount() {
@@ -225,7 +226,7 @@ class TileView extends Component<Props, State> {
             } else {
                 let sortWeight = 0;
 
-                if (isVideoMuted || !connectionStatus || connectionStatus === INACTIVE) {
+                if (isVideoMuted || connectionStatus === INACTIVE) {
                     sortWeight = 1;
                 }
 
@@ -239,9 +240,7 @@ class TileView extends Component<Props, State> {
             }
         }
 
-        sortedParticipants = _.sortBy(sortedParticipants, "sortWeight");
-
-        sortedParticipants = _.sortBy(sortedParticipants, "sortWeight");
+        sortedParticipants = _.sortBy(sortedParticipants, 'sortWeight');
         otherParticipant = sortedParticipants.shift();
 
         return [localParticipant, otherParticipant, ...moderators, ...sortedParticipants]
@@ -321,7 +320,6 @@ class TileView extends Component<Props, State> {
             height: this._getTileDimensions().height,
             width: null
         };
-
         return sortedParticipants
             .map(participant => (
                 <Thumbnail
