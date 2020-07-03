@@ -118,6 +118,12 @@ class TileView extends Component<Props, State> {
     componentDidMount() {
         this._updateReceiverQuality();
 
+        setTimeout(() => {
+            this.setState({
+                sortedParticipants: this._getSortedParticipants()
+            });
+        }, 0);
+
         this.sortInterval = setInterval(() => {
 
             this.setState({

@@ -339,14 +339,16 @@ class Conference extends AbstractConference<Props, *> {
                     <KnockingParticipantList />
                 </SafeAreaView>
 
-                <SafeAreaView style = { styles.participantsCountSafeView }>
-                    <View style = { styles.participantsCount }>
-                        <Text style = { styles.participantsCountText }>{this.props.count}</Text>
-                        <Icon
-                            src = { IconUserGroups }
-                            style = { styles.participantsCountIcon } />
-                    </View>
-                </SafeAreaView>
+                {
+                    _toolboxVisible && <SafeAreaView style = { styles.participantsCountSafeView }>
+                        <View style = { styles.participantsCount }>
+                            <Text style = { styles.participantsCountText }>{this.props.count}</Text>
+                            <Icon
+                                src = { IconUserGroups }
+                                style = { styles.participantsCountIcon } />
+                        </View>
+                    </SafeAreaView>
+                }
 
                 <TestConnectionInfo />
 
