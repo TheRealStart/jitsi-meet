@@ -11,8 +11,9 @@ import { connect } from '../../base/redux';
 import { DialInSummary } from '../../invite';
 import { openWebApp } from '../actions';
 import { _TNS } from '../constants';
-import { generateDeepLinkingURL } from '../functions';
-import { renderPromotionalFooter } from '../renderPromotionalFooter';
+
+// import { generateDeepLinkingURL } from '../functions';
+// import { renderPromotionalFooter } from '../renderPromotionalFooter';
 
 declare var interfaceConfig: Object;
 
@@ -96,21 +97,21 @@ class DeepLinkingMobilePage extends Component<Props> {
             = `${_SNS}__button ${_SNS}__button_primary`;
 
 
-        const onOpenLinkProperties = _downloadUrl
-            ? {
-                // When opening a link to the download page, we want to let the
-                // OS itself handle intercepting and opening the appropriate
-                // app store. This avoids potential issues with browsers, such
-                // as iOS Chrome, not opening the store properly.
-            }
-            : {
-                // When falling back to another URL (Firebase) let the page be
-                // opened in a new window. This helps prevent the user getting
-                // trapped in an app-open-cycle where going back to the mobile
-                // browser re-triggers the app-open behavior.
-                target: '_blank',
-                rel: 'noopener noreferrer'
-            };
+        // const onOpenLinkProperties = _downloadUrl
+        //     ? {
+        //         // When opening a link to the download page, we want to let the
+        //         // OS itself handle intercepting and opening the appropriate
+        //         // app store. This avoids potential issues with browsers, such
+        //         // as iOS Chrome, not opening the store properly.
+        //     }
+        //     : {
+        //         // When falling back to another URL (Firebase) let the page be
+        //         // opened in a new window. This helps prevent the user getting
+        //         // trapped in an app-open-cycle where going back to the mobile
+        //         // browser re-triggers the app-open behavior.
+        //         target: '_blank',
+        //         rel: 'noopener noreferrer'
+        //     };
 
         return (
             <div className = { _SNS }>
@@ -134,46 +135,44 @@ class DeepLinkingMobilePage extends Component<Props> {
                     <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.appNotInstalled`, { app: NATIVE_APP_NAME }) }
                     </p>
-                    <p className = { `${_SNS}__text` }>
-                        { t(`${_TNS}.ifHaveApp`) }
-                    </p>
+                    {/* <a */}
+                    {/*    { ...onOpenLinkProperties }*/}
+                    {/*    href = { this._generateDownloadURL() }*/}
+                    {/*    onClick = { this._onDownloadApp }>*/}
+                    {/*    <button className = { downloadButtonClassName }>*/}
+                    {/*        { t(`${_TNS}.downloadApp`) }*/}
+                    {/*    </button>*/}
+                    {/* </a> */}
+
                     <a
+                        href = 'https://apps.apple.com/us/app/fiesta-in-miami/id1482227800'>
+                        <button className = { downloadButtonClassName }>
+                            { t(`${_TNS}.downloadApp`) } - iOS
+                        </button>
+                    </a>
+
+                    <a
+                        href = 'https://play.google.com/store/apps/details?id=app.fiesta'>
+                        <button className = { downloadButtonClassName }>
+                            { t(`${_TNS}.downloadApp`) } - Android
+                        </button>
+                    </a>
+
+                    {/* <a
                         { ...onOpenLinkProperties }
                         className = { `${_SNS}__href` }
                         href = { generateDeepLinkingURL() }
-                        onClick = { this._onOpenApp }
-                        target = '_top'>
-                        <button className = { `${_SNS}__button ${_SNS}__button_primary` }>
-                            { t(`${_TNS}.joinInApp`) }
-                        </button>
-                    </a>
-                    <p className = { `${_SNS}__text` }>
-                        { t(`${_TNS}.ifDoNotHaveApp`) }
-                    </p>
-                    <a
-                        { ...onOpenLinkProperties }
-                        href = { this._generateDownloadURL() }
-                        onClick = { this._onDownloadApp }
-                        target = '_top'>
-                        <button className = { downloadButtonClassName }>
-                            { t(`${_TNS}.downloadApp`) }
-                        </button>
-                    </a>
-                    {
-                        isSupportedMobileBrowser()
-                            && <a
-                                onClick = { this._onLaunchWeb }
-                                target = '_top'>
-                                <button className = { downloadButtonClassName }>
-                                    { t(`${_TNS}.launchWebButton`) }
-                                </button>
-                            </a>
-                    }
-                    { renderPromotionalFooter() }
-                    <DialInSummary
+                        onClick = { this._onOpenApp }>
+                        {/* <button className = { `${_SNS}__button` }> */}
+                    {/* t(`${_TNS}.openApp`) */}
+                    {/* </button> */}
+                    {/* </a> */}
+
+                    {/* renderPromotionalFooter() */}
+                    {/* <DialInSummary
                         className = 'deep-linking-dial-in'
                         clickableNumbers = { true }
-                        room = { _room } />
+                        room = { _room } /> */}
                 </div>
             </div>
         );
