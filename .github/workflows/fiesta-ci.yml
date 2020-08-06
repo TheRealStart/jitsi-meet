@@ -164,7 +164,7 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       if: always()
 
-    - name: Deploy fiesta-jitsi-web to ap-south-1
+    - name: Deploy fiesta-meet-web to ap-south-1
       uses: fifsky/ssh-action@master
       with:
         command: |
@@ -180,9 +180,9 @@ jobs:
 
     - uses: sonots/slack-notice-action@v3
       with:
-        title: Deploy fiesta-jitsi-web to Mumbai (ap-south-1)
+        title: Deploy fiesta-meet-web to Mumbai (ap-south-1)
         status: ${{ job.status }}
-        username: fiesta-jitsi-web
+        username: fiesta-meet-web
         icon_emoji: ':octocat:'
         channel: '#wtp-git-stream'
       env:
@@ -272,9 +272,9 @@ jobs:
     - name: Notify slack channel about deploy finished
       uses: sonots/slack-notice-action@v3
       with:
-        title: Deploy of fiesta-jitsi-web finished (Fiesta.app)
+        title: Deploy of fiesta-meet-web finished (Fiesta.app)
         status: ${{ job.status }}
-        username: fiesta-jitsi-web
+        username: fiesta-meet-web
         icon_emoji: ':octocat:'
         channel: '#wtp-git-stream'
       env:
