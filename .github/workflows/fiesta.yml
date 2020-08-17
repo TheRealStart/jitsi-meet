@@ -1,0 +1,284 @@
+name: Fiesta_Frontend_CI
+
+on:
+  push:
+    branches: [fiesta]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Notify slack channel about deploy started
+      uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy of jitsi-meet-web (Fiesta.app)
+        text: Deploying jitsi-meet-web for fiesta has started
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to N. Virginia (us-east-1)
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+            cd ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}
+            envFile=".env"
+            if [ -f $envFile ]; then
+              set -a
+              source $envFile
+              cd web
+              echo "Getting latest custom jitsi-meet codebase"
+              if [ ! -d "trs-jitsi-meet" ]; then
+                mkdir trs-jitsi-meet
+              fi
+              cd trs-jitsi-meet
+              if [ ! -d .git ]; then
+                git add .
+                git commit -m "committing changes before switching branches"
+                git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
+                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+                git pull origin "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              else
+                git fetch
+                git add .
+                git commit -m "committing changes before switching branches"
+                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+                git pull origin "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              fi
+              export NODE_OPTIONS=--max_old_space_size=4096
+              sudo npm install -g npm@latest
+              sudo npm cache clean -f
+              sudo npm install -g n
+              sudo n stable
+              sudo chown -R 1000:1000 "/home/ubuntu/.npm"
+              cd ~/house.fiesta.app/web/trs-jitsi-meet/
+              npm install
+              npm audit fix
+              make
+              make source-package
+              cd ..
+              tar xf trs-jitsi-meet/jitsi-meet.tar.bz2
+              docker build --tag jitsi/web:custom .
+              docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml up -d
+              docker tag jitsi/web:custom ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+              docker login ${{ secrets.DOCKER_REGISTRY }}
+              docker push ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+            fi
+        host: ${{ secrets.FIESTA_MEET_MAIN_SERVER }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to N. Virginia (us-east-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to us-west-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_US_WEST_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to California (us-west-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to sa-east-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_SA_EAST_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to Sao Paulo (sa-east-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to eu-central-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_EU_CENTRAL_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to Frankfurt (eu-central-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to ap-south-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_AP_SOUTH_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to Mumbai (ap-south-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+
+    - name: Deploy fiesta-meet-web to ap-east-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_AP_EAST_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to Honk Kong (ap-east-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to ap-southeast-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_AP_SOUTHEAST_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+    
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to Singapore (ap-southeast-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy fiesta-meet-web to af-south-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+          docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.FIESTA_MEET_AF_SOUTH_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+    
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy fiesta-meet-web to Cape Town (Africa) (af-south-1)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Notify slack channel about deploy finished
+      uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy of fiesta-meet-web finished (Fiesta.app)
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
