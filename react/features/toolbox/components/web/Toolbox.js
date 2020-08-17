@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-
+import logger from './logger';
 import {
     ACTION_SHORTCUT_TRIGGERED,
     createShortcutEvent,
@@ -23,7 +23,8 @@ import {
     IconRaisedHand,
     IconRec,
     IconShareDesktop,
-    IconShareVideo
+    IconShareVideo,
+    IconRestore
 } from '../../../base/icons';
 import {
     getLocalParticipant,
@@ -985,6 +986,28 @@ class Toolbox extends Component<Props, State> {
         );
     }
 
+    // send timer value to external api
+    _handleHighlightBtnClick(){
+        let timerValue = document.getElementsByClassName("subject-conference-timer")[0].innerHTML;
+        // first way
+        sendAnalytics(createToolbarEvent('highlight.time', { enable: true, value: timerValue }));
+        // second way
+        APP.API.notifyHighlightedTime(timerValue);
+    }
+    _renderHighlightButton(){
+        const { t } = this.props;
+    
+        return (
+            <ToolbarButton
+                accessibilityLabel
+                    = { t('toolbar.accessibilityLabel.sendHighlight') }
+                disabled = { false }
+                onClick={this._handleHighlightBtnClick }
+                icon = { IconRestore }
+                tooltip = { "Highlight" } />
+        )
+    }
+
     /**
      * Returns true if the profile button is visible and false otherwise.
      *
@@ -1372,6 +1395,7 @@ class Toolbox extends Component<Props, State> {
                         visible = { this._shouldShowButton('hangup') } />
                     { this._renderVideoButton() }
                     { this._renderDesktopSharingButton() }
+                    { this._renderHighlightButton() }
                 </div>
                 <div className = 'button-group-right'>
                     { buttonsRight.indexOf('localrecording') !== -1

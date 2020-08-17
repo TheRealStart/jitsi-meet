@@ -821,6 +821,20 @@ class API {
     }
 
     /**
+     * Notify external application (if API is enabled) for timer value
+     *
+     * @param {string} timerValue - The timer value.
+     * @returns {void}
+     */
+    notifyHighlightedTime(timerValue: string) {
+        logger.log(`timer value ${timerValue}`);
+        this._sendEvent({
+            name : "conference-timer-value",
+            timerValue
+        })
+    }
+
+    /**
      * Notify external application (if API is enabled) for audio availability
      * changed.
      *
