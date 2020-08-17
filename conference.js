@@ -1765,6 +1765,8 @@ export default {
             return Promise.reject('Switch in progress.');
         }
 
+        const isVideoMuted = this.isLocalVideoMuted();
+
         this.videoSwitchInProgress = true;
 
         return this._createDesktopTrack(options)
@@ -1798,6 +1800,7 @@ export default {
                 }
                 sendAnalytics(createScreenSharingEvent('started'));
                 logger.log('Screen sharing started');
+                this.muteVideo(isVideoMuted)
             })
             .catch(error => {
                 this.videoSwitchInProgress = false;
