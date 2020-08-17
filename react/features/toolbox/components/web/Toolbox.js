@@ -945,9 +945,6 @@ class Toolbox extends Component<Props, State> {
     // send timer value to external api
     _handleHighlightBtnClick(){
         let timerValue = document.getElementsByClassName("subject-conference-timer")[0].innerHTML;
-        // first way
-        sendAnalytics(createToolbarEvent('highlight.time', { enable: true, value: timerValue }));
-        // second way
         APP.API.notifyHighlightedTime(timerValue);
     }
     _renderHighlightButton(){
