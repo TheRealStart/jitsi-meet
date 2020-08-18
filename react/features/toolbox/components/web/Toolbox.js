@@ -86,6 +86,7 @@ import UnMuteEveryoneButton from './UnMuteEveryoneButton';
 import ToolbarButton from './ToolbarButton';
 import VideoSettingsButton from './VideoSettingsButton';
 import FollowMeButton from '../FollowMeButton';
+import ToolbarButtonWithoutIcon from "./ToolbarButtonWithoutIcon"
 import {
     ClosedCaptionButton
 } from '../../../subtitles';
@@ -951,13 +952,10 @@ class Toolbox extends Component<Props, State> {
         const { t } = this.props;
     
         return (
-            <ToolbarButton
-                accessibilityLabel
-                    = { t('toolbar.accessibilityLabel.sendHighlight') }
-                disabled = { false }
+            <ToolbarButtonWithoutIcon
                 onClick={this._handleHighlightBtnClick }
-                icon = { IconRestore }
-                tooltip = { "Highlight" } />
+                tooltip = { "Highlight" }
+                text="Highlight" />
         )
     }
 
