@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import logger from './logger';
 import {
     ACTION_SHORTCUT_TRIGGERED,
     createShortcutEvent,
@@ -89,7 +88,7 @@ import MuteEveryoneButton from './MuteEveryoneButton';
 import UnMuteEveryoneButton from './UnMuteEveryoneButton';
 import ToolbarButton from './ToolbarButton';
 import VideoSettingsButton from './VideoSettingsButton';
-import FollowMeButton from '../FollowMeButton';
+// import FollowMeButton from '../FollowMeButton';
 import ToolbarButtonWithoutIcon from "./ToolbarButtonWithoutIcon"
 import {
     ClosedCaptionButton
@@ -1351,6 +1350,9 @@ class Toolbox extends Component<Props, State> {
         return (
             <div className = 'toolbox-content'>
                 <div className = 'button-group-left'>
+
+
+                    {/* Follow me button commented out ( note removed ) for future use */}
                     {/* { _isModerator &&  <FollowMeButton />} */}
                     
                     { buttonsLeft.indexOf('raisehand') !== -1
