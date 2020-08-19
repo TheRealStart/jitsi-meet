@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import { translate } from '../../base/i18n';
 import { IconRec } from '../../base/icons';
-import { ToolbarButton } from '../../toolbox/components/web';
+import { ToolbarButtonWithoutIcon } from '../../toolbox';
 
 /**
  * The type of the React {@code Component} state of
@@ -59,12 +59,12 @@ class LocalRecordingButton extends Component<Props> {
         const { isDialogShown, t } = this.props;
 
         return (
-            <ToolbarButton
-                accessibilityLabel
-                    = { t('toolbar.accessibilityLabel.localRecording') }
-                icon = { IconRec }
+            <ToolbarButtonWithoutIcon
+                circle
+                text="Record"
                 onClick = { this._onClick }
                 toggled = { isDialogShown }
+                customClass={'localRecCustom'}
                 tooltip = { t('localRecording.dialogTitle') } />
         );
     }
