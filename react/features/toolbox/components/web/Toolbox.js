@@ -1,11 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import logger from './logger';
-
 import { getActiveSession } from '../../../recording/functions'
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet'
-
 import {
     ACTION_SHORTCUT_TRIGGERED,
     createShortcutEvent,
@@ -89,7 +86,8 @@ import MuteEveryoneButton from './MuteEveryoneButton';
 import UnMuteEveryoneButton from './UnMuteEveryoneButton';
 import ToolbarButton from './ToolbarButton';
 import VideoSettingsButton from './VideoSettingsButton';
-import FollowMeButton from '../FollowMeButton';
+// import FollowMeButton from '../FollowMeButton';
+import ToolbarButtonWithoutIcon from "./ToolbarButtonWithoutIcon"
 import {
     ClosedCaptionButton
 } from '../../../subtitles';
@@ -949,22 +947,16 @@ class Toolbox extends Component<Props, State> {
     // send timer value to external api
     _handleHighlightBtnClick(){
         let timerValue = document.getElementsByClassName("subject-conference-timer")[0].innerHTML;
-        // first way
-        sendAnalytics(createToolbarEvent('highlight.time', { enable: true, value: timerValue }));
-        // second way
         APP.API.notifyHighlightedTime(timerValue);
     }
     _renderHighlightButton(){
         const { t } = this.props;
     
         return (
-            <ToolbarButton
-                accessibilityLabel
-                    = { t('toolbar.accessibilityLabel.sendHighlight') }
-                disabled = { false }
+            <ToolbarButtonWithoutIcon
                 onClick={this._handleHighlightBtnClick }
-                icon = { IconRestore }
-                tooltip = { "Highlight" } />
+                tooltip = { "Highlight" }
+                text="Highlight" />
         )
     }
 
@@ -1291,7 +1283,10 @@ class Toolbox extends Component<Props, State> {
         return (
             <div className = 'toolbox-content'>
                 <div className = 'button-group-left'>
-                    { _isModerator &&  <FollowMeButton />}
+
+
+                    {/* Follow me button commented out ( note removed ) for future use */}
+                    {/* { _isModerator &&  <FollowMeButton />} */}
                     
                     { buttonsLeft.indexOf('raisehand') !== -1
                         && <ToolbarButton

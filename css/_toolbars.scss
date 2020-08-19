@@ -72,8 +72,9 @@
         }
 
         .button-group-center {
+            display:  flex;
             justify-content: center;
-
+            align-items: center;
             .toolbox-button {
 
                 .toolbox-icon {
@@ -134,6 +135,26 @@
 
         .button-group-right {
             justify-content: flex-end;
+            .localRecCustomClass {
+                background-color: #fff;
+                border-radius: 50%;
+                border: 1px solid #d1dbe8;
+                margin: 0px 4px;
+                width: 40px;
+                height: 40px;
+
+                &:hover {
+                    svg {
+                        fill: white !important;
+                    }
+                }
+
+                svg {
+                    fill: #2a3a4b !important;
+                }
+             
+            }
+           
         }
 
         .overflow-menu {
