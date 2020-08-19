@@ -72,8 +72,9 @@
         }
 
         .button-group-center {
+            display:  flex;
             justify-content: center;
-
+            align-items: center;
             .toolbox-button {
 
                 .toolbox-icon {

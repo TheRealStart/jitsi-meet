@@ -8,8 +8,12 @@ import styled from 'styled-components';
  * Styled component for text of button
  */
 const TextContainer = styled.div`
-    font-size : 8px !important;
-    background : transparent !important;
+    font-size : 11px !important;
+    background : white !important;
+    color : black;
+    font-weight: 600;
+    width: 62px !important;
+    height: 45px !important;
 `
 
 /**
