@@ -1,6 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
+import { getActiveSession } from '../../../recording/functions'
+import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet'
 import {
     ACTION_SHORTCUT_TRIGGERED,
     createShortcutEvent,
@@ -979,10 +981,15 @@ class Toolbox extends Component<Props, State> {
             _fullScreen,
             _screensharing,
             _sharingVideo,
+            _isLiveStreamRunning,
             t
         } = this.props;
 
-        return [
+        let arr = [];
+
+        
+
+        arr = [
             this._isProfileVisible()
                 && <OverflowMenuProfileItem
                     key = 'profile'
@@ -1000,9 +1007,6 @@ class Toolbox extends Component<Props, State> {
                     text = { _fullScreen ? t('toolbar.exitFullScreen') : t('toolbar.enterFullScreen') } />,
             <LiveStreamButton
                 key = 'livestreaming'
-                showLabel = { true } />,
-            <RecordButton
-                key = 'record'
                 showLabel = { true } />,
             this._shouldShowButton('sharedvideo')
                 && <OverflowMenuItem
@@ -1070,6 +1074,15 @@ class Toolbox extends Component<Props, State> {
                     key = 'help'
                     showLabel = { true } />
         ];
+
+
+        if(_isLiveStreamRunning === false ){
+            arr.splice(4, 0, <RecordButton key = 'record' showLabel = { true } /> )
+        }else {
+            arr.splice(4, 1)
+        }
+
+        return arr;
     }
 
     /**
@@ -1427,7 +1440,9 @@ function _mapStateToProps(state) {
             || sharedVideoStatus === 'pause',
         _visible: isToolboxVisible(state),
         _visibleButtons: equals(visibleButtons, buttons) ? visibleButtons : buttons,
-        _isModerator : isModerator
+        _isModerator : isModerator,
+        _isLiveStreamRunning: Boolean(
+            getActiveSession(state, JitsiRecordingConstants.mode.STREAM)),
     };
 }
 

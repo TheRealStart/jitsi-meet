@@ -30,12 +30,31 @@ class RecordingLabel extends AbstractRecordingLabel {
             return null;
         }
 
+        if (this.props.mode === "file") {
+            return (
+                <div>
+                    <CircularLabel
+                       className = { this.props.mode }
+                       label = { this.props.t(this._getLabelKey()) } />
+                </div>
+            )    
+        }
+
         return (
-            <div>
+            <>
+                <div style={{ display : "inline-block"}} >
+                    <CircularLabel
+                        className = { this.props.mode }
+                        label = { this.props.t(this._getLabelKey()) } />
+            
+                </div>
+                
+                <div style={{ display: "inline-block" }} >
                 <CircularLabel
-                    className = { this.props.mode }
-                    label = { this.props.t(this._getLabelKey()) } />
-            </div>
+                        className = { "file" }
+                        label = { this.props.t("recording.rec") } />
+                </div>
+            </>
         );
     }
 
