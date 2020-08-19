@@ -1351,7 +1351,7 @@ class Toolbox extends Component<Props, State> {
         return (
             <div className = 'toolbox-content'>
                 <div className = 'button-group-left'>
-                    { _isModerator &&  <FollowMeButton />}
+                    {/* { _isModerator &&  <FollowMeButton />} */}
                     
                     { buttonsLeft.indexOf('raisehand') !== -1
                         && <ToolbarButton
