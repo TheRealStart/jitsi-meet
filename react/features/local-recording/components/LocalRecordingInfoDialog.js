@@ -18,15 +18,22 @@ import styled from 'styled-components';
 
 const RecordButtonContainer = styled.div`
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     border-bottom: 1px solid;
-    padding-bottom: 10px;
+    padding-bottom: 12px;
 `
-const RecordButton = styled.div`
+const RecordButton = styled.a`
+    color: red;
+    padding: 6px;
     border: 1px solid lightgreen;
-    background: lightyellow;
     border-radius: 3px;
-    padding: 5px;
+    background: lightyellow;
+    text-decoration: none !important;
+
+    &:hover {
+        color: white;
+        background: transparent;
+      }
 `
 
 
@@ -310,17 +317,17 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
         return (
             <div>
                 <RecordButtonContainer className = 'localrec-control-action-links'>
-                    <RecordButton className = 'localrec-control-action-link'>
-                        { isEngaged ? <a
+                    <div className = 'localrec-control-action-link'>
+                        { isEngaged ? <RecordButton
                             onClick = { this._onStop }>
                             { t('localRecording.stop') }
-                        </a>
-                            : <a
+                        </RecordButton>
+                            : <RecordButton
                                 onClick = { this._onStart }>
                                 { t('localRecording.start') }
-                            </a>
+                            </RecordButton>
                         }
-                    </RecordButton>
+                    </div>
                 </RecordButtonContainer>
                 <div>
                     <span className = 'localrec-control-info-label'>
