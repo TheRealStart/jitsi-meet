@@ -51,7 +51,7 @@ export default class ToolbarButtonWithoutIcon<P: Props> extends Component<P> {
             <div className = 'toolbox-button' onClick = { this.props.onClick } >
                 <Tooltip
                     content = { this.props.tooltip }
-                    position = { this.props.tooltipPosition }>
+                    position = { "top" }>
                     <TextContainer circle={circle} className={`toolbox-icon ${this.props.toggled ? 'toggled' : ''} ${this.props.customClass}`}>
                         { this.props.text }
                     </TextContainer>
