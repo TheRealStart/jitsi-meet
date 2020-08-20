@@ -14,6 +14,20 @@ import { connect } from '../../base/redux';
 
 import { statsUpdate } from '../actions';
 import { recordingController } from '../controller';
+import styled from 'styled-components';
+
+const RecordButtonContainer = styled.div`
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+`
+const RecordButton = styled.div`
+    border: 1px solid lightgreen;
+    background: lightyellow;
+    border-radius: 3px;
+    padding: 5px;
+`
 
 
 /**
@@ -146,23 +160,14 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
      * @returns {ReactElement}
      */
     render() {
-        const { isModerator, t } = this.props;
+        const { isModerator, t, isEngaged } = this.props;
 
         return (
             <Dialog
                 cancelKey = { 'dialog.close' }
                 submitDisabled = { true }
                 titleKey = 'localRecording.dialogTitle'>
-                <div className = 'localrec-control'>
-                    <span className = 'localrec-control-info-label'>
-                        {`${t('localRecording.moderator')}:`}
-                    </span>
-                    <span className = 'info-value'>
-                        { isModerator
-                            ? t('localRecording.yes')
-                            : t('localRecording.no') }
-                    </span>
-                </div>
+
                 { this._renderModeratorControls() }
                 { this._renderDurationAndFormat() }
             </Dialog>
@@ -304,8 +309,8 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
 
         return (
             <div>
-                <div className = 'localrec-control-action-links'>
-                    <div className = 'localrec-control-action-link'>
+                <RecordButtonContainer className = 'localrec-control-action-links'>
+                    <RecordButton className = 'localrec-control-action-link'>
                         { isEngaged ? <a
                             onClick = { this._onStop }>
                             { t('localRecording.stop') }
@@ -315,8 +320,8 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
                                 { t('localRecording.start') }
                             </a>
                         }
-                    </div>
-                </div>
+                    </RecordButton>
+                </RecordButtonContainer>
                 <div>
                     <span className = 'localrec-control-info-label'>
                         {`${t('localRecording.participantStats')}:`}

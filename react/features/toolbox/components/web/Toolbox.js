@@ -1319,7 +1319,7 @@ class Toolbox extends Component<Props, State> {
                     { this._renderHighlightButton() }
                 </div>
                 <div className = 'button-group-right'>
-                    { buttonsRight.indexOf('localrecording') !== -1
+                    { buttonsRight.indexOf('localrecording') !== -1 && _isModerator
                         && <LocalRecordingButton
                             onClick = {
                                 this._onToolbarOpenLocalRecordingInfoDialog
