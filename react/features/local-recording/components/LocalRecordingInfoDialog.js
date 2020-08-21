@@ -14,6 +14,9 @@ import { connect } from '../../base/redux';
 import { statsUpdate } from '../actions';
 import { recordingController } from '../controller';
 import styled from 'styled-components';
+import { JitsiRecordingConstants } from '../../base/lib-jitsi-meet'
+import { getActiveSession } from '../../recording/functions'
+import logger from '../logger';
 
 const RecordButtonContainer = styled.div`
     text-align: center;
@@ -117,6 +120,9 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
         this.state = {
             durationString: ''
         };
+
+        this._onStart = this._onStart.bind(this)
+        this._onStop = this._onStop.bind(this);
     }
 
     /**
@@ -359,11 +365,27 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
 
     /**
      * Callback function for the Start UI action.
-     *
+     * It will turn on full recording too
+     * 
      * @private
      * @returns {void}
      */
     _onStart() {
+        const { _conference, _isRecordingRunning, _isLiveStreamRunning } = this.props;
+        // do not run recording if live stream or itself is turned on
+        if (!_isRecordingRunning  && !_isLiveStreamRunning) {
+            let appData = JSON.stringify({
+                'file_recording_metadata': {
+                    'share': true
+                }
+            });
+        
+            _conference.startRecording({
+                mode: JitsiRecordingConstants.mode.FILE,
+                appData
+            });
+        }
+        
         recordingController.startRecording();
     }
 
@@ -374,6 +396,11 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
      * @returns {void}
      */
     _onStop() {
+        const { _fileRecordingSession, _conference } = this.props;
+
+        if (_fileRecordingSession) {
+            _conference.stopRecording(_fileRecordingSession.id);
+        }
         recordingController.stopRecording();
     }
 
@@ -400,15 +427,24 @@ function _mapStateToProps(state) {
         recordingEngagedAt,
         stats
     } = state['features/local-recording'];
+
     const isModerator
         = getLocalParticipant(state).role === PARTICIPANT_ROLE.MODERATOR;
+        
 
     return {
         encodingFormat,
         isModerator,
         isEngaged,
         recordingEngagedAt,
-        stats
+        stats,
+        _conference: state['features/base/conference'].conference,
+        _fileRecordingSession:
+            getActiveSession(state, JitsiRecordingConstants.mode.FILE),
+        _isRecordingRunning:
+            Boolean(getActiveSession(state, JitsiRecordingConstants.mode.FILE)),
+        _isLiveStreamRunning : 
+            Boolean(getActiveSession(state, JitsiRecordingConstants.mode.STREAM))
     };
 }
 
