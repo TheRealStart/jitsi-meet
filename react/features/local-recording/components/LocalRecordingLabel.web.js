@@ -6,8 +6,6 @@ import React, { Component } from 'react';
 import { translate } from '../../base/i18n/index';
 import { CircularLabel } from '../../base/label/index';
 import { connect } from '../../base/redux';
-
-
 /**
  * The type of the React {@code Component} props of {@link LocalRecordingLabel}.
  */
@@ -37,11 +35,11 @@ class LocalRecordingLabel extends Component<Props> {
      * @inheritdoc
      * @returns {ReactElement}
      */
-    render() {
+    render() {  
         if (!this.props.isEngaged) {
             return null;
         }
-
+        
         return (
             <Tooltip
                 content = { this.props.t('localRecording.labelToolTip') }

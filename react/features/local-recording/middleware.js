@@ -9,7 +9,6 @@ import { SET_AUDIO_MUTED } from '../base/media';
 import { MiddlewareRegistry } from '../base/redux';
 import { SETTINGS_UPDATED } from '../base/settings/actionTypes';
 import { showNotification } from '../notifications';
-
 import { localRecordingEngaged, localRecordingUnengaged } from './actions';
 import { LocalRecordingInfoDialog } from './components';
 import { recordingController } from './controller';
@@ -31,13 +30,12 @@ MiddlewareRegistry.register(({ getState, dispatch }) => next => action => {
         if (!isLocalRecordingEnabled) {
             break;
         }
-
+    
         // realize the delegates on recordingController, allowing the UI to
         // react to state changes in recordingController.
         recordingController.onStateChanged = isEngaged => {
-            if (isEngaged) {
+            if (isEngaged)  {
                 const nowTime = new Date();
-
                 dispatch(localRecordingEngaged(nowTime));
             } else {
                 dispatch(localRecordingUnengaged());
@@ -69,7 +67,6 @@ MiddlewareRegistry.register(({ getState, dispatch }) => next => action => {
         }
 
         const { conference } = getState()['features/base/conference'];
-
         recordingController.registerEvents(conference);
 
         break;
