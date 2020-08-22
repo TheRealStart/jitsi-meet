@@ -64,6 +64,8 @@ class LocalRecordingButton extends Component<Props> {
                 text="Record"
                 onClick = { this._onClick }
                 toggled = { isDialogShown }
+                background = "red"
+                color = "white"
                 customClass={'localRecCustom'}
                 tooltip = { t('localRecording.dialogTitle') } />
         );
