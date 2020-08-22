@@ -933,14 +933,17 @@ class Toolbox extends Component<Props, State> {
                 ? 'dialog.shareYourScreen' : _desktopSharingDisabledTooltipKey);
 
         return (
-            <ToolbarButton
-                accessibilityLabel
-                    = { t('toolbar.accessibilityLabel.shareYourScreen') }
-                disabled = { !_desktopSharingEnabled }
-                icon = { IconShareDesktop }
-                onClick = { this._onToolbarToggleScreenshare }
-                toggled = { _screensharing }
-                tooltip = { tooltip } />
+                <ToolbarButtonWithoutIcon  
+                    accessibilityLabel = { t('toolbar.accessibilityLabel.shareYourScreen') }
+                    disabled = { !_desktopSharingEnabled }
+                    background = "#2a3a4b"
+                    color = "inherit"
+                    borderColor = "#5e6d7a"
+                    text = "Share screen"
+                    circle = {true}
+                    onClick = { this._onToolbarToggleScreenshare }
+                    toggled = { _screensharing }
+                    tooltip = { tooltip } />
         );
     }
 
