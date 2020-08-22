@@ -9,12 +9,14 @@ import styled from 'styled-components';
  */
 const TextContainer = styled.div`
     font-size : ${props => props.circle  ? "9px !important" : "11px !important"} 
-    background : white !important;
-    color : black;
+    background : ${props => props.bg ? props.bg : "white"} !important; 
+    color : ${props => props.cl ? props.cl : "black"}  !important;
     font-weight: ${props => props.circle  ? "600" : "600"};
     width: ${props => props.circle  ? "40px !important" : "62px !important"} ;
     height: ${props => props.circle  ? "40px !important" : "45px !important"} ;
+    border-color : ${props => props.bc ? props.bc : "white"} !important;
     border-radius: 50% !important;
+    line-height : 10px;
 `
 
 /**
@@ -46,14 +48,14 @@ export default class ToolbarButtonWithoutIcon<P: Props> extends Component<P> {
      * @returns {ReactElement}
      */
     render() {
-        const { circle } = this.props
+        const { circle, onClick, tooltip, text, toggled, customClass, background, color, borderColor } = this.props
         return (
-            <div className = 'toolbox-button' onClick = { this.props.onClick } >
+            <div className = 'toolbox-button' onClick = { onClick } >
                 <Tooltip
-                    content = { this.props.tooltip }
+                    content = { tooltip }
                     position = { "top" }>
-                    <TextContainer circle={circle} className={`toolbox-icon ${this.props.toggled ? 'toggled' : ''} ${this.props.customClass}`}>
-                        { this.props.text }
+                    <TextContainer circle={circle} bg={background} cl={color} bc={borderColor} className={`toolbox-icon ${toggled ? 'toggled' : ''} ${customClass ? customClass : "" }`}>
+                        { text }
                     </TextContainer>
                 </Tooltip>
             </div>
