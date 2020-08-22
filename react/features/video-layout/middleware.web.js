@@ -14,7 +14,7 @@ import {
 import { MiddlewareRegistry } from '../base/redux';
 import { TRACK_ADDED, TRACK_REMOVED } from '../base/tracks';
 import { SET_FILMSTRIP_VISIBLE } from '../filmstrip';
-
+import { setTileView } from './actions'
 import './middleware.any';
 
 declare var APP: Object;
@@ -36,6 +36,7 @@ MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case CONFERENCE_JOINED:
         VideoLayout.mucJoined();
+        store.dispatch(setTileView(true))
         break;
 
     case CONFERENCE_WILL_LEAVE:
