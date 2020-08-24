@@ -14,6 +14,7 @@ import logger from './logger';
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case PLAY_SOUND:
+
         _playSound(store, action.soundId);
         break;
     case STOP_SOUND:
@@ -35,9 +36,14 @@ MiddlewareRegistry.register(store => next => action => {
 function _playSound({ getState }, soundId) {
     const sounds = getState()['features/base/sounds'];
     const sound = sounds.get(soundId);
-
+    logger.log(`-------------------__--my sound ${ JSON.stringify(sound)}`)
     if (sound) {
+        
+        logger.log(`-------------------__--my sound logged in ${ JSON.stringify(sound)}`)
+
         if (sound.audioElement) {
+        logger.log(`-------------------__--my sound logged in ${ sound.audioElement}`)
+
             sound.audioElement.play();
         } else {
             logger.warn(`PLAY_SOUND: sound not loaded yet for id: ${soundId}`);
