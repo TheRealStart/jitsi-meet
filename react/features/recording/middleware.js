@@ -48,6 +48,8 @@ import {
     RECORDING_ON_SOUND_FILE
 } from './sounds';
 import jwtDecode from "jwt-decode";
+import { getActiveSession } from './functions'
+import logger from '../local-recording/logger'
 
 /**
  * StateListenerRegistry provides a reliable way to detect the leaving of a
@@ -108,6 +110,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
     case CONFERENCE_JOINED: {
         const state = getState();
+        let isLiveStreamRunning = Boolean(getActiveSession(state, JitsiRecordingConstants.mode.STREAM))
 
         const jwt = state['features/base/jwt'];
 
@@ -116,7 +119,9 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             const { event, room, moderator } = jwtPayload;
 
             if (event && event.watch_mode && room && moderator) {
-                startLiveStream(state, room);
+                if(!isLiveStreamRunning){
+                    startLiveStream(state, room);
+                }
             }
         }
         break;
