@@ -35,23 +35,25 @@ jobs:
               source $envFile
               cd web
               echo "Getting latest custom jitsi-meet codebase"
+              if [ -d "trs-jitsi-meet-backup" ]; then
+                rm -rf trs-jitsi-meet-backup
+              fi
+              if [ -d "trs-jitsi-meet" ]; then
+                mv trs-jitsi-meet trs-jitsi-meet-backup
+              fi
               if [ ! -d "trs-jitsi-meet" ]; then
                 mkdir trs-jitsi-meet
               fi
               cd trs-jitsi-meet
-              if [ ! -d .git ]; then
-                git add .
-                git commit -m "committing changes before switching branches"
-                git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
-                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
-                git pull origin "$CUSTOM_TRS_JITSI_MEET_BRANCH"
-              else
-                git fetch
-                git add .
-                git commit -m "committing changes before switching branches"
-                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
-                git pull origin "$CUSTOM_TRS_JITSI_MEET_BRANCH"
-              fi
+              git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
+              git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              git pull origin "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              rm -rf favicon.ico
+              cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/favicon.ico .
+              rm -rf ./images/
+              cp -r ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/ .
+              rm -rf title.html
+              cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/title.html .
               export NODE_OPTIONS=--max_old_space_size=4096
               sudo npm install -g npm@latest
               sudo npm cache clean -f
@@ -66,7 +68,15 @@ jobs:
               cd ..
               tar xf trs-jitsi-meet/jitsi-meet.tar.bz2
               docker build --tag jitsi/web:custom .
-              docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml up -d
+              docker stop housefiestaapp_web_1
+              docker rm housefiestaapp_web_1
+              docker stop housefiestaapp_jigasi_1
+              docker rm housefiestaapp_jigasi_1
+              docker stop housefiestaapp_jicofo_1
+              docker rm housefiestaapp_jicofo_1
+              docker stop housefiestaapp_prosody_1
+              docker rm housefiestaapp_prosody_1
+              docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/jigasi-custom.yml up -d
               docker tag jitsi/web:custom ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
               docker login ${{ secrets.DOCKER_REGISTRY }}
               docker push ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
