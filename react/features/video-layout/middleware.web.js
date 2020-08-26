@@ -16,6 +16,7 @@ import { SET_FILMSTRIP_VISIBLE } from '../filmstrip';
 import { setTileView } from './actions'
 import './middleware.any';
 import jwtDecode from "jwt-decode";
+import logger from './logger'
 
 declare var APP: Object;
 
@@ -35,19 +36,20 @@ MiddlewareRegistry.register(store => next => action => {
 
     switch (action.type) {
     case CONFERENCE_JOINED:
-        VideoLayout.mucJoined();
-
-        const jwt = state['features/base/jwt'];
+        VideoLayout.mucJoined();  
+    
+        const state = store.getState();
+        const jwt = state['features/base/jwt']; 
 
         if (jwt.jwt) {
             const jwtPayload = jwtDecode(jwt.jwt) || {};
             const { grid } = jwtPayload;
-
             if (grid) {
                 store.dispatch(setTileView(true))
             }
-        }
-
+        }else {
+                store.dispatch(setTileView(false))
+        }  
         break;
 
     case CONFERENCE_WILL_LEAVE:
