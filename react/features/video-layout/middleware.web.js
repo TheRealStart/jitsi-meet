@@ -15,6 +15,7 @@ import { TRACK_ADDED, TRACK_REMOVED } from '../base/tracks';
 import { SET_FILMSTRIP_VISIBLE } from '../filmstrip';
 import { setTileView } from './actions'
 import './middleware.any';
+import jwtDecode from "jwt-decode";
 
 declare var APP: Object;
 
@@ -35,7 +36,18 @@ MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case CONFERENCE_JOINED:
         VideoLayout.mucJoined();
-        store.dispatch(setTileView(true))
+
+        const jwt = state['features/base/jwt'];
+
+        if (jwt.jwt) {
+            const jwtPayload = jwtDecode(jwt.jwt) || {};
+            const { grid } = jwtPayload;
+
+            if (grid) {
+                store.dispatch(setTileView(true))
+            }
+        }
+
         break;
 
     case CONFERENCE_WILL_LEAVE:
