@@ -68,14 +68,7 @@ jobs:
               cd ..
               tar xf trs-jitsi-meet/jitsi-meet.tar.bz2
               docker build --tag jitsi/web:custom .
-              docker stop housefiestaapp_web_1
-              docker rm housefiestaapp_web_1
-              docker stop housefiestaapp_jigasi_1
-              docker rm housefiestaapp_jigasi_1
-              docker stop housefiestaapp_jicofo_1
-              docker rm housefiestaapp_jicofo_1
-              docker stop housefiestaapp_prosody_1
-              docker rm housefiestaapp_prosody_1
+              docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/jigasi-custom.yml down 
               docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/jigasi-custom.yml up -d
               docker tag jitsi/web:custom ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
               docker login ${{ secrets.DOCKER_REGISTRY }}
