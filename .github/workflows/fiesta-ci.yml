@@ -47,7 +47,6 @@ jobs:
               cd trs-jitsi-meet
               git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
               git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
-              git pull origin "$CUSTOM_TRS_JITSI_MEET_BRANCH"
               rm -rf favicon.ico
               cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/favicon.ico .
               rm -rf ./images/
