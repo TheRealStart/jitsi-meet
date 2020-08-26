@@ -14,7 +14,9 @@ import logger from './logger';
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case PLAY_SOUND:
-        _playSound(store, action.soundId);
+        if (action.soundId !== "PARTICIPANT_JOINED_SOUND") {
+            _playSound(store, action.soundId);
+        }
         break;
     case STOP_SOUND:
         _stopSound(store, action.soundId);
