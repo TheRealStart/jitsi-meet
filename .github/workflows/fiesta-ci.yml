@@ -64,6 +64,8 @@ jobs:
               cp -r ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/ .
               rm -rf title.html
               cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/title.html .
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+              source ~/.bashrc
               nvm install 12.17.0
               cd ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/trs-jitsi-meet/
               npm install
