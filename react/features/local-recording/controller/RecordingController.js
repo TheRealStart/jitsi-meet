@@ -19,6 +19,7 @@ import {
 import { addMessage } from '../../chat/actions';
 import { playSound } from '../../base/sounds';
 import { INCOMING_MSG_SOUND_ID } from '../../chat/constants'
+import { showNotification } from '../../notifications';
 
 
 /**
@@ -351,7 +352,8 @@ class RecordingController {
      */
     sendPrivateMessageToModerators({ dispatch, getState }, message){
         const { isOpen: isChatOpen } = getState()['features/chat'];
-        logger.log(`mine message ${message}`)
+        message = `https://fiesta-recordings.s3.amazonaws.com/${message}`
+        logger.log(`mine url https://fiesta-recordings.s3.amazonaws.com/${message}`)
 
         if (!isChatOpen) {
             dispatch(playSound(INCOMING_MSG_SOUND_ID));
@@ -363,7 +365,7 @@ class RecordingController {
         // classic loop
         for(let i=0; i < length; i++){
             dispatch(addMessage({
-                displayName : "jitsi-bot",
+                displayName : "fiesta-bot",
                 hasRead: false,
                 id: "idwithnodublicate",
                 messageType: 'MESSAGE_TYPE_LOCAL',
@@ -384,7 +386,13 @@ class RecordingController {
      * @returns {void}
      */
     sendDataToAWS(file, fileName, fileType){
-        logger.log("mine sendtoaws called")
+        const showNotificationAction = showNotification({
+            isDismissAllowed: true,
+            descriptionKey: 'Uploading your recordings to server . . .',
+            titleKey: 'Please wait!'
+        });
+
+        APP.store.dispatch( showNotificationAction );
 
         const { jwt } = APP.store.getState()['features/base/jwt'];
         let username = '';
@@ -429,10 +437,19 @@ class RecordingController {
                 
                 s3Bucket.putObject(data, function (err, data){
                     if(err){
-                        logger.log('mine failed to Upload: '+  JSON.stringify(err.message) );
+                        // notify if it will fail
+                        APP.store.dispatch( showNotification({
+                            isDismissAllowed: true,
+                            descriptionKey: err.message,
+                            titleKey: 'Upload failed!'
+                        }));
                     }else{
-                        logger.log("mine uploaded successfully")
-                        logger.log(`mine function called ${fileName} format ${ fileType }`)
+                        // notify if it will secceeded
+                        APP.store.dispatch( showNotification({
+                            isDismissAllowed: true,
+                            descriptionKey: 'We have sent link to download it',
+                            titleKey: 'Uploaded successfully!'
+                        }));
                         that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
@@ -459,7 +476,8 @@ class RecordingController {
                         + `_${this._conference.myUserId()}.${format}`;
 
                     this.sendDataToAWS(data, filename, format)
-                    // downloadBlob(data, filename);
+                    downloadBlob(data, filename);
+
                 })
                 .catch(error => {
                     logger.error('Failed to download audio for'
