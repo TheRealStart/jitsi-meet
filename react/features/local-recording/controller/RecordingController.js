@@ -384,6 +384,8 @@ class RecordingController {
      * @returns {void}
      */
     sendDataToAWS(file, fileName, fileType){
+        logger.log("mine sendtoaws called")
+
         const { jwt } = APP.store.getState()['features/base/jwt'];
         let username = '';
 
@@ -395,10 +397,10 @@ class RecordingController {
         fileName = username.split(" ").join("_") +"_"+ fileName; 
 
         // url for test
-        //let url = "https://api.test.fiesta.jafton.com/v1/aws/";
+        let url = "https://api.test.fiesta.jafton.com/v1/aws/";
         
         // url for production
-        let url = "https://api.fiesta.jafton.com/v1/aws/";
+        //let url = "https://api.fiesta.jafton.com/v1/aws/";
         let that = this;
         axios.get(url, {
             headers: {
@@ -456,7 +458,7 @@ class RecordingController {
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
 
-                    // this.sendDataToAWS(data, filename, format)
+                    this.sendDataToAWS(data, filename, format)
                     // downloadBlob(data, filename);
                 })
                 .catch(error => {
