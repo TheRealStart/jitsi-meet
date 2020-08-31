@@ -40,26 +40,32 @@ jobs:
               fi
               if [ -d "trs-jitsi-meet" ]; then
                 mv trs-jitsi-meet trs-jitsi-meet-backup
+                touch ./trs-jitsi-meet-backup/backed_up
               fi
               if [ ! -d "trs-jitsi-meet" ]; then
                 mkdir trs-jitsi-meet
               fi
               cd trs-jitsi-meet
-              git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
-              git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              if [ ! -d .git ]; then
+                git add .
+                git commit -m "committing changes before switching branches"
+                git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
+                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              else
+                git fetch
+                git add .
+                git commit -m "committing changes before switching branches"
+                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+                git pull
+              fi
               rm -rf favicon.ico
               cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/favicon.ico .
               rm -rf ./images/
               cp -r ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/ .
               rm -rf title.html
               cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/title.html .
-              export NODE_OPTIONS=--max_old_space_size=4096
-              sudo npm install -g npm@latest
-              sudo npm cache clean -f
-              sudo npm install -g n
-              sudo n stable
-              sudo chown -R 1000:1000 "/home/ubuntu/.npm"
-              cd ~/house.fiesta.app/web/trs-jitsi-meet/
+              nvm install 12.17.0
+              cd ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/trs-jitsi-meet/
               npm install
               npm audit fix
               make
@@ -89,10 +95,35 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       if: always()
 
+    - name: Restart Jitsi Videobridge in us-east-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: sudo systemctl restart jitsi-videobridge2
+        host: ${{ secrets.FIESTA_MEET_US_EAST_1 }}
+        user: ubuntu
+        key: ${{ secrets.FIESTA_PRIVKEY }}
+      
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Restart Jitsi Videobridge is us-east-1
+        status: ${{ job.status }}
+        username: fiesta-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+ 
+
+    # after restart jitsi-videobridge2 should open an appropriate port, so we will give it 10 seconds to start
     - name: Deploy fiesta-meet-web to us-west-1
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
@@ -119,6 +150,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
@@ -145,6 +179,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
@@ -171,6 +208,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
@@ -198,6 +238,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
@@ -224,6 +267,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
@@ -250,6 +296,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          echo 'Restarting videobridge...'
+          sudo systemctl restart jitsi-videobridge2
+          sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
