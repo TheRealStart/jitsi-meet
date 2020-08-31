@@ -33,6 +33,10 @@ jobs:
             if [ -f $envFile ]; then
               set -a
               source $envFile
+
+              CUSTOM_TRS_JITSI_MEET_BRANCH="${CUSTOM_TRS_JITSI_MEET_BRANCH:=stable/jitsi-meet_4548}"
+              CUSTOM_TRS_JICOFO_BRANCH="${CUSTOM_TRS_JICOFO_BRANCH:=stable/jitsi-meet_4548}"
+
               cd web
               echo "Getting latest custom jitsi-meet codebase"
               if [ -d "trs-jitsi-meet-backup" ]; then
@@ -66,19 +70,20 @@ jobs:
               cp ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/title.html .
               cd ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/web/trs-jitsi-meet/
               npm install
-              npm audit fix
               make
               make source-package
               cd ..
               tar xf trs-jitsi-meet/jitsi-meet.tar.bz2
               docker build --tag jitsi/web:custom .
-              docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/jigasi-custom.yml down 
-              docker-compose -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/docker-compose-custom.yml -f ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}/jigasi-custom.yml up -d
-              docker tag jitsi/web:custom ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+              cd ${{ secrets.FIESTA_MAIN_PROJECT_LOCATION }}
+              docker-compose -f ./docker-compose-custom.yml -f ./jigasi-custom.yml down 
+              docker-compose -f ./docker-compose-custom.yml -f ./jigasi-custom.yml up -d
+              docker tag jitsi/web:custom ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web:latest
               docker login ${{ secrets.DOCKER_REGISTRY }}
-              docker push ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
+              docker push ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web:latest
             fi
         host: ${{ secrets.FIESTA_MEET_MAIN_SERVER }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
 
@@ -99,6 +104,7 @@ jobs:
       with:
         command: sudo systemctl restart jitsi-videobridge2.service
         host: ${{ secrets.FIESTA_MEET_US_EAST_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
       
@@ -130,6 +136,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_US_WEST_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
 
@@ -159,6 +166,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_SA_EAST_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
 
@@ -188,6 +196,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_EU_CENTRAL_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
 
@@ -217,6 +226,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_AP_SOUTH_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
 
@@ -247,6 +257,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_AP_EAST_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
 
@@ -276,6 +287,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_AP_SOUTHEAST_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
     
@@ -305,6 +317,7 @@ jobs:
           set -a &&. ./.env && set +a
           docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
         host: ${{ secrets.FIESTA_MEET_AF_SOUTH_1 }}
+        args: -tt
         user: ubuntu
         key: ${{ secrets.FIESTA_PRIVKEY }}
     
