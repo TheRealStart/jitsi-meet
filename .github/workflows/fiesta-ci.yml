@@ -112,7 +112,7 @@ jobs:
       
     - uses: sonots/slack-notice-action@v3
       with:
-        title: Restart Jitsi Videobridge is us-east-1
+        title: Restart Jitsi Videobridge in us-east-1
         status: ${{ job.status }}
         username: fiesta-meet-web
         icon_emoji: ':octocat:'
