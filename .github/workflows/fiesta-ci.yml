@@ -104,6 +104,7 @@ jobs:
       with:
         command: |
           sudo /etc/init.d/jitsi-videobridge2 restart
+          sleep 10
         host: ${{ secrets.FIESTA_MEET_US_EAST_1 }}
         args: -tt
         user: ubuntu
@@ -122,7 +123,7 @@ jobs:
       if: always()
  
 
-    # after restart jitsi-videobridge2 should open an appropriate port, so we will give it 10 seconds to start
+    # after restart jitsi-videobridge2 should open an appropriate port (10000), so we will give it 10 seconds to start
     - name: Deploy fiesta-meet-web to us-west-1
       uses: fifsky/ssh-action@master
       with:
