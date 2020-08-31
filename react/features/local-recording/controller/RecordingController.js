@@ -11,6 +11,17 @@ import {
 } from '../recording';
 import { sessionManager } from '../session';
 
+import aws from 'aws-sdk';
+import axios from 'axios';
+import jwtDecode from "jwt-decode";
+import {
+    getParticipantDisplayName
+} from '../../base/participants';
+import { addMessage } from '../../chat/actions';
+import { playSound } from '../../base/sounds';
+import { INCOMING_MSG_SOUND_ID } from '../../chat/constants'
+
+
 /**
  * XMPP command for signaling the start of local recording to all clients.
  * Should be sent by the moderator only.
@@ -312,6 +323,127 @@ class RecordingController {
     }
 
     /**
+     * Get list of moderators
+     * 
+     * @returns {array}
+     */
+    listOfModeratorsOnly(){
+        const participants = APP.store.getState()["features/base/participants"];
+    
+        let moderators = [];
+
+        for(const participant of participants){
+            const isModerator = Boolean(participant && participant.role === "moderator");
+            if (isModerator) {
+                moderators.push(participant);
+            }
+        }
+
+        return moderators;
+    }
+
+     /**
+     * Simulates sending private message to moderators as jitsi-bot
+     * 
+     * @param {object} store
+     * @param {string} recipientID
+     * @param {string} message
+     * @returns {void}
+     */
+    sendPrivateMessageToModerators({ dispatch, getState }, message){
+        const { isOpen: isChatOpen } = getState()['features/chat'];
+        logger.log(`mine message ${message}`)
+
+        if (!isChatOpen) {
+            dispatch(playSound(INCOMING_MSG_SOUND_ID));
+        }
+
+        let moderators = this.listOfModeratorsOnly();
+        let length = moderators.length;
+
+        // classic loop
+        for(let i=0; i < length; i++){
+            dispatch(addMessage({
+                displayName : "jitsi-bot",
+                hasRead: false,
+                id: "idwithnodublicate",
+                messageType: 'MESSAGE_TYPE_LOCAL',
+                message,
+                privateMessage: true,
+                recipient: getParticipantDisplayName(getState, moderators[i].id),
+                timestamp: Date.now()
+            }));
+        }
+    }
+
+    /**
+     * Send recorded data to aws s3
+     * 
+     * @param {object} file
+     * @param {string} fileName
+     * @param {string} fileType
+     * @returns {void}
+     */
+    sendDataToAWS(file, fileName, fileType){
+        logger.log("mine sendtoaws called")
+
+        const { jwt } = APP.store.getState()['features/base/jwt'];
+        let username = '';
+
+        if (jwt) {
+            const jwtPayload = jwtDecode(jwt) || {};
+            username = jwtPayload.context.user.name;
+        }
+
+        fileName = username.split(" ").join("_") +"_"+ fileName; 
+
+        // url for test
+        let url = "https://api.test.fiesta.jafton.com/v1/aws/";
+        
+        // url for production
+        //let url = "https://api.fiesta.jafton.com/v1/aws/";
+        let that = this;
+        axios.get(url, {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                'Conference-Token': jwt
+            }
+        }).then(response => {
+        
+            const { aws_s3_id : sec_id, aws_s3_secret : sec_key, aws_region : region } = response.data;
+            if (sec_id && sec_key) {    
+                
+                aws.config.update({
+                    region,
+                    accessKeyId: sec_id,
+                    secretAccessKey: sec_key
+                })
+
+                var s3Bucket = new aws.S3( { params: { Bucket: 'fiesta-recordings' }});
+
+                var data = {
+                    Key: fileName,
+                    Body: file,
+                    ContentType: fileType,
+                    ACL: 'public-read'
+                };
+                
+                s3Bucket.putObject(data, function (err, data){
+                    if(err){
+                        logger.log('mine failed to Upload: '+  JSON.stringify(err.message) );
+                    }else{
+                        logger.log("mine uploaded successfully")
+                        logger.log(`mine function called ${fileName} format ${ fileType }`)
+                        that.sendPrivateMessageToModerators(APP.store, fileName);
+                    }
+                });
+            }
+        })
+        .catch(err => logger.log(`mine error ${err}`))
+
+    }
+
+    /**
      * Triggers the download of recorded data.
      * Browser only.
      *
@@ -327,7 +459,8 @@ class RecordingController {
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
 
-                    downloadBlob(data, filename);
+                    this.sendDataToAWS(data, filename, format)
+                    // downloadBlob(data, filename);
                 })
                 .catch(error => {
                     logger.error('Failed to download audio for'
