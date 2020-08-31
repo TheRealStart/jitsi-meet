@@ -192,7 +192,7 @@ module.exports = [
         entry: {
             'app.bundle': './app.js'
         },
-        performance: getPerformanceHints(4 * 1024 * 1024)
+        performance: getPerformanceHints(10 * 1024 * 1024)
     }),
     Object.assign({}, config, {
         entry: {
