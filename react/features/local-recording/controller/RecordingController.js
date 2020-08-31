@@ -450,7 +450,7 @@ class RecordingController {
                             descriptionKey: 'We have sent link to download it',
                             titleKey: 'Uploaded successfully!'
                         }));
-                        that.sendPrivateMessageToModerators(APP.store, fileName);
+                        // that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
             }
@@ -757,7 +757,6 @@ class RecordingController {
                 .then(() => {
                     this._changeState(ControllerState.IDLE);
                     sessionManager.endSegment(this._currentSessionToken);
-                    logger.log('Local recording unengaged.');
                     this.downloadRecordedData(token);
 
                     const messageKey
