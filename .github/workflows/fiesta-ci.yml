@@ -102,7 +102,7 @@ jobs:
     - name: Restart Jitsi Videobridge in us-east-1
       uses: fifsky/ssh-action@master
       with:
-        command: sudo systemctl restart jitsi-videobridge2.service
+        command: sudo /etc/init.d/jitsi-videobridge2 restart
         host: ${{ secrets.FIESTA_MEET_US_EAST_1 }}
         args: -tt
         user: ubuntu
@@ -127,7 +127,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
@@ -157,7 +157,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
@@ -187,7 +187,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
@@ -217,7 +217,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
@@ -248,7 +248,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
@@ -278,7 +278,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
@@ -308,7 +308,7 @@ jobs:
       with:
         command: |
           echo 'Restarting videobridge...'
-          sudo systemctl restart jitsi-videobridge2.service
+          sudo /etc/init.d/jitsi-videobridge2 restart
           sleep 10
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
