@@ -26,13 +26,10 @@ import type { AbstractProps } from '../AbstractConference';
 
 import Labels from './Labels';
 import { default as Notice } from './Notice';
-<<<<<<< HEAD
-
-=======
 import { default as Subject } from './Subject';
 import SelectLanguage from './TranslateButtons';
 import logger from '../../logger';
->>>>>>> 0494500f9... Added two ui buttonfor transcriptions and translations
+
 declare var APP: Object;
 declare var config: Object;
 declare var interfaceConfig: Object;
@@ -172,12 +169,6 @@ class Conference extends AbstractConference<Props, *> {
             document.removeEventListener(name, this._onFullScreenChange));
 
         APP.conference.isJoined() && this.props.dispatch(disconnect());
-    }
-
-    translateMe(){
-        APP.conference._room.setLocalParticipantProperty('transcription_language', 'uz');
-        APP.conference._room.setLocalParticipantProperty('translation_language', 'en');
-        logger.log("mine it is me again")
     }
 
     /**
