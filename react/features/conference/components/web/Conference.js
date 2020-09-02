@@ -169,12 +169,6 @@ class Conference extends AbstractConference<Props, *> {
         APP.conference.isJoined() && this.props.dispatch(disconnect());
     }
 
-    translateMe(){
-        APP.conference._room.setLocalParticipantProperty('transcription_language', 'uz');
-        APP.conference._room.setLocalParticipantProperty('translation_language', 'en');
-        logger.log("mine it is me again")
-    }
-
     /**
      * Implements React's {@link Component#render()}.
      *
