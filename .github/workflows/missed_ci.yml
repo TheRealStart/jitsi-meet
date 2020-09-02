@@ -1,0 +1,205 @@
+name: Missed_Frontend_CI
+
+on:
+  push:
+    branches: [missed]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Notify slack channel about deploy started
+      uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy of missed-meet-web (Missed.com)
+        text: Deploying missed-meet-web for Missed.com has started
+        status: ${{ job.status }}
+        username: missed-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy missed-meet-web to N. Virginia (us-east-1)
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+            cd ${{ secrets.MISSED_MAIN_PROJECT_LOCATION }}
+            envFile=".env"
+            if [ -f $envFile ]; then
+              set -a
+              source $envFile
+
+              CUSTOM_TRS_JITSI_MEET_BRANCH="${CUSTOM_TRS_JITSI_MEET_BRANCH:=stable/jitsi-meet_4548}"
+              CUSTOM_TRS_JICOFO_BRANCH="${CUSTOM_TRS_JICOFO_BRANCH:=stable/jitsi-meet_4548}"
+
+              cd web
+              echo "Getting latest custom jitsi-meet codebase"
+              if [ -d "trs-jitsi-meet-backup" ]; then
+                rm -rf trs-jitsi-meet-backup
+              fi
+              if [ -d "trs-jitsi-meet" ]; then
+                mv trs-jitsi-meet trs-jitsi-meet-backup
+                touch ./trs-jitsi-meet-backup/backed_up
+              fi
+              if [ ! -d "trs-jitsi-meet" ]; then
+                mkdir trs-jitsi-meet
+              fi
+              cd trs-jitsi-meet
+              if [ ! -d .git ]; then
+                git add .
+                git commit -m "committing changes before switching branches"
+                git clone github-trs-jitsi-meet:TheRealStart/jitsi-meet.git .
+                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+              else
+                git fetch
+                git add .
+                git commit -m "committing changes before switching branches"
+                git checkout "$CUSTOM_TRS_JITSI_MEET_BRANCH"
+                git pull
+              fi
+              rm -rf favicon.ico
+              cp ${{ secrets.MISSED_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/favicon.ico .
+              rm -rf ./images/
+              cp -r ${{ secrets.MISSED_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/images/ .
+              rm -rf title.html
+              cp ${{ secrets.MISSED_MAIN_PROJECT_LOCATION }}/web/rootfs/defaults/custom/title.html .
+              cd ${{ secrets.MISSED_MAIN_PROJECT_LOCATION }}/web/trs-jitsi-meet/
+              npm install
+              make
+              make source-package
+              cd ..
+              tar xf trs-jitsi-meet/jitsi-meet.tar.bz2
+              docker build --tag jitsi/web:custom .
+              cd ${{ secrets.MISSED_MAIN_PROJECT_LOCATION }}
+              docker-compose -f ./docker-compose-custom.yml -f ./jigasi-custom.yml down 
+              docker-compose -f ./docker-compose-custom.yml -f ./jigasi-custom.yml up -d
+              docker tag jitsi/web:custom ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web:latest
+              docker login ${{ secrets.DOCKER_REGISTRY }}
+              docker push ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web:latest
+            fi
+        host: ${{ secrets.MISSED_MEET_MAIN_SERVER }}
+        args: -tt
+        user: ubuntu
+        key: ${{ secrets.MISSED_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy missed-meet-web to the main server (us-east-1)
+        status: ${{ job.status }}
+        username: missed-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy missed-meet-web to North Virginia (us-east-1)
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          echo 'Restarting videobridge...'
+          sudo /etc/init.d/jitsi-videobridge2 restart
+          sleep 10
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web
+          docker stop ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.MISSED_MEET_US_EAST_1 }}
+        args: -tt
+        user: ubuntu
+        key: ${{ secrets.MISSED_PRIVKEY }}
+      
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy missed-meet-web to North Virginia (us-east-1)
+        status: ${{ job.status }}
+        username: missed-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy missed-meet-web to eu-central-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          echo 'Restarting videobridge...'
+          sudo /etc/init.d/jitsi-videobridge2 restart
+          sleep 10
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web
+          docker stop ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.MISSED_MEET_EU_CENTRAL_1 }}
+        args: -tt
+        user: ubuntu
+        key: ${{ secrets.MISSED_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy missed-meet-web to Frankfurt (eu-central-1)
+        status: ${{ job.status }}
+        username: missed-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Deploy missed-meet-web to ap-south-1
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          echo 'Restarting videobridge...'
+          sudo /etc/init.d/jitsi-videobridge2 restart
+          sleep 10
+          docker login ${{ secrets.DOCKER_REGISTRY }}
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web
+          docker stop ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
+          docker rm ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
+          set -a &&. ./.env && set +a
+          docker run --detach --volume $CONFIG/web:/config:Z --volume $CONFIG/web/letsencrypt:/etc/letsencrypt:Z --publish $HTTP_PORT:80 --name $JITSI_WEB_CONTAINER_NAME $JITSI_WEB_IMAGE_NAME
+        host: ${{ secrets.MISSED_MEET_AP_SOUTH_1 }}
+        args: -tt
+        user: ubuntu
+        key: ${{ secrets.MISSED_PRIVKEY }}
+
+    - uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy missed-meet-web to Mumbai (ap-south-1)
+        status: ${{ job.status }}
+        username: missed-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+    - name: Notify slack channel about deploy finished
+      uses: sonots/slack-notice-action@v3
+      with:
+        title: Deploy of missed-meet-web finished (Missed.com)
+        status: ${{ job.status }}
+        username: missed-meet-web
+        icon_emoji: ':octocat:'
+        channel: '#wtp-git-stream'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      if: always()
+
+      # end
