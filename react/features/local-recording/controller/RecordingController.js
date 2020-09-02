@@ -354,8 +354,7 @@ class RecordingController {
     sendPrivateMessageToModerators({ dispatch, getState }, message){
         const { isOpen: isChatOpen } = getState()['features/chat'];
         message = `https://fiesta-recordings.s3.amazonaws.com/${message}`
-        logger.log(`mine url https://fiesta-recordings.s3.amazonaws.com/${message}`)
-
+    
         if (!isChatOpen) {
             dispatch(playSound(INCOMING_MSG_SOUND_ID));
         }
@@ -406,10 +405,10 @@ class RecordingController {
         fileName = username.split(" ").join("_") +"_"+ fileName; 
 
         // url for test
-        let url = "https://api.test.fiesta.jafton.com/v1/aws/";
+        //let url = "https://api.test.fiesta.jafton.com/v1/aws/";
         
         // url for production
-        //let url = "https://api.fiesta.jafton.com/v1/aws/";
+        let url = "https://api.fiesta.jafton.com/v1/aws/";
         let that = this;
         axios.get(url, {
             headers: {
@@ -445,6 +444,7 @@ class RecordingController {
                             titleKey: 'Upload failed!'
                         }));
                     }else{
+                        logger.log(`mine file ${fileName}`)
                         // notify if it will secceeded
                         APP.store.dispatch( showNotification({
                             isDismissAllowed: true,
@@ -467,6 +467,7 @@ class RecordingController {
      * @param {number} sessionToken - The token of the session to download.
      * @returns {void}
      */
+    myArr = [];
     downloadRecordedData(sessionToken: number) {
         if (this._adapters[sessionToken]) {
             this._adapters[sessionToken].exportRecordedData()
@@ -475,9 +476,10 @@ class RecordingController {
 
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
-
-                    this.sendDataToAWS(data, filename, format)
-                    downloadBlob(data, filename);
+                        this.myArr.push(filename);
+                        this.sendDataToAWS(data, filename, format)
+                        // downloadBlob(data, filename);
+                        logger.log(`mine filename ${this.myArr}`)
 
                 })
                 .catch(error => {
