@@ -444,6 +444,7 @@ class RecordingController {
                             titleKey: 'Upload failed!'
                         }));
                     }else{
+                        logger.log(`mine file ${fileName}`)
                         // notify if it will secceeded
                         APP.store.dispatch( showNotification({
                             isDismissAllowed: true,
@@ -466,6 +467,7 @@ class RecordingController {
      * @param {number} sessionToken - The token of the session to download.
      * @returns {void}
      */
+    myArr = [];
     downloadRecordedData(sessionToken: number) {
         if (this._adapters[sessionToken]) {
             this._adapters[sessionToken].exportRecordedData()
@@ -474,9 +476,10 @@ class RecordingController {
 
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
-
-                    this.sendDataToAWS(data, filename, format)
-                    downloadBlob(data, filename);
+                        this.myArr.push(filename);
+                        this.sendDataToAWS(data, filename, format)
+                        // downloadBlob(data, filename);
+                        logger.log(`mine filename ${this.myArr}`)
 
                 })
                 .catch(error => {
