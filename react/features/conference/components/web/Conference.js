@@ -32,7 +32,8 @@ import InviteMore from './InviteMore';
 import Labels from './Labels';
 import { default as Notice } from './Notice';
 import { default as Subject } from './Subject';
-
+import SelectLanguage from './TranslateButtons';
+import logger from '../../logger';
 declare var APP: Object;
 declare var config: Object;
 declare var interfaceConfig: Object;
@@ -174,6 +175,12 @@ class Conference extends AbstractConference<Props, *> {
         APP.conference.isJoined() && this.props.dispatch(disconnect());
     }
 
+    translateMe(){
+        APP.conference._room.setLocalParticipantProperty('transcription_language', 'uz');
+        APP.conference._room.setLocalParticipantProperty('translation_language', 'en');
+        logger.log("mine it is me again")
+    }
+
     /**
      * Implements React's {@link Component#render()}.
      *
@@ -216,6 +223,8 @@ class Conference extends AbstractConference<Props, *> {
                 { this.renderNotificationsContainer() }
 
                 <CalleeInfoContainer />
+
+                <SelectLanguage  />
 
                 { !filmstripOnly && _showPrejoin && <Prejoin />}
             </div>
