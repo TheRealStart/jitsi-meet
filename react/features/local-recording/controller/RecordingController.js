@@ -352,28 +352,17 @@ class RecordingController {
      */
     sendPrivateMessageToModerators({ dispatch, getState }, message){
         const { isOpen: isChatOpen } = getState()['features/chat'];
+        const { conference } = getState()['features/base/conference'];
         message = `https://fiesta-recordings.s3.amazonaws.com/${message}`
     
         if (!isChatOpen) {
             dispatch(playSound(INCOMING_MSG_SOUND_ID));
         }
 
-        let moderators = this.listOfModeratorsOnly();
-        let length = moderators.length;
-
-        // classic loop
-        for(let i=0; i < length; i++){
-            dispatch(addMessage({
-                displayName : "fiesta-bot",
-                hasRead: false,
-                id: "idwithnodublicate",
-                messageType: 'MESSAGE_TYPE_LOCAL',
-                message,
-                privateMessage: true,
-                recipient: getParticipantDisplayName(getState, moderators[i].id),
-                timestamp: Date.now()
-            }));
-        }
+        // let moderators = this.listOfModeratorsOnly();
+        // let length = moderators.length;
+        logger.log(`mine send message ${message}`)
+        conference.sendTextMessage(message);
     }
 
     /**
@@ -393,26 +382,26 @@ class RecordingController {
 
         APP.store.dispatch( showNotificationAction );
 
-        const { jwt } = APP.store.getState()['features/base/jwt'];
+        const jwt = APP.store.getState()['features/base/jwt'];
         let username = '';
 
-        if (jwt) {
-            const jwtPayload = jwtDecode(jwt) || {};
+        if (jwt.jwt) {
+            const jwtPayload = jwtDecode(jwt.jwt) || {};
             username = jwtPayload.context.user.name;
         }
-
+    
         fileName = username.split(" ").join("_") +"_"+ fileName; 
 
         // url for test
-        //let url = "https://api.test.fiesta.jafton.com/v1/aws/";
+        let url = "https://api.test.fiesta.jafton.com/v1/aws/";
         
         // url for production
-        let url = "https://api.fiesta.jafton.com/v1/aws/";
+        //let url = "https://api.fiesta.jafton.com/v1/aws/";
         let that = this;
         axios.get(url, {
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                'Conference-Token': jwt
+                'Conference-Token': jwt.jwt
             }
         }).then(response => {
         
@@ -443,14 +432,13 @@ class RecordingController {
                             titleKey: 'Upload failed!'
                         }));
                     }else{
-                        logger.log(`mine file ${fileName}`)
                         // notify if it will secceeded
                         APP.store.dispatch( showNotification({
                             isDismissAllowed: true,
                             descriptionKey: 'We have sent link to download it',
                             titleKey: 'Uploaded successfully!'
                         }));
-                        // that.sendPrivateMessageToModerators(APP.store, fileName);
+                        that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
             }
@@ -466,7 +454,6 @@ class RecordingController {
      * @param {number} sessionToken - The token of the session to download.
      * @returns {void}
      */
-    myArr = [];
     downloadRecordedData(sessionToken: number) {
         if (this._adapters[sessionToken]) {
             this._adapters[sessionToken].exportRecordedData()
@@ -475,10 +462,9 @@ class RecordingController {
 
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
-                        this.myArr.push(filename);
+
                         this.sendDataToAWS(data, filename, format)
                         // downloadBlob(data, filename);
-                        logger.log(`mine filename ${this.myArr}`)
 
                 })
                 .catch(error => {
