@@ -343,7 +343,26 @@ class RecordingController {
         return moderators;
     }
 
-     /**
+    /**
+     * Send room_code and linkt to audio in aws
+     * 
+     * @param {string} room_code
+     * @param {string} fileName
+     * @returns {void}
+     */
+
+    sendRoomCodeAndLink(room_code, fileName){
+        let url = "https://api.test.fiesta.jafton.com/v1​/home_events​/create_local_recordings​/";
+        axios.post(url, { 
+        data:{
+            room_code,
+            fileName
+        }})
+        .then(response => logger.log(`mine response ${response}`))
+        .catch(error => logger.log(`mine error in post ${error}`))
+    }
+
+    /**
      * Simulates sending private message to moderators as jitsi-bot
      * 
      * @param {object} store
@@ -353,13 +372,14 @@ class RecordingController {
      */
     sendPrivateMessageToModerators({ dispatch, getState }, message){
         const { isOpen: isChatOpen } = getState()['features/chat'];
-        const { conference } = getState()['features/base/conference'];
+        const { conference, room } = getState()['features/base/conference'];
+        logger.log(`mine need roomcode ${room}`)
         message = `https://fiesta-recordings.s3.amazonaws.com/${message}`
     
         if (!isChatOpen) {
             dispatch(playSound(INCOMING_MSG_SOUND_ID));
         }
-
+        this.sendRoomCodeAndLink(room, message);
         // let moderators = this.listOfModeratorsOnly();
         // let length = moderators.length;
         logger.log(`mine send message ${message}`)
