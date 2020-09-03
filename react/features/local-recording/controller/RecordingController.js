@@ -353,29 +353,17 @@ class RecordingController {
      */
     sendPrivateMessageToModerators({ dispatch, getState }, message){
         const { isOpen: isChatOpen } = getState()['features/chat'];
+        const { conference } = getState()['features/base/conference'];
         message = `https://fiesta-recordings.s3.amazonaws.com/${message}`
-        logger.log(`mine url https://fiesta-recordings.s3.amazonaws.com/${message}`)
-
+    
         if (!isChatOpen) {
             dispatch(playSound(INCOMING_MSG_SOUND_ID));
         }
 
-        let moderators = this.listOfModeratorsOnly();
-        let length = moderators.length;
-
-        // classic loop
-        for(let i=0; i < length; i++){
-            dispatch(addMessage({
-                displayName : "fiesta-bot",
-                hasRead: false,
-                id: "idwithnodublicate",
-                messageType: 'MESSAGE_TYPE_LOCAL',
-                message,
-                privateMessage: true,
-                recipient: getParticipantDisplayName(getState, moderators[i].id),
-                timestamp: Date.now()
-            }));
-        }
+        // let moderators = this.listOfModeratorsOnly();
+        // let length = moderators.length;
+        logger.log(`mine send message ${message}`)
+        conference.sendTextMessage(message);
     }
 
     /**
@@ -395,14 +383,14 @@ class RecordingController {
 
         APP.store.dispatch( showNotificationAction );
 
-        const { jwt } = APP.store.getState()['features/base/jwt'];
+        const jwt = APP.store.getState()['features/base/jwt'];
         let username = '';
 
-        if (jwt) {
-            const jwtPayload = jwtDecode(jwt) || {};
+        if (jwt.jwt) {
+            const jwtPayload = jwtDecode(jwt.jwt) || {};
             username = jwtPayload.context.user.name;
         }
-
+    
         fileName = username.split(" ").join("_") +"_"+ fileName; 
 
         // url for test
@@ -414,7 +402,7 @@ class RecordingController {
         axios.get(url, {
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                'Conference-Token': jwt
+                'Conference-Token': jwt.jwt
             }
         }).then(response => {
         
@@ -451,7 +439,7 @@ class RecordingController {
                             descriptionKey: 'We have sent link to download it',
                             titleKey: 'Uploaded successfully!'
                         }));
-                        // that.sendPrivateMessageToModerators(APP.store, fileName);
+                        that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
             }
@@ -476,8 +464,8 @@ class RecordingController {
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
 
-                    this.sendDataToAWS(data, filename, format)
-                    downloadBlob(data, filename);
+                        this.sendDataToAWS(data, filename, format)
+                        // downloadBlob(data, filename);
 
                 })
                 .catch(error => {
