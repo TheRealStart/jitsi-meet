@@ -91,6 +91,8 @@ type Props = AbstractProps & {
      */
     _showPrejoin: boolean,
 
+    _enableTranslation: boolean,
+
     dispatch: Function,
     t: Function
 }
@@ -191,6 +193,9 @@ class Conference extends AbstractConference<Props, *> {
         } = this.props;
         const hideLabels = filmstripOnly || _iAmRecorder;
 
+        logger.log(`mine enabletranslation ${this.props._enableTranslation}`)
+        
+
         return (
             <div
                 className = { _layoutClassName }
@@ -211,6 +216,10 @@ class Conference extends AbstractConference<Props, *> {
                 { this.renderNotificationsContainer() }
 
                 <CalleeInfoContainer />
+<<<<<<< HEAD
+=======
+                { this.props._enableTranslation && <SelectLanguage  /> }
+>>>>>>> 46a267057... Control translate buttons from config
 
                 { !filmstripOnly && _showPrejoin && <Prejoin />}
             </div>
@@ -280,7 +289,8 @@ function _mapStateToProps(state) {
         _isLobbyScreenVisible: state['features/base/dialog']?.component === LobbyScreen,
         _layoutClassName: LAYOUT_CLASSNAMES[getCurrentLayout(state)],
         _roomName: getConferenceNameForTitle(state),
-        _showPrejoin: isPrejoinPageVisible(state)
+        _showPrejoin: isPrejoinPageVisible(state),
+        _enableTranslation : state['features/base/config'].enableTranslation
     };
 }
 

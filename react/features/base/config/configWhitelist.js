@@ -108,6 +108,7 @@ export default [
     'enableNoisyMicDetection',
     'enableTcc',
     'enableAutomaticUrlCopy',
+    'enableTranslation',
     'etherpad_base',
     'failICE',
     'feedbackPercentage',
@@ -152,5 +153,5 @@ export default [
     'useTurnUdp',
     'videoQuality.persist',
     'webrtcIceTcpDisable',
-    'webrtcIceUdpDisable'
+    'webrtcIceUdpDisable',
 ].concat(extraConfigWhitelist);
