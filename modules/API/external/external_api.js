@@ -91,7 +91,8 @@ const events = {
     'subject-change': 'subjectChange',
     'suspend-detected': 'suspendDetected',
     'tile-view-changed': 'tileViewChanged',
-    'conference-timer-value': 'conferenceTimerValue'
+    'conference-timer-value': 'conferenceTimerValue',
+    'sent_audio_url' : 'sentAudioUrl'
 };
 
 /**
