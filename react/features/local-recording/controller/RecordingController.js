@@ -432,6 +432,8 @@ class RecordingController {
                             descriptionKey: err.message,
                             titleKey: 'Upload failed!'
                         }));
+                        // rise event for external API
+                        APP.API.notifySentAudioUrlToAws("could not upload");
                     }else{
                         // notify if it will secceeded
                         APP.store.dispatch( showNotification({
@@ -439,6 +441,9 @@ class RecordingController {
                             descriptionKey: 'We have sent link to download it',
                             titleKey: 'Uploaded successfully!'
                         }));
+                        
+                        // rise event for external API
+                        APP.API.notifySentAudioUrlToAws(fileName);
                         that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
