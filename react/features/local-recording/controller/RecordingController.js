@@ -442,7 +442,7 @@ class RecordingController {
                         }));
                         
                         // rise event for external API
-                        APP.API.notifySentAudioUrlToAws(fileName);
+                        APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
                         that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
