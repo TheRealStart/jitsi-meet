@@ -648,6 +648,20 @@ class API {
     }
 
     /**
+     * Notify external application (if API is enabled) for sent aws url of audio
+     *
+     * @param {string} url - The timer value.
+     * @returns {void}
+     */
+    notifySentAudioUrlToAws(url: string) {
+        logger.log(`url value ${url}`);
+        this._sendEvent({
+            name : "sent_audio_url",
+            url
+        })
+    }
+
+    /**
      * Notify external application (if API is enabled) for audio availability
      * changed.
      *
