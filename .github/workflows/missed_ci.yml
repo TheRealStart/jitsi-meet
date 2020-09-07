@@ -105,7 +105,7 @@ jobs:
         command: |
           echo 'Restarting videobridge...'
           sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 10
+          sleep 20
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web
           docker stop ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
@@ -135,7 +135,7 @@ jobs:
         command: |
           echo 'Restarting videobridge...'
           sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 10
+          sleep 20
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web
           docker stop ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
@@ -165,7 +165,7 @@ jobs:
         command: |
           echo 'Restarting videobridge...'
           sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 10
+          sleep 20
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/missed_jitsi_web
           docker stop ${{ secrets.MISSED_WEB_CONTAINER_NAME }}
