@@ -13,12 +13,6 @@ import { sessionManager } from '../session';
 import aws from 'aws-sdk';
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
-import {
-    getParticipantDisplayName
-} from '../../base/participants';
-import { addMessage } from '../../chat/actions';
-import { playSound } from '../../base/sounds';
-import { INCOMING_MSG_SOUND_ID } from '../../chat/constants'
 import { showNotification } from '../../notifications';
 
 
@@ -351,17 +345,8 @@ class RecordingController {
      * @returns {void}
      */
     sendPrivateMessageToModerators({ dispatch, getState }, message){
-        const { isOpen: isChatOpen } = getState()['features/chat'];
         const { conference } = getState()['features/base/conference'];
         message = `https://fiesta-recordings.s3.amazonaws.com/${message}`
-    
-        if (!isChatOpen) {
-            dispatch(playSound(INCOMING_MSG_SOUND_ID));
-        }
-
-        // let moderators = this.listOfModeratorsOnly();
-        // let length = moderators.length;
-        logger.log(`mine send message ${message}`)
         conference.sendTextMessage(message);
     }
 
