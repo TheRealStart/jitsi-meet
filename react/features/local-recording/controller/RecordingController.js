@@ -393,10 +393,10 @@ class RecordingController {
         fileName = username.split(" ").join("_") +"_"+ fileName; 
 
         // url for test
-        let url = "https://api.test.fiesta.jafton.com/v1/aws/";
+        //let url = "https://api.test.fiesta.jafton.com/v1/aws/";
         
         // url for production
-        //let url = "https://api.fiesta.jafton.com/v1/aws/";
+        let url = "https://api.fiesta.jafton.com/v1/aws/";
         let that = this;
         axios.get(url, {
             headers: {
