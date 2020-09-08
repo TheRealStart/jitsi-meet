@@ -826,11 +826,9 @@ class API {
      * @param {string} timerValue - The timer value.
      * @returns {void}
      */
-    notifyHighlightedTime(timerValue: string) {
-        logger.log(`timer value ${timerValue}`);
+    notifyHighlightedTime() {
         this._sendEvent({
             name : "conference-timer-value",
-            timerValue
         })
     }
 
