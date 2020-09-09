@@ -106,6 +106,7 @@ export default [
     'enableNoAudioDetection',
     'enableNoisyMicDetection',
     'enableTcc',
+    'enableTranslation',
     'etherpad_base',
     'failICE',
     'feedbackPercentage',
@@ -147,5 +148,5 @@ export default [
     'useStunTurn',
     'useTurnUdp',
     'webrtcIceTcpDisable',
-    'webrtcIceUdpDisable'
+    'webrtcIceUdpDisable',
 ].concat(extraConfigWhitelist);
