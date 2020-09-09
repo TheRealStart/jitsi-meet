@@ -134,7 +134,7 @@ class DeepLinkingMobilePage extends Component<Props> {
                     <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.appNotInstalled`, { app: NATIVE_APP_NAME }) }
                     </p>
-                    <p className = { `${_SNS}__text` }>
+                    {/* <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.ifHaveApp`) }
                     </p>
                     <a
@@ -146,7 +146,7 @@ class DeepLinkingMobilePage extends Component<Props> {
                         <button className = { `${_SNS}__button ${_SNS}__button_primary` }>
                             { t(`${_TNS}.joinInApp`) }
                         </button>
-                    </a>
+                    </a> */}
                     <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.ifDoNotHaveApp`) }
                     </p>
