@@ -212,8 +212,6 @@ class Conference extends AbstractConference<Props, *> {
 
                 <CalleeInfoContainer />
 
-                <SelectLanguage  />
-
                 { !filmstripOnly && _showPrejoin && <Prejoin />}
             </div>
         );
