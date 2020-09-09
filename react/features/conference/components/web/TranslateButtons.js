@@ -8,8 +8,8 @@ import Select from '@atlaskit/select'
 const MainContainer = styled.div`
     position : absolute;
     z-index: 10;
-    top: 30px;
-    left : 30px;
+    top: 60px;
+    left : 25px;
     width : 315px;
 `
 /**
