@@ -196,9 +196,6 @@ class Conference extends AbstractConference<Props, *> {
         } = this.props;
         const hideLabels = filmstripOnly || _iAmRecorder;
 
-        logger.log(`mine enabletranslation ${this.props._enableTranslation}`)
-        
-
         return (
             <div
                 className = { _layoutClassName }
