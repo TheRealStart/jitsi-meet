@@ -164,7 +164,7 @@ type Props = {
     /**
      * The subsection of Redux state for local recording
      */
-    _localRecState: Object,
+    _localRecording: Object,
 
     /**
      * The value for how the conference is locked (or undefined if not locked)
@@ -1045,8 +1045,6 @@ class Toolbox extends Component<Props, State> {
 
         let arr = [];
 
-        
-
         arr = [
             this._isProfileVisible()
                 && <OverflowMenuProfileItem
@@ -1135,7 +1133,6 @@ class Toolbox extends Component<Props, State> {
                     key = 'help'
                     showLabel = { true } />
         ];
-
 
         if(_isLiveStreamRunning === false ){
             arr.splice(4, 0, <RecordButton key = 'record' showLabel = { true } /> )
@@ -1415,6 +1412,7 @@ class Toolbox extends Component<Props, State> {
                 <div className = 'button-group-right'>
                     { buttonsRight.indexOf('localrecording') !== -1 && _isModerator
                         && <LocalRecordingButton
+                            stats={this.props._isLocalRecordingEngaged}
                             onClick = {
                                 this._onToolbarOpenLocalRecordingInfoDialog
                             } />
@@ -1472,7 +1470,13 @@ function _mapStateToProps(state) {
     let { desktopSharingEnabled } = state['features/base/conference'];
     const {
         callStatsID,
+<<<<<<< HEAD
         enableFeaturesBasedOnToken
+=======
+        enableFeaturesBasedOnToken,
+        iAmRecorder,
+        localRecording
+>>>>>>> d7ec81008... Display status of local recording on button
     } = state['features/base/config'];
     const sharedVideoStatus = state['features/shared-video'].status;
     const {
@@ -1483,6 +1487,13 @@ function _mapStateToProps(state) {
     const isModerator = localParticipant.role === PARTICIPANT_ROLE.MODERATOR
     const localRecordingStates = state['features/local-recording'];
     const localVideo = getLocalVideoTrack(state['features/base/tracks']);
+<<<<<<< HEAD
+=======
+    const addPeopleEnabled = isAddPeopleEnabled(state);
+    const dialOutEnabled = isDialOutEnabled(state);
+    const { isEngaged } = state['features/local-recording'];
+
+>>>>>>> d7ec81008... Display status of local recording on button
 
     let desktopSharingDisabledTooltipKey;
 
@@ -1519,8 +1530,7 @@ function _mapStateToProps(state) {
         _fullScreen: fullScreen,
         _tileViewEnabled: shouldDisplayTileView(state),
         _localParticipantID: localParticipant.id,
-        _localRecState: localRecordingStates,
-        _locked: locked,
+        _localRecording: localRecordingStates,
         _overflowMenuVisible: overflowMenuVisible,
         _raisedHand: localParticipant.raisedHand,
         _screensharing: localVideo && localVideo.videoType === 'desktop',
@@ -1532,6 +1542,7 @@ function _mapStateToProps(state) {
         _isModerator : isModerator,
         _isLiveStreamRunning: Boolean(
             getActiveSession(state, JitsiRecordingConstants.mode.STREAM)),
+        _isLocalRecordingEngaged : isEngaged
     };
 }
 
