@@ -158,7 +158,7 @@ type Props = {
     /**
      * The subsection of Redux state for local recording
      */
-    _localRecState: Object,
+    _localRecording: Object,
 
     /**
      * Whether or not the overflow menu is visible.
@@ -989,8 +989,6 @@ class Toolbox extends Component<Props, State> {
 
         let arr = [];
 
-        
-
         arr = [
             this._isProfileVisible()
                 && <OverflowMenuProfileItem
@@ -1076,7 +1074,6 @@ class Toolbox extends Component<Props, State> {
                     key = 'help'
                     showLabel = { true } />
         ];
-
 
         if(_isLiveStreamRunning === false ){
             arr.splice(4, 0, <RecordButton key = 'record' showLabel = { true } /> )
@@ -1323,6 +1320,7 @@ class Toolbox extends Component<Props, State> {
                 <div className = 'button-group-right'>
                     { buttonsRight.indexOf('localrecording') !== -1 && _isModerator
                         && <LocalRecordingButton
+                            stats={this.props._isLocalRecordingEngaged}
                             onClick = {
                                 this._onToolbarOpenLocalRecordingInfoDialog
                             } />
@@ -1383,7 +1381,8 @@ function _mapStateToProps(state) {
     const {
         callStatsID,
         enableFeaturesBasedOnToken,
-        iAmRecorder
+        iAmRecorder,
+        localRecording
     } = state['features/base/config'];
     const sharedVideoStatus = state['features/shared-video'].status;
     const {
@@ -1396,6 +1395,8 @@ function _mapStateToProps(state) {
     const localVideo = getLocalVideoTrack(state['features/base/tracks']);
     const addPeopleEnabled = isAddPeopleEnabled(state);
     const dialOutEnabled = isDialOutEnabled(state);
+    const { isEngaged } = state['features/local-recording'];
+
 
     let desktopSharingDisabledTooltipKey;
 
@@ -1433,7 +1434,7 @@ function _mapStateToProps(state) {
         _fullScreen: fullScreen,
         _tileViewEnabled: state['features/video-layout'].tileViewEnabled,
         _localParticipantID: localParticipant.id,
-        _localRecState: localRecordingStates,
+        _localRecording: localRecordingStates,
         _overflowMenuVisible: overflowMenuVisible,
         _raisedHand: localParticipant.raisedHand,
         _screensharing: localVideo && localVideo.videoType === 'desktop',
@@ -1445,6 +1446,7 @@ function _mapStateToProps(state) {
         _isModerator : isModerator,
         _isLiveStreamRunning: Boolean(
             getActiveSession(state, JitsiRecordingConstants.mode.STREAM)),
+        _isLocalRecordingEngaged : isEngaged
     };
 }
 

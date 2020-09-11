@@ -1,9 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react';
-
 import { translate } from '../../base/i18n';
-import { IconRec } from '../../base/icons';
 import { ToolbarButtonWithoutIcon } from '../../toolbox';
 
 /**
@@ -56,12 +54,12 @@ class LocalRecordingButton extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { isDialogShown, t } = this.props;
-
+        const { isDialogShown, t, stats : isEngaged } = this.props;
+    
         return (
             <ToolbarButtonWithoutIcon
                 circle
-                text="Record"
+                text={ isEngaged ? "End Recording" : "Start Recording" } 
                 onClick = { this._onClick }
                 toggled = { isDialogShown }
                 background = "red"
