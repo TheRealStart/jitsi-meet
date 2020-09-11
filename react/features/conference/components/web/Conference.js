@@ -32,7 +32,6 @@ import InviteMore from './InviteMore';
 import Labels from './Labels';
 import { default as Notice } from './Notice';
 import { default as Subject } from './Subject';
-import SelectLanguage from './TranslateButtons';
 
 declare var APP: Object;
 declare var config: Object;
@@ -94,6 +93,8 @@ type Props = AbstractProps & {
      * If prejoin page is visible or not.
      */
     _showPrejoin: boolean,
+
+    _enableTranslation: boolean,
 
     dispatch: Function,
     t: Function
@@ -218,8 +219,6 @@ class Conference extends AbstractConference<Props, *> {
 
                 <CalleeInfoContainer />
 
-                <SelectLanguage  />
-
                 { !filmstripOnly && _showPrejoin && <Prejoin />}
             </div>
         );
@@ -288,7 +287,8 @@ function _mapStateToProps(state) {
         _isLobbyScreenVisible: state['features/base/dialog']?.component === LobbyScreen,
         _layoutClassName: LAYOUT_CLASSNAMES[getCurrentLayout(state)],
         _roomName: getConferenceNameForTitle(state),
-        _showPrejoin: isPrejoinPageVisible(state)
+        _showPrejoin: isPrejoinPageVisible(state),
+        _enableTranslation : state['features/base/config'].enableTranslation
     };
 }
 

@@ -8,8 +8,8 @@ import Select from '@atlaskit/select'
 const MainContainer = styled.div`
     position : absolute;
     z-index: 10;
-    top: 30px;
-    left : 30px;
+    top: 60px;
+    left : 25px;
     width : 315px;
 `
 /**
@@ -25,13 +25,13 @@ export default class SelectLanguage extends Component<P, S> {
 
     state = {
         options : [
-                { label: 'English', value: 'en' },
-                { label: 'Spanish', value: 'es' },
-                { label: 'French', value: 'fr' },
-                { label: 'Hindi', value: 'hi' },
-                { label: 'Italian', value: 'it' },
-                { label: 'Russian', value: 'ru' },
-                { label: 'Uzbek', value: 'uz' },
+                { label: 'English', value: 'en-US' },
+                { label: 'Spanish', value: 'es-ES' },
+                { label: 'French', value: 'fr-FR' },
+                { label: 'Hindi', value: 'hi-IN' },
+                { label: 'Italian', value: 'it-IT' },
+                { label: 'Russian', value: 'ru-RU' },
+                { label: 'Uzbek', value: 'uz-UZ' },
             ]
     }
     /**
