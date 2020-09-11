@@ -58,7 +58,6 @@ class LocalRecordingButton extends Component<Props> {
     
         return (
             <ToolbarButtonWithoutIcon
-                circle
                 text={ isEngaged ? "End Recording" : "Start Recording" } 
                 onClick = { this._onClick }
                 toggled = { isDialogShown }
