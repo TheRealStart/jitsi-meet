@@ -218,7 +218,12 @@ class RecordingController {
         this._doStopRecording = this._doStopRecording.bind(this);
         this._updateStats = this._updateStats.bind(this);
         this._switchToNewSession = this._switchToNewSession.bind(this);
+        this._progressiveUpload = this._progressiveUpload.bind(this);
+        this._wrapperForPU = this._wrapperForPU.bind(this);
     }
+
+    myInterval = null;
+    myTimeOut = null;
 
     registerEvents: () => void;
 
@@ -453,8 +458,8 @@ class RecordingController {
                     const filename = `session_${sessionToken}`
                         + `_${this._conference.myUserId()}.${format}`;
 
-                        this.sendDataToAWS(data, filename, format)
-                        // downloadBlob(data, filename);
+                       this.sendDataToAWS(data, filename, format)
+                         //downloadBlob(data, filename);
 
                 })
                 .catch(error => {
@@ -683,6 +688,38 @@ class RecordingController {
         return Math.floor(Math.random() * 100000000) + 1;
     }
 
+    /**
+     * Creates a adapter to split full stream into chunks without effecting main stream.
+     *
+     * @returns {void}
+     */
+    _progressiveUpload(){
+
+        this._adapters[123] = this._createRecordingAdapter();
+        sessionManager.createSession(123, 'wav');
+        
+        this._adapters[123].start(this._micDeviceId).then(() => {
+            sessionManager.beginSegment(123);
+        })
+
+        this.myTimeOut = setTimeout(() => {
+            this._adapters[123].stop().then(() => {
+            sessionManager.endSegment(123);
+            this.downloadRecordedData(123);
+         })  
+        }, 10000)
+        
+    }
+    /**
+     * Wrapper for progressive upload
+     * 
+     * @returns {void}
+     */
+    _wrapperForPU(){
+       this._progressiveUpload();
+       this.myInterval = setTimeout(this._wrapperForPU, 10000)
+    }
+
     _doStartRecording: () => void;
 
     /**
@@ -700,6 +737,8 @@ class RecordingController {
                 this._changeState(ControllerState.RECORDING);
                 sessionManager.beginSegment(this._currentSessionToken);
                 logger.log('Local recording engaged.');
+                // make progressive upload
+                this._wrapperForPU()
 
                 if (this._onNotify) {
                     this._onNotify('localRecording.messages.engaged');
@@ -726,16 +765,27 @@ class RecordingController {
      * @private
      * @returns {Promise<void>}
      */
-    _doStopRecording() {
-        if (this._state === ControllerState.STOPPING) {
-            const token = this._currentSessionToken;
+    _doStopRecording() {  
+        
+        clearInterval(this.myInterval);
+        clearTimeout(this.myTimeOut);
+
+        this._adapters[123].stop().then(() => {
+            sessionManager.endSegment(123);
+            this.downloadRecordedData(123);
+        })
+
+         if (this._state === ControllerState.STOPPING) {
+             const token = this._currentSessionToken;
+             
 
             return this._adapters[this._currentSessionToken]
                 .stop()
                 .then(() => {
                     this._changeState(ControllerState.IDLE);
-                    sessionManager.endSegment(this._currentSessionToken);
-                    this.downloadRecordedData(token);
+                   let temp = sessionManager.endSegment(this._currentSessionToken);
+                   logger.log(`mine segments ${ JSON.stringify(temp)}`) 
+                   this.downloadRecordedData(token);
 
                     const messageKey
                         = this._conference.isModerator()
