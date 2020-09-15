@@ -24,7 +24,7 @@ const SelectContainer = styled.div`
 export default class SelectLanguage extends Component<P, S> {
 
     state = {
-        options : [
+        transcriptionOptions : [
                 { label: 'English', value: 'en-US' },
                 { label: 'Spanish', value: 'es-ES' },
                 { label: 'French', value: 'fr-FR' },
@@ -32,6 +32,15 @@ export default class SelectLanguage extends Component<P, S> {
                 { label: 'Italian', value: 'it-IT' },
                 { label: 'Russian', value: 'ru-RU' },
                 { label: 'Uzbek', value: 'uz-UZ' },
+            ],
+        translationOptions : [
+                { label: 'English', value: 'en' },
+                { label: 'Spanish', value: 'es' },
+                { label: 'French', value: 'fr' },
+                { label: 'Hindi', value: 'hi' },
+                { label: 'Italian', value: 'it' },
+                { label: 'Russian', value: 'ru' },
+                { label: 'Uzbek', value: 'uz' },
             ]
     }
     /**
@@ -59,11 +68,12 @@ export default class SelectLanguage extends Component<P, S> {
      * @returns {void}
      */
     _renderSelect(which, placeholder){
+        const { transcriptionOptions, translationOptions } = this.state;
         return (
             <Select
                 className="source-select"
                 classNamePrefix="react-select"
-                options={this.state.options}
+                options={which ? transcriptionOptions : translationOptions}
                 onChange={val => this._handleSelect(val, which)}
                 placeholder={placeholder}
             />
