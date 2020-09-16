@@ -653,11 +653,11 @@ class API {
      * @param {string} url - The timer value.
      * @returns {void}
      */
-    notifySentAudioUrlToAws(url: string) {
-        logger.log(`url value ${url}`);
+    notifySentAudioUrlToAws(url: string, links: array) {
         this._sendEvent({
             name : "sent_audio_url",
-            url
+            url,
+            links
         })
     }
 
