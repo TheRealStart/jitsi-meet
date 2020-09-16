@@ -224,6 +224,9 @@ class RecordingController {
 
     myInterval = null;
     myTimeOut = null;
+    myCounter = 0;
+    myBigNumber = '';
+    myLinks = [];
 
     registerEvents: () => void;
 
@@ -387,7 +390,9 @@ class RecordingController {
         
         // url for production
         let url = "https://api.fiesta.jafton.com/v1/aws/";
+        
         let that = this;
+
         axios.get(url, {
             headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -422,7 +427,7 @@ class RecordingController {
                             titleKey: 'Upload failed!'
                         }));
                         // rise event for external API
-                        APP.API.notifySentAudioUrlToAws("could not upload");
+                        APP.API.notifySentAudioUrlToAws("could not upload", that.myLinks);
                     }else{
                         // notify if it will secceeded
                         APP.store.dispatch( showNotification({
@@ -430,9 +435,11 @@ class RecordingController {
                             descriptionKey: 'We have sent link to download it',
                             titleKey: 'Uploaded successfully!'
                         }));
-                        
+
+                        // send array of links with event
+                        that.myLinks.push(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
                         // rise event for external API
-                        APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
+                        APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`, that.myLinks);
                         that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
@@ -454,12 +461,20 @@ class RecordingController {
             this._adapters[sessionToken].exportRecordedData()
                 .then(args => {
                     const { data, format } = args;
-
-                    const filename = `session_${sessionToken}`
-                        + `_${this._conference.myUserId()}.${format}`;
-
-                       this.sendDataToAWS(data, filename, format)
-                         //downloadBlob(data, filename);
+                    let filename = '';
+                    if(sessionToken === 123){
+                        filename = `session_${sessionToken}`
+                        + `_${this._conference.myUserId()}`+`_${this.myBigNumber}.${format}`;
+                        
+                        logger.log(`mine check counter ${filename}`)
+                        this.sendDataToAWS(data, filename, format)
+                    }else{
+                        // commented for future use if full local recording needed
+                        //filename = `session_${sessionToken}`
+                        //     + `_${this._conference.myUserId()}.${format}`;
+                        //downloadBlob(data, filename);
+                    }
+                    
 
                 })
                 .catch(error => {
@@ -694,6 +709,10 @@ class RecordingController {
      * @returns {void}
      */
     _progressiveUpload(){
+        this.myCounter++;
+        let str = "" + this.myCounter;
+        let pad = "00000000";
+        this.myBigNumber = pad.substring(0, pad.length - str.length) + str
 
         this._adapters[123] = this._createRecordingAdapter();
         sessionManager.createSession(123, 'wav');
@@ -731,7 +750,8 @@ class RecordingController {
     _doStartRecording() {
         if (this._state === ControllerState.STARTING) {
             const delegate = this._adapters[this._currentSessionToken];
-
+            this.myCounter = 0;
+            this.myBigNumber = '';
             delegate.start(this._micDeviceId)
             .then(() => {
                 this._changeState(ControllerState.RECORDING);
