@@ -742,7 +742,7 @@ class RecordingController {
             sessionManager.endSegment(123);
             this.downloadRecordedData(123);
          })  
-        }, 10000)
+        }, 30000)
         
     }
     /**
@@ -752,7 +752,7 @@ class RecordingController {
      */
     _wrapperForPU(){
        this._progressiveUpload();
-       this.myInterval = setTimeout(this._wrapperForPU, 10000)
+       this.myInterval = setTimeout(this._wrapperForPU, 30000)
     }
 
     _doStartRecording: () => void;
@@ -818,9 +818,8 @@ class RecordingController {
             return this._adapters[this._currentSessionToken]
                 .stop()
                 .then(() => {
-                    this._changeState(ControllerState.IDLE);
-                   let temp = sessionManager.endSegment(this._currentSessionToken);
-                   logger.log(`mine segments ${ JSON.stringify(temp)}`) 
+                   this._changeState(ControllerState.IDLE);
+                   sessionManager.endSegment(this._currentSessionToken);
                    this.downloadRecordedData(token);
 
                     const messageKey
