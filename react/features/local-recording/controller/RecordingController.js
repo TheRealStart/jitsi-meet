@@ -219,7 +219,15 @@ class RecordingController {
         this._doStopRecording = this._doStopRecording.bind(this);
         this._updateStats = this._updateStats.bind(this);
         this._switchToNewSession = this._switchToNewSession.bind(this);
+        this._progressiveUpload = this._progressiveUpload.bind(this);
+        this._wrapperForPU = this._wrapperForPU.bind(this);
     }
+
+    myInterval = null;
+    myTimeOut = null;
+    myCounter = 0;
+    myBigNumber = '';
+    myLinks = [];
 
     registerEvents: () => void;
 
@@ -383,7 +391,9 @@ class RecordingController {
         
         // url for production
         let url = "https://api.fiesta.jafton.com/v1/aws/";
+        
         let that = this;
+
         axios.get(url, {
             headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -418,7 +428,7 @@ class RecordingController {
                             titleKey: 'Upload failed!'
                         }));
                         // rise event for external API
-                        APP.API.notifySentAudioUrlToAws("could not upload");
+                        APP.API.notifySentAudioUrlToAws("could not upload", that.myLinks);
                     }else{
                         // notify if it will secceeded
                         APP.store.dispatch( showNotification({
@@ -426,9 +436,11 @@ class RecordingController {
                             descriptionKey: 'We have sent link to download it',
                             titleKey: 'Uploaded successfully!'
                         }));
-                        
+
+                        // send array of links with event
+                        that.myLinks.push(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
                         // rise event for external API
-                        APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
+                        APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`, that.myLinks);
                         that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
@@ -450,12 +462,20 @@ class RecordingController {
             this._adapters[sessionToken].exportRecordedData()
                 .then(args => {
                     const { data, format } = args;
-
-                    const filename = `session_${sessionToken}`
-                        + `_${this._conference.myUserId()}.${format}`;
-
+                    let filename = '';
+                    if(sessionToken === 123){
+                        filename = `session_${sessionToken}`
+                        + `_${this._conference.myUserId()}`+`_${this.myBigNumber}.${format}`;
+                        
+                        logger.log(`mine check counter ${filename}`)
                         this.sendDataToAWS(data, filename, format)
-                        // downloadBlob(data, filename);
+                    }else{
+                        // commented for future use if full local recording needed
+                        //filename = `session_${sessionToken}`
+                        //     + `_${this._conference.myUserId()}.${format}`;
+                        //downloadBlob(data, filename);
+                    }
+                    
 
                 })
                 .catch(error => {
@@ -684,6 +704,42 @@ class RecordingController {
         return Math.floor(Math.random() * 100000000) + 1;
     }
 
+    /**
+     * Creates a adapter to split full stream into chunks without effecting main stream.
+     *
+     * @returns {void}
+     */
+    _progressiveUpload(){
+        this.myCounter++;
+        let str = "" + this.myCounter;
+        let pad = "00000000";
+        this.myBigNumber = pad.substring(0, pad.length - str.length) + str
+
+        this._adapters[123] = this._createRecordingAdapter();
+        sessionManager.createSession(123, 'wav');
+        
+        this._adapters[123].start(this._micDeviceId).then(() => {
+            sessionManager.beginSegment(123);
+        })
+
+        this.myTimeOut = setTimeout(() => {
+            this._adapters[123].stop().then(() => {
+            sessionManager.endSegment(123);
+            this.downloadRecordedData(123);
+         })  
+        }, 30000)
+        
+    }
+    /**
+     * Wrapper for progressive upload
+     * 
+     * @returns {void}
+     */
+    _wrapperForPU(){
+       this._progressiveUpload();
+       this.myInterval = setTimeout(this._wrapperForPU, 30000)
+    }
+
     _doStartRecording: () => void;
 
     /**
@@ -695,12 +751,15 @@ class RecordingController {
     _doStartRecording() {
         if (this._state === ControllerState.STARTING) {
             const delegate = this._adapters[this._currentSessionToken];
-
+            this.myCounter = 0;
+            this.myBigNumber = '';
             delegate.start(this._micDeviceId)
             .then(() => {
                 this._changeState(ControllerState.RECORDING);
                 sessionManager.beginSegment(this._currentSessionToken);
                 logger.log('Local recording engaged.');
+                // make progressive upload
+                this._wrapperForPU()
 
                 if (this._onNotify) {
                     this._onNotify('localRecording.messages.engaged');
@@ -727,16 +786,26 @@ class RecordingController {
      * @private
      * @returns {Promise<void>}
      */
-    _doStopRecording() {
-        if (this._state === ControllerState.STOPPING) {
-            const token = this._currentSessionToken;
+    _doStopRecording() {  
+        
+        clearInterval(this.myInterval);
+        clearTimeout(this.myTimeOut);
+
+        this._adapters[123].stop().then(() => {
+            sessionManager.endSegment(123);
+            this.downloadRecordedData(123);
+        })
+
+         if (this._state === ControllerState.STOPPING) {
+             const token = this._currentSessionToken;
+             
 
             return this._adapters[this._currentSessionToken]
                 .stop()
                 .then(() => {
-                    this._changeState(ControllerState.IDLE);
-                    sessionManager.endSegment(this._currentSessionToken);
-                    this.downloadRecordedData(token);
+                   this._changeState(ControllerState.IDLE);
+                   sessionManager.endSegment(this._currentSessionToken);
+                   this.downloadRecordedData(token);
 
                     const messageKey
                         = this._conference.isModerator()
