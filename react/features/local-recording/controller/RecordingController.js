@@ -368,13 +368,13 @@ class RecordingController {
      * @returns {void}
      */
     sendDataToAWS(file, fileName, fileType){
-        const showNotificationAction = showNotification({
-            isDismissAllowed: true,
-            descriptionKey: 'Uploading your recordings to server . . .',
-            titleKey: 'Please wait!'
-        });
+        //const showNotificationAction = showNotification({
+        //    isDismissAllowed: true,
+        //    descriptionKey: 'Uploading your recordings to server . . .',
+        //    titleKey: 'Please wait!'
+        //});
 
-        APP.store.dispatch( showNotificationAction );
+        //APP.store.dispatch( showNotificationAction );
 
         const jwt = APP.store.getState()['features/base/jwt'];
         let username = '';
@@ -422,26 +422,26 @@ class RecordingController {
                 s3Bucket.putObject(data, function (err, data){
                     if(err){
                         // notify if it will fail
-                        APP.store.dispatch( showNotification({
-                            isDismissAllowed: true,
-                            descriptionKey: err.message,
-                            titleKey: 'Upload failed!'
-                        }));
+                        //APP.store.dispatch( showNotification({
+                        //    isDismissAllowed: true,
+                        //    descriptionKey: err.message,
+                        //    titleKey: 'Upload failed!'
+                        //}));
                         // rise event for external API
                         APP.API.notifySentAudioUrlToAws("could not upload", that.myLinks);
                     }else{
                         // notify if it will secceeded
-                        APP.store.dispatch( showNotification({
-                            isDismissAllowed: true,
-                            descriptionKey: 'We have sent link to download it',
-                            titleKey: 'Uploaded successfully!'
-                        }));
+                        //APP.store.dispatch( showNotification({
+                        //    isDismissAllowed: true,
+                        //    descriptionKey: 'We have sent link to download it',
+                        //    titleKey: 'Uploaded successfully!'
+                        //}));
 
                         // send array of links with event
                         that.myLinks.push(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
                         // rise event for external API
                         APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`, that.myLinks);
-                        that.sendPrivateMessageToModerators(APP.store, fileName);
+                        //that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
                 });
             }
