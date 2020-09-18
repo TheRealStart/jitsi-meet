@@ -50,6 +50,7 @@ import {
 } from './sounds';
 import jwtDecode from "jwt-decode";
 import { getActiveSession } from './functions'
+import { setFilmstripVisible } from '../filmstrip'
 import logger from '../local-recording/logger'
 
 declare var interfaceConfig: Object;
@@ -126,6 +127,9 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                     startLiveStream(state, room);
                 }
             }
+        }else {
+            // hide filmstrip squares if conference joined user has not jwt
+            APP.store.dispatch(setFilmstripVisible(false)); 
         }
         break;
     }
