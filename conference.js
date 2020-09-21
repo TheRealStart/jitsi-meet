@@ -1935,7 +1935,7 @@ export default {
                 }
                 sendAnalytics(createScreenSharingEvent('started'));
                 logger.log('Screen sharing started');
-                this.muteVideo(isVideoMuted)
+                //this.muteVideo(true)
             })
             .catch(error => {
                 this.videoSwitchInProgress = false;
