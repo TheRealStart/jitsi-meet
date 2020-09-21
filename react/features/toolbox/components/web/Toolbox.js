@@ -21,7 +21,8 @@ import {
     IconRaisedHand,
     IconRec,
     IconShareDesktop,
-    IconShareVideo
+    IconShareVideo, 
+    Translate
 } from '../../../base/icons';
 import {
     getLocalParticipant,
@@ -80,6 +81,7 @@ import OverflowMenuButton from './OverflowMenuButton';
 import OverflowMenuProfileItem from './OverflowMenuProfileItem';
 import ToolbarButton from './ToolbarButton';
 import VideoSettingsButton from './VideoSettingsButton';
+import TranslateButtonsDialog from '../../../conference/components/web/TranslateButtonsDialog';
 
 /**
  * The type of the React {@code Component} props of {@link Toolbox}.
@@ -239,6 +241,7 @@ class Toolbox extends Component<Props, State> {
         this._onToolbarOpenSpeakerStats = this._onToolbarOpenSpeakerStats.bind(this);
         this._onToolbarOpenVideoQuality = this._onToolbarOpenVideoQuality.bind(this);
         this._onToolbarToggleChat = this._onToolbarToggleChat.bind(this);
+        this._onOpenTanslateButton = this._onOpenTanslateButton.bind(this);
         this._onToolbarToggleFullScreen = this._onToolbarToggleFullScreen.bind(this);
         this._onToolbarToggleProfile = this._onToolbarToggleProfile.bind(this);
         this._onToolbarToggleRaiseHand = this._onToolbarToggleRaiseHand.bind(this);
@@ -402,6 +405,11 @@ class Toolbox extends Component<Props, State> {
      */
     _doOpenVideoQuality() {
         this.props.dispatch(openDialog(VideoQualityDialog));
+    }
+
+    
+    _doOpenTranslateButtons(){
+        this.props.dispatch(openDialog(TranslateButtonsDialog))
     }
 
     /**
@@ -736,6 +744,11 @@ class Toolbox extends Component<Props, State> {
         sendAnalytics(createToolbarEvent('video.quality'));
 
         this._doOpenVideoQuality();
+    }
+
+
+    _onOpenTanslateButton(){
+        this._doOpenTranslateButtons()
     }
 
     _onToolbarToggleChat: () => void;
@@ -1262,6 +1275,14 @@ class Toolbox extends Component<Props, State> {
                         buttonsLeft.indexOf('closedcaptions') !== -1
                             && <ClosedCaptionButton />
                     }
+    {/* rorrooro */}
+                    { buttonsLeft.indexOf('chat') !== -1
+                        && <ToolbarButton
+                                icon = { Translate }
+                                onClick = { this._onOpenTanslateButton }
+                                tooltip = { t('Translate') } />
+                    }
+                    
                 </div>
                 <div className = 'button-group-center'>
                     { this._renderAudioButton() }
