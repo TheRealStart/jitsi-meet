@@ -14,8 +14,8 @@ import { sessionManager } from '../session';
 import aws from 'aws-sdk';
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
+import { v4 as uuidv4 } from 'uuid';
 import { showNotification } from '../../notifications';
-
 
 /**
  * XMPP command for signaling the start of local recording to all clients.
@@ -228,6 +228,7 @@ class RecordingController {
     myCounter = 0;
     myBigNumber = '';
     myLinks = [];
+    myUUID = null;
 
     registerEvents: () => void;
 
@@ -368,14 +369,6 @@ class RecordingController {
      * @returns {void}
      */
     sendDataToAWS(file, fileName, fileType){
-        //const showNotificationAction = showNotification({
-        //    isDismissAllowed: true,
-        //    descriptionKey: 'Uploading your recordings to server . . .',
-        //    titleKey: 'Please wait!'
-        //});
-
-        //APP.store.dispatch( showNotificationAction );
-
         const jwt = APP.store.getState()['features/base/jwt'];
         let username = '';
 
@@ -388,7 +381,7 @@ class RecordingController {
 
         // url for test
         //let url = "https://api.test.fiesta.jafton.com/v1/aws/";
-        
+        logger.log(`mine check counter ${fileName}`)
         // url for production
         let url = "https://api.fiesta.jafton.com/v1/aws/";
         
@@ -421,28 +414,17 @@ class RecordingController {
                 
                 s3Bucket.putObject(data, function (err, data){
                     if(err){
-                        // notify if it will fail
-                        //APP.store.dispatch( showNotification({
-                        //    isDismissAllowed: true,
-                        //    descriptionKey: err.message,
-                        //    titleKey: 'Upload failed!'
-                        //}));
                         // rise event for external API
                         APP.API.notifySentAudioUrlToAws("could not upload", that.myLinks);
                     }else{
-                        // notify if it will secceeded
-                        //APP.store.dispatch( showNotification({
-                        //    isDismissAllowed: true,
-                        //    descriptionKey: 'We have sent link to download it',
-                        //    titleKey: 'Uploaded successfully!'
-                        //}));
-
+                    
                         // send array of links with event
                         that.myLinks.push(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`);
                         // rise event for external API
                         APP.API.notifySentAudioUrlToAws(`https://fiesta-recordings.s3.amazonaws.com/${fileName}`, that.myLinks);
                         //that.sendPrivateMessageToModerators(APP.store, fileName);
                     }
+                    this.myUUID = null;
                 });
             }
         })
@@ -464,10 +446,9 @@ class RecordingController {
                     const { data, format } = args;
                     let filename = '';
                     if(sessionToken === 123){
-                        filename = `session_${sessionToken}`
+                        filename = `session_${sessionToken}` + `_${this.myUUID}`
                         + `_${this._conference.myUserId()}`+`_${this.myBigNumber}.${format}`;
                         
-                        logger.log(`mine check counter ${filename}`)
                         this.sendDataToAWS(data, filename, format)
                     }else{
                         // commented for future use if full local recording needed
@@ -724,6 +705,11 @@ class RecordingController {
 
         this.myTimeOut = setTimeout(() => {
             this._adapters[123].stop().then(() => {
+            
+            if (this.myUUID === null) {
+                this.myUUID = uuidv4();
+            }
+
             sessionManager.endSegment(123);
             this.downloadRecordedData(123);
          })  
