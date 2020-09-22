@@ -51,6 +51,7 @@ import {
 import jwtDecode from "jwt-decode";
 import { getActiveSession } from './functions'
 import { setFilmstripVisible } from '../filmstrip'
+import { showNotification } from '../notifications';
 import logger from '../local-recording/logger'
 
 declare var interfaceConfig: Object;
@@ -127,6 +128,18 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                     startLiveStream(state, room);
                 }
             }
+            // notify user to make best performance
+            const notifyMessage = `Running internet sharing and streaming services (YouTube, Netflix, google photos, apple cloud, other video conferencing software) in parallel can degrade performance.
+            \u00A0 \u00A0 \u00A0 \u00A0 \u00A0 \u00A0 \u00A0 \u00A0 \u00A0 \u00A0
+            We recommend closing these during your recording for the best experience.`;
+
+            const showNotificationAction = showNotification({
+                isDismissAllowed: true,
+                descriptionKey: notifyMessage,
+                titleKey: 'Attention!'
+            });
+
+            APP.store.dispatch( showNotificationAction );
         }else {
             // hide filmstrip squares if conference joined user has not jwt
             APP.store.dispatch(setFilmstripVisible(false)); 
