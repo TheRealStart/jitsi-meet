@@ -23,7 +23,7 @@ import {
     showToolbox
 } from '../../../toolbox';
 
-import { maybeShowSuboptimalExperienceNotification } from '../../functions';
+import { maybeShowSuboptimalExperienceNotification, notify } from '../../functions';
 
 import Labels from './Labels';
 import { default as Notice } from './Notice';
@@ -270,6 +270,7 @@ class Conference extends AbstractConference<Props, *> {
         dispatch(connect());
 
         maybeShowSuboptimalExperienceNotification(dispatch, t);
+        notify(dispatch, t, APP.store.getState());
 
         interfaceConfig.filmStripOnly
             && dispatch(setToolboxAlwaysVisible(true));

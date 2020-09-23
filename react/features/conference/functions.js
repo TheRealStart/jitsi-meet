@@ -4,7 +4,8 @@ import { toState } from '../base/redux';
 
 import {
     areThereNotifications,
-    showWarningNotification
+    showWarningNotification,
+    showNotification
 } from '../notifications';
 import { getOverlayToRender } from '../overlay';
 
@@ -27,6 +28,23 @@ export function maybeShowSuboptimalExperienceNotification(dispatch, t) {
                         {
                             recommendedBrowserPageLink: `${window.location.origin}/static/recommendedBrowsers.html`
                         }
+                    )
+                }
+            )
+        );
+    }
+}
+
+export function notify(dispatch, t, state){
+    const jwt = state['features/base/jwt'];
+    if(jwt.jwt){
+        dispatch(
+            showNotification(
+                {
+                    titleKey: "Recommendation ;)",
+                    description: translateToHTML(
+                        t,
+                        'Running internet sharing and streaming services (YouTube, Netflix, google photos, apple cloud, other video conferencing software) in parallel can degrade performance. <br/> <br/> We recommend closing these during your recording for the best experience.'
                     )
                 }
             )
