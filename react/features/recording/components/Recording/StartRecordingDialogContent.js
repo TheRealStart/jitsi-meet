@@ -246,10 +246,10 @@ class StartRecordingDialogContent extends Component<Props> {
                 key = 'noIntegrationSetting'
                 style = { styles.header }>
                 <Container className = 'recording-icon-container'>
-                    <Image
+                    {/*<Image
                         className = 'recording-icon'
                         src = { JITSI_LOGO }
-                        style = { styles.recordingIcon } />
+                        style = { styles.recordingIcon } />*/}
                 </Container>
                 <Text
                     className = 'recording-title'
