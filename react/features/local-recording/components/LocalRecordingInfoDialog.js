@@ -11,11 +11,12 @@ import {
     getLocalParticipant
 } from '../../base/participants';
 import { connect } from '../../base/redux';
-import { statsUpdate } from '../actions';
+
+import { statsUpdate, setLocalRecordingButtonStatus } from '../actions';
 import { recordingController } from '../controller';
 import styled from 'styled-components';
 import { JitsiRecordingConstants } from '../../base/lib-jitsi-meet'
-import { getActiveSession } from '../../recording/functions'
+import { getActiveSession, getSessionById } from '../../recording/functions'
 import logger from '../logger';
 
 const RecordButtonContainer = styled.div`
@@ -372,7 +373,7 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
      */
     _onStart() {
         const { _conference, _isRecordingRunning, _isLiveStreamRunning } = this.props;
-        // do not run recording if live stream or itself is turned on
+        // do not run recording if live stream or full recording is turned on
         if (!_isRecordingRunning  && !_isLiveStreamRunning) {
             let appData = JSON.stringify({
                 'file_recording_metadata': {
@@ -383,10 +384,12 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
             _conference.startRecording({
                 mode: JitsiRecordingConstants.mode.FILE,
                 appData
-            });
+            })
+            APP.store.dispatch(setLocalRecordingButtonStatus(true))
+        }else{
+            recordingController.startRecording();
         }
-        
-        recordingController.startRecording();
+
     }
 
     /**
@@ -401,6 +404,7 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
         if (_fileRecordingSession) {
             _conference.stopRecording(_fileRecordingSession.id);
         }
+        APP.store.dispatch(setLocalRecordingButtonStatus(false))
         recordingController.stopRecording();
     }
 

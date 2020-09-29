@@ -57,3 +57,10 @@ export function statsUpdate(stats: Object) {
         stats
     };
 }
+
+export function setLocalRecordingButtonStatus(status: Boolean){
+    return {
+        type: "LOCAL_RECORDING_BUTTON_STATUS",
+        localRecordingButtonStatus: status
+    }
+}
