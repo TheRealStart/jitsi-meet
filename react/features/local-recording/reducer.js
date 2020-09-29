@@ -29,6 +29,11 @@ ReducerRegistry.register('features/local-recording', (state = {}, action) => {
             ...state,
             stats: action.stats
         };
+    case "LOCAL_RECORDING_BUTTON_STATUS":
+        return {
+            ...state,
+            localRecordingButtonStatus: action.localRecordingButtonStatus
+        }
     default:
         return state;
     }
