@@ -50,7 +50,7 @@ import {
 import jwtDecode from "jwt-decode";
 import { getActiveSession } from './functions'
 import { setFilmstripVisible } from '../filmstrip'
-
+import { recordingController } from '../local-recording'
 /**
  * StateListenerRegistry provides a reliable way to detect the leaving of a
  * conference, where we need to clean up the recording sessions.
@@ -181,7 +181,11 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             if (updatedSessionData.status === ON
                 && (!oldSessionData || oldSessionData.status !== ON)) {
                 const initiatorName = initiator && getParticipantDisplayName(getState, initiator.getId());
-
+                
+                const { localRecordingButtonStatus } = getState()['features/local-recording'];
+                if(localRecordingButtonStatus === true){
+                    recordingController.startRecording();
+                }
                 initiatorName && dispatch(showStartedRecordingNotification(mode, initiatorName));
                 sendAnalytics(createRecordingEvent('start', mode));
 
