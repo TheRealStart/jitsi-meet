@@ -17,6 +17,7 @@ import { recordingController } from '../controller';
 import styled from 'styled-components';
 import { JitsiRecordingConstants } from '../../base/lib-jitsi-meet'
 import { getActiveSession, getSessionById } from '../../recording/functions'
+import Spinner from '@atlaskit/spinner';
 import logger from '../logger';
 
 const RecordButtonContainer = styled.div`
@@ -26,17 +27,13 @@ const RecordButtonContainer = styled.div`
     padding-bottom: 12px;
 `
 const RecordButton = styled.a`
-    color: red;
+    color: white;
     padding: 6px;
     border: 1px solid lightgreen;
     border-radius: 3px;
-    background: lightyellow;
+    background: transparent;
     text-decoration: none !important;
-
-    &:hover {
-        color: white;
-        background: transparent;
-      }
+    cursor: ${props => props.isLoading ? "not-allowed !important" : "pointer !important"}
 `
 
 
@@ -92,7 +89,11 @@ type State = {
     /**
      * The recording duration string to be displayed on the UI.
      */
-    durationString: string
+    durationString: string,
+    /**
+     * Loader on start recording button
+     */
+    isLoading: Boolean
 }
 
 /**
@@ -119,7 +120,8 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            durationString: ''
+            durationString: '',
+            isLoading: false
         };
 
         this._onStart = this._onStart.bind(this)
@@ -329,8 +331,10 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
                             { t('localRecording.stop') }
                         </RecordButton>
                             : <RecordButton
-                                onClick = { this._onStart }>
+                                onClick = { this._onStart } isLoading={this.state.isLoading} >
                                 { t('localRecording.start') }
+                                &nbsp;
+                                {this.state.isLoading && <Spinner size="small" />} 
                             </RecordButton>
                         }
                     </div>
@@ -373,6 +377,7 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
      */
     _onStart() {
         const { _conference, _isRecordingRunning, _isLiveStreamRunning } = this.props;
+        this.setState({ isLoading: true })
         // do not run recording if live stream or full recording is turned on
         if (!_isRecordingRunning  && !_isLiveStreamRunning) {
             let appData = JSON.stringify({
@@ -400,7 +405,7 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
      */
     _onStop() {
         const { _fileRecordingSession, _conference } = this.props;
-
+        this.setState({ isLoading: false });
         if (_fileRecordingSession) {
             _conference.stopRecording(_fileRecordingSession.id);
         }
