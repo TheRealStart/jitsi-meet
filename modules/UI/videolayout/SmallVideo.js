@@ -715,7 +715,7 @@ export default class SmallVideo {
                 <I18nextProvider i18n = { i18next }>
                     <div>
                         <AtlasKitThemeProvider mode = 'dark'>
-                            { this._showConnectionIndicator
+                            {/*{ this._showConnectionIndicator
                                 ? <ConnectionIndicator
                                     alwaysVisible = { showConnectionIndicator }
                                     connectionStatus = { this._connectionStatus }
@@ -724,7 +724,7 @@ export default class SmallVideo {
                                     enableStatsDisplay = { !interfaceConfig.filmStripOnly }
                                     participantId = { this.id }
                                     statsPopoverPosition = { statsPopoverPosition } />
-                                : null }
+                                : null }*/}
                             <RaisedHandIndicator
                                 iconSize = { iconSize }
                                 participantId = { this.id }
