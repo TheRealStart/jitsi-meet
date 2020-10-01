@@ -103,8 +103,7 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}          
         host: ${{ secrets.FIESTA_MEET_US_EAST_1 }}
         args: -tt
         user: ubuntu
@@ -122,8 +121,6 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       if: always()
  
-
-    # after restart jitsi-videobridge2 should open an appropriate port (10000), so we will give it 10 seconds to start
     - name: Deploy fiesta-meet-web to us-west-1
       uses: fifsky/ssh-action@master
       with:
@@ -131,8 +128,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web    
           set -a &&. ./.env && set +a
@@ -161,8 +157,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           set -a &&. ./.env && set +a
@@ -191,8 +186,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           set -a &&. ./.env && set +a
@@ -221,8 +215,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           set -a &&. ./.env && set +a
@@ -252,8 +245,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           set -a &&. ./.env && set +a
@@ -282,8 +274,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           set -a &&. ./.env && set +a
@@ -312,8 +303,7 @@ jobs:
           docker stop ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           docker rm ${{ secrets.FIESTA_WEB_CONTAINER_NAME }}
           echo 'Restarting videobridge...'
-          sudo /etc/init.d/jitsi-videobridge2 restart
-          sleep 30
+          docker restart ${{ secrets.FIESTA_JVB_CONTAINER_NAME }}
           docker login ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/fiesta_jitsi_web
           set -a &&. ./.env && set +a
