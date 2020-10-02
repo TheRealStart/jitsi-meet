@@ -404,13 +404,14 @@ class LocalRecordingInfoDialog extends Component<Props, State> {
      * @returns {void}
      */
     _onStop() {
-        const { _fileRecordingSession, _conference } = this.props;
+        recordingController.stopRecording();
         this.setState({ isLoading: false });
+        APP.store.dispatch(setLocalRecordingButtonStatus(false))
+        
+        const { _fileRecordingSession, _conference } = this.props;
         if (_fileRecordingSession) {
             _conference.stopRecording(_fileRecordingSession.id);
         }
-        APP.store.dispatch(setLocalRecordingButtonStatus(false))
-        recordingController.stopRecording();
     }
 
 }
