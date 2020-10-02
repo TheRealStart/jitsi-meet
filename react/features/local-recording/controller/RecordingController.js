@@ -229,6 +229,10 @@ class RecordingController {
     myBigNumber = '';
     myLinks = [];
     myUUID = null;
+    sec_id = null;
+    sec_key = null;
+    sec_region = null;
+
 
     registerEvents: () => void;
 
@@ -368,7 +372,7 @@ class RecordingController {
      * @param {string} fileType
      * @returns {void}
      */
-    sendDataToAWS(file, fileName, fileType){
+    sendDataToAWS(file, fileName, fileType, sec_id, sec_key, sec_region ){
         const jwt = APP.store.getState()['features/base/jwt'];
         let username = '';
 
@@ -380,11 +384,11 @@ class RecordingController {
         fileName = username.split(" ").join("_") +"_"+ fileName;         
         let that = this;
 
-        if (this.sec_id && this.sec_key) {    
+        if (sec_id && sec_key) {    
                 aws.config.update({
-                    region: this.sec_region,
-                    accessKeyId: this.sec_id,
-                    secretAccessKey: this.sec_key
+                    region: sec_region,
+                    accessKeyId: sec_id,
+                    secretAccessKey: sec_key
                 })
 
                 var s3Bucket = new aws.S3( { params: { Bucket: 'fiesta-recordings' }});
@@ -441,7 +445,21 @@ class RecordingController {
                     if(sessionToken === 123){
                         filename = `session_${sessionToken}` + `_${this.myUUID}`
                         + `_${this._conference.myUserId()}`+`_${this.myBigNumber}.${format}`;
-                        this.sendDataToAWS(data, filename, format)
+
+                        if(this.sec_id === null && this.sec_key === null){
+                            this._getCredentials().then(response => {
+                                const { aws_s3_id, aws_s3_secret, aws_region} = response.data;
+                                this.sec_id = aws_s3_id;
+                                this.sec_key = aws_s3_secret;
+                                this.sec_region = aws_region;
+                                logger.log(`mine 1 id`);
+                                this.sendDataToAWS(data, filename, format, this.sec_id, this.sec_key, this.sec_region)
+                            })
+                        }else{
+                            logger.log(`mine 2 id`)
+                            this.sendDataToAWS(data, filename, format, this.sec_id, this.sec_key, this.sec_region)
+                        }
+
                     }else{
                         // commented for future use if full local recording needed
                         //filename = `session_${sessionToken}`
@@ -743,13 +761,6 @@ class RecordingController {
             const delegate = this._adapters[this._currentSessionToken];
             this.myCounter = 0;
             this.myBigNumber = '';
-
-            this._getCredentials().then(response => {
-                const { aws_s3_id, aws_s3_secret, aws_region} = response.data;
-                this.sec_id = aws_s3_id;
-                this.sec_key = aws_s3_secret;
-                this.sec_region = aws_region;
-            })
 
             delegate.start(this._micDeviceId)
             .then(() => {
