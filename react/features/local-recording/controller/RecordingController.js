@@ -805,13 +805,13 @@ class RecordingController {
             this.downloadRecordedData(123);
         })
 
-        APP.store.dispatch(
-            showNotification({
-                title: "Please wait!",
-                description: "Uploading your recordings . . .",
-                isDismissAllowed: false
-            })
-        )
+        //APP.store.dispatch(
+        //    showNotification({
+        //        title: "Please wait!",
+        //        description: "Uploading your recordings . . .",
+        //        isDismissAllowed: false
+        //    })
+        //)
 
          if (this._state === ControllerState.STOPPING) {
              const token = this._currentSessionToken;
