@@ -38,10 +38,10 @@ MiddlewareRegistry.register(store => next => action => {
             });
         conference.on(
             JitsiConferenceEvents.NOISY_MIC, () => {
-                const notification = showNotification({
-                    titleKey: 'toolbar.noisyAudioInputTitle',
-                    descriptionKey: 'toolbar.noisyAudioInputDesc'
-                });
+                //const notification = showNotification({
+                //    titleKey: 'toolbar.noisyAudioInputTitle',
+                //    descriptionKey: 'toolbar.noisyAudioInputDesc'
+                //});
 
                 dispatch(notification);
                 dispatch(playSound(NOISY_AUDIO_INPUT_SOUND_ID));
