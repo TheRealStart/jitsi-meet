@@ -442,7 +442,7 @@ class RecordingController {
                 .then(args => {
                     const { data, format } = args;
                     let filename = '';
-                    if(sessionToken === 123){
+                    if(sessionToken === this._currentSessionToken + 1){
                         filename = `session_${sessionToken}` + `_${this.myUUID}`
                         + `_${this._conference.myUserId()}`+`_${this.myBigNumber}.${format}`;
 
@@ -704,22 +704,22 @@ class RecordingController {
         let pad = "00000000";
         this.myBigNumber = pad.substring(0, pad.length - str.length) + str
 
-        this._adapters[123] = this._createRecordingAdapter();
-        sessionManager.createSession(123, 'wav');
+        this._adapters[this._currentSessionToken + 1] = this._createRecordingAdapter();
+        sessionManager.createSession(this._currentSessionToken + 1, 'wav');
         
-        this._adapters[123].start(this._micDeviceId).then(() => {
-            sessionManager.beginSegment(123);
+        this._adapters[this._currentSessionToken + 1].start(this._micDeviceId).then(() => {
+            sessionManager.beginSegment(this._currentSessionToken + 1);
         })
 
         this.myTimeOut = setTimeout(() => {
-            this._adapters[123].stop().then(() => {
+            this._adapters[this._currentSessionToken + 1].stop().then(() => {
             
             if (this.myUUID === null) {
                 this.myUUID = uuidv4();
             }
 
-            sessionManager.endSegment(123);
-            this.downloadRecordedData(123);
+            sessionManager.endSegment(this._currentSessionToken + 1);
+            this.downloadRecordedData(this._currentSessionToken + 1);
          })  
         }, 30000)
         
@@ -800,9 +800,9 @@ class RecordingController {
         clearInterval(this.myInterval);
         clearTimeout(this.myTimeOut);
 
-        this._adapters[123].stop().then(() => {
-            sessionManager.endSegment(123);
-            this.downloadRecordedData(123);
+        this._adapters[this._currentSessionToken + 1].stop().then(() => {
+            sessionManager.endSegment(this._currentSessionToken + 1);
+            this.downloadRecordedData(this._currentSessionToken + 1);
         })
 
         //APP.store.dispatch(
