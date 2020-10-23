@@ -147,11 +147,11 @@ function AddPeopleDialog({
             width = { 'small' }>
             <div className = 'invite-more-dialog'>
                 { _inviteContactsVisible && <InviteContactsSection /> }
-                <CopyMeetingLinkSection url = { _inviteUrl } />
+                {/*<CopyMeetingLinkSection url = { _inviteUrl } />
                 <InviteByEmailSection
                     inviteSubject = { inviteSubject }
-                    inviteText = { invite } />
-                {
+                    inviteText = { invite } />*/}
+                {/*{
                     _liveStreamViewURL
                         && <LiveStreamSection liveStreamViewURL = { _liveStreamViewURL } />
                 }
@@ -162,7 +162,7 @@ function AddPeopleDialog({
                             dialIn = { _dialIn }
                             locationUrl = { _locationUrl }
                             phoneNumber = { phoneNumber } />
-                }
+                }*/}
             </div>
         </Dialog>
     );
