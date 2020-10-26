@@ -206,10 +206,7 @@ class Conference extends AbstractConference<Props, *> {
                 { this.renderNotificationsContainer() }
 
                 <CalleeInfoContainer />
-<<<<<<< HEAD
-=======
                 { this.props._enableTranslation && <SelectLanguage  /> }
->>>>>>> 46a267057... Control translate buttons from config
 
                 <SelectLanguage  />
 
