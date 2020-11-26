@@ -27,6 +27,6 @@ export function doInvitePeople() {
             return dispatch(setActiveModalId(ADD_PEOPLE_DIALOG_VIEW_ID));
         }
 
-        return dispatch(beginShareRoom());
+        return null;
     };
 }
