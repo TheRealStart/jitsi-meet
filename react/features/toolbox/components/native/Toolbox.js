@@ -9,10 +9,10 @@ import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { ChatButton } from '../../../chat';
 import { isToolboxVisible } from '../../functions';
+import { TileViewButton } from '../../../video-layout';
 import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
-
 import OverflowMenuButton from './OverflowMenuButton';
 import styles from './styles';
 
@@ -113,6 +113,9 @@ class Toolbox extends PureComponent<Props> {
                 <HangupButton
                     styles = { hangupButtonStyles } />
                 <VideoMuteButton
+                    styles = { buttonStyles }
+                    toggledStyles = { toggledButtonStyles } />
+                <TileViewButton 
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
                 <OverflowMenuButton

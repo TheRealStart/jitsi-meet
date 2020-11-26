@@ -16,7 +16,6 @@ import { AudioRouteButton } from '../../../mobile/audio-mode';
 import { LiveStreamButton, RecordButton } from '../../../recording';
 import { RoomLockButton } from '../../../room-lock';
 import { ClosedCaptionButton } from '../../../subtitles';
-import { TileViewButton } from '../../../video-layout';
 import { VideoShareButton } from '../../../youtube-player/components';
 import HelpButton from '../HelpButton';
 import MuteEveryoneButton from '../MuteEveryoneButton';
@@ -137,11 +136,10 @@ class OverflowMenu extends PureComponent<Props, State> {
                 <MoreOptionsButton { ...moreOptionsButtonProps } />
                 <Collapsible collapsed = { !showMore }>
                     <ToggleCameraButton { ...buttonProps } />
-                    <TileViewButton { ...buttonProps } />
                     <RecordButton { ...buttonProps } />
                     <LiveStreamButton { ...buttonProps } />
-                    <VideoShareButton { ...buttonProps } />
-                    <RoomLockButton { ...buttonProps } />
+                    {/*<VideoShareButton { ...buttonProps } />
+                    <RoomLockButton { ...buttonProps } />*/}
                     <ClosedCaptionButton { ...buttonProps } />
                     <SharedDocumentButton { ...buttonProps } />
                     <MuteEveryoneButton { ...buttonProps } />
