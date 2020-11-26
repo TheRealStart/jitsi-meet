@@ -169,7 +169,7 @@ class AddPeopleDialog extends AbstractAddPeopleDialog<Props, State> {
 
         return (
             <JitsiModal
-                footerComponent = { this._renderShareMeetingButton }
+                //footerComponent = { this._renderShareMeetingButton }
                 headerProps = {{
                     forwardDisabled: this._isAddDisabled(),
                     forwardLabelKey: 'inviteDialog.send',
