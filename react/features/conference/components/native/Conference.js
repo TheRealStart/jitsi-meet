@@ -237,12 +237,12 @@ class Conference extends AbstractConference<Props, *> {
             _largeVideoParticipantId,
             _reducedUI,
             _shouldDisplayTileView,
-            _toolboxVisible
+            _toolboxVisible,
+            _jwt
         } = this.props;
         const showGradient = _toolboxVisible;
         const applyGradientStretching
             = _filmstripVisible && _aspectRatio === ASPECT_RATIO_NARROW && !_shouldDisplayTileView;
-
         if (_reducedUI) {
             return this._renderContentForReducedUi();
         }
@@ -300,9 +300,8 @@ class Conference extends AbstractConference<Props, *> {
                     { _shouldDisplayTileView || <Container style = { styles.displayNameContainer }>
                         <DisplayNameLabel participantId = { _largeVideoParticipantId } />
                     </Container> }
-
-                    <LonelyMeetingExperience />
-
+                    { _jwt && <LonelyMeetingExperience />}
+                    
                     {/*
                       * The Toolbox is in a stacking layer below the Filmstrip.
                       */}
@@ -423,6 +422,8 @@ function _mapStateToProps(state) {
         membersOnly,
         leaving
     } = state['features/base/conference'];
+    const { jwt} = state['features/base/jwt'];
+
     const { aspectRatio, reducedUI } = state['features/base/responsive-ui'];
 
     // XXX There is a window of time between the successful establishment of the
@@ -446,6 +447,7 @@ function _mapStateToProps(state) {
         _largeVideoParticipantId: state['features/large-video'].participantId,
         _pictureInPictureEnabled: getFeatureFlag(state, PIP_ENABLED),
         _reducedUI: reducedUI,
+        _jwt: jwt,
         _toolboxVisible: isToolboxVisible(state)
     };
 }
