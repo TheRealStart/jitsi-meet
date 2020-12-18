@@ -103,7 +103,7 @@ export default class PreMeetingScreen extends PureComponent<Props> {
                             <div className = 'title'>
                                 { title }
                             </div>
-                            <CopyMeetingUrl />
+                            {/*<CopyMeetingUrl />*/}
                         </>
                     )}
                     { this.props.children }
