@@ -366,7 +366,6 @@ export default class LargeVideoManager {
             this.resizedForChat = true;
         } else if (this.resizedForChat) {
             this.resizedForChat = false;
-            widthToUse += CHAT_SIZE;
         }
 
         this.width = widthToUse;
