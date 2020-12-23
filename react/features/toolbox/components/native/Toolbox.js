@@ -9,9 +9,11 @@ import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { ChatButton } from '../../../chat';
 import { isToolboxVisible } from '../../functions';
+import { TileViewButton } from '../../../video-layout';
 import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
+import { setTileView } from '../../../video-layout';
 
 import OverflowMenuButton from './OverflowMenuButton';
 import styles from './styles';
@@ -20,7 +22,6 @@ import styles from './styles';
  * The type of {@link Toolbox}'s React {@code Component} props.
  */
 type Props = {
-
     /**
      * The color-schemed stylesheet of the feature.
      */
@@ -41,6 +42,7 @@ type Props = {
  * Implements the conference toolbox on React Native.
  */
 class Toolbox extends PureComponent<Props> {
+    
     /**
      * Implements React's {@link Component#render()}.
      *
@@ -98,7 +100,7 @@ class Toolbox extends PureComponent<Props> {
     _renderToolbar() {
         const { _styles } = this.props;
         const { buttonStyles, buttonStylesBorderless, hangupButtonStyles, toggledButtonStyles } = _styles;
-
+        
         return (
             <View
                 accessibilityRole = 'toolbar'
@@ -113,6 +115,9 @@ class Toolbox extends PureComponent<Props> {
                 <HangupButton
                     styles = { hangupButtonStyles } />
                 <VideoMuteButton
+                    styles = { buttonStyles }
+                    toggledStyles = { toggledButtonStyles } />
+                <TileViewButton 
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
                 <OverflowMenuButton

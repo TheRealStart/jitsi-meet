@@ -78,9 +78,9 @@ export function shouldDisplayTileView(state: Object = {}) {
     // In case of a lonely meeting, we don't allow tile view.
     // But it's a special case too, as we don't even render the button,
     // see TileViewButton component.
-    if (participantCount < 2) {
-        return false;
-    }
+    //if (participantCount < 2) {
+    //    return false;
+    //}
 
     const { tileViewEnabled } = state['features/video-layout'];
 
