@@ -7,7 +7,7 @@ import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { getFeatureFlag, INVITE_ENABLED } from '../../../base/flags';
 import { translate } from '../../../base/i18n';
 import { Icon, IconAddPeople } from '../../../base/icons';
-import { getParticipantCount } from '../../../base/participants';
+import { getParticipantCount, getLocalParticipant, PARTICIPANT_ROLE } from '../../../base/participants';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { doInvitePeople } from '../../../invite/actions.native';
@@ -66,9 +66,11 @@ class LonelyMeetingExperience extends PureComponent<Props> {
      * @inheritdoc
      */
     render() {
-        const { _isInviteFunctionsDiabled, _isLonelyMeeting, _styles, t } = this.props;
+        const { _isInviteFunctionsDiabled, _isLonelyMeeting, _styles, t, _isModerator } = this.props;
 
         if (!_isLonelyMeeting) {
+            return null;
+        }else if( !_isModerator ) {
             return null;
         }
 
@@ -126,11 +128,13 @@ class LonelyMeetingExperience extends PureComponent<Props> {
  */
 function _mapStateToProps(state): $Shape<Props> {
     const { disableInviteFunctions } = state['features/base/config'];
+    const participant = getLocalParticipant(state);
     const { conference } = state['features/base/conference'];
     const flag = getFeatureFlag(state, INVITE_ENABLED, true);
 
     return {
         _isInviteFunctionsDiabled: !flag || disableInviteFunctions,
+        _isModerator: Boolean(participant?.role === PARTICIPANT_ROLE.MODERATOR),
         _isLonelyMeeting: conference && getParticipantCount(state) === 1,
         _styles: ColorSchemeRegistry.get(state, 'Conference')
     };

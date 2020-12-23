@@ -4,9 +4,11 @@ import _ from 'lodash';
 import React from 'react';
 import {
     ActivityIndicator,
+    Button,
     FlatList,
     Platform,
     SafeAreaView,
+    Text,
     TextInput,
     TouchableOpacity,
     View
@@ -169,10 +171,10 @@ class AddPeopleDialog extends AbstractAddPeopleDialog<Props, State> {
 
         return (
             <JitsiModal
-                footerComponent = { this._renderShareMeetingButton }
+                //footerComponent = { this._renderShareMeetingButton} 
                 headerProps = {{
                     forwardDisabled: this._isAddDisabled(),
-                    forwardLabelKey: 'inviteDialog.send',
+                    //forwardLabelKey: 'inviteDialog.send',
                     headerLabelKey: 'inviteDialog.header',
                     onPressForward: this._onInvite
                 }}
@@ -201,6 +203,10 @@ class AddPeopleDialog extends AbstractAddPeopleDialog<Props, State> {
                         style = { styles.searchField }
                         value = { this.state.fieldValue } />
                     { this._renderClearButton() }
+                   
+                </View>
+                <View style={ styles.buttonWrapper }> 
+                    <Button disabled = { this._isAddDisabled() } style={ styles.customButtonStyle } title={this.props.t(`inviteDialog.send`)} ></Button>
                 </View>
                 { Boolean(inviteItems.length) && <View style = { styles.invitedList }>
                     <FlatList
@@ -569,7 +575,8 @@ class AddPeopleDialog extends AbstractAddPeopleDialog<Props, State> {
                     this.state.bottomPadding ? styles.extraBarPadding : null
                 ] }>
                 <TouchableOpacity
-                    onPress = { this._onShareMeeting }>
+                    onPress = { this._onInvite }>
+                    <Text> Send </Text>
                     <Icon
                         src = { IconShare }
                         style = { [ _headerStyles.headerButtonText, styles.shareIcon ] } />
