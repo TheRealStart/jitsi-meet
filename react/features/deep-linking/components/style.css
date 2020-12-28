@@ -1,0 +1,18 @@
+.white-background {
+    background-color: white !important;
+}
+.deep-btn{
+    background-color:#1EBABB;
+    border-color:#1EBABB;
+    padding: 7px 13px !important;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 8px;
+    line-height: 25px;
+    font-size: 16px !important;
+}
+
+.custom-text {
+    color:#9199B1;
+    font-size: 16px;
+}
