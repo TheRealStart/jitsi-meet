@@ -6,7 +6,7 @@ import {
     sendAnalytics
 } from '../analytics';
 import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../base/app';
-import { CONFERENCE_WILL_JOIN, getCurrentConference } from '../base/conference';
+import { CONFERENCE_WILL_JOIN, CONFERENCE_JOINED, getCurrentConference } from '../base/conference';
 import JitsiMeetJS, {
     JitsiConferenceEvents,
     JitsiRecordingConstants
@@ -44,6 +44,7 @@ import {
     RECORDING_OFF_SOUND_FILE,
     RECORDING_ON_SOUND_FILE
 } from './sounds';
+import { setTileView } from '../video-layout';
 
 declare var interfaceConfig: Object;
 
@@ -125,6 +126,12 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             });
 
         break;
+    }
+
+    case CONFERENCE_JOINED: {
+        const { jwt } = getState()['features/base/jwt'];
+        
+        if(!jwt) APP.store.dispatch(setTileView(false));
     }
 
     case RECORDING_SESSION_UPDATED: {
