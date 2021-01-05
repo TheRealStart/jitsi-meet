@@ -21,7 +21,7 @@ const DEFAULT_STATE = {
      * @public
      * @type {string}
      */
-    backgroundColor: '',
+    backgroundColor: '#1F2931',
 
     /**
      * The custom background image used on the LargeVideo.
