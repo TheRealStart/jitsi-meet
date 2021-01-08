@@ -136,7 +136,7 @@ class Chat extends AbstractChat<Props> {
                 <div
                     className = 'chat-close'
                     onClick = { this.props._onToggleChat }>
-                    <Icon src = { IconClose } />
+                    <Icon className="chat-close-icon" src = { IconClose } />
                 </div>
             </div>
         );
