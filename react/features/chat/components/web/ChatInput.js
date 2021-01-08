@@ -79,6 +79,7 @@ class ChatInput extends Component<Props, State> {
 
         // Bind event handlers so they are only bound once for every instance.
         this._onDetectSubmit = this._onDetectSubmit.bind(this);
+        this._handleEnterBtnOfChat = this._handleEnterBtnOfChat.bind(this);
         this._onMessageChange = this._onMessageChange.bind(this);
         this._onSmileySelect = this._onSmileySelect.bind(this);
         this._onToggleSmileysPanel = this._onToggleSmileysPanel.bind(this);
@@ -109,7 +110,7 @@ class ChatInput extends Component<Props, State> {
             ? 'show-smileys' : 'hide-smileys'} smileys-panel`;
 
         return (
-            <div id = 'chat-input' >
+            <div id = 'chat-input' className={ this.state.message ? 'chat-input-is-active' : '' }  >
                 <div className = 'smiley-input'>
                     <div id = 'smileysarea'>
                         <div id = 'smileys'>
@@ -133,6 +134,9 @@ class ChatInput extends Component<Props, State> {
                         onKeyDown = { this._onDetectSubmit }
                         placeholder = { this.props.t('chat.messagebox') }
                         value = { this.state.message } />
+                </div>
+                <div id="enterButtonContainer" >
+                    <button onClick = { this._handleEnterBtnOfChat } id="enterButton" >Enter</button>
                 </div>
             </div>
         );
@@ -170,6 +174,23 @@ class ChatInput extends Component<Props, State> {
 
                 this.setState({ message: '' });
             }
+        }
+    }
+
+    /**
+     * Handle onClick event of enter button of chat
+     * window.
+     *
+     * @private
+     * @returns {void}
+     */
+    _handleEnterBtnOfChat(){
+        const trimmed = this.state.message.trim();
+
+        if (trimmed) {
+            this.props.onSend(trimmed);
+
+            this.setState({ message: '' });
         }
     }
 
