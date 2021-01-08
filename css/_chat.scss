@@ -30,6 +30,7 @@
     padding: 16px;
     text-align: left;
     width: $sidebarWidth;
+    background-color: #FFFFFF;
     word-wrap: break-word;
 
     a {
@@ -129,10 +130,18 @@
     border-top: 1px solid $chatInputSeparatorColor;
     display: flex;
     padding: 5px 10px;
-
+    background-color: #9199B1;
+    ::placeholder{
+        color: grey;
+    }
+    opacity: 1;
     * {
         background-color: transparent;
     }
+}
+
+.chat-input-is-active {
+    background-color: #1f2931 !important;
 }
 
 .remoteuser {
@@ -154,6 +163,7 @@
     resize: none;
     width: 100%;
     word-break: break-word;
+    opacity: 1;
 }
 
 #usermsg:hover {
@@ -190,13 +200,14 @@
     background-color: $chatRemoteMessageBackgroundColor;
     border-radius: 0px 6px 6px 6px;
     box-sizing: border-box;
-    color: white;
+    color: #1f2931 !important;
     margin-top: 3px;
     max-width: 100%;
     position: relative;
 
     &.localuser {
         background-color: $chatLocalMessageBackgroundColor;
+        color: white !important;
         border-radius: 6px 0px 6px 6px;
     }
 
@@ -303,6 +314,21 @@
     cursor: pointer;
 }
 
+#enterButtonContainer {
+    position: relative;
+    width: 50px;
+}
+
+#enterButton {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0%,-50%);
+    border: none;
+    color: #1ababb;
+    font-size: 15px;
+}
+
 #usermsg::-webkit-scrollbar-track-piece {
     background: #3a3a3a;
 }
@@ -316,6 +342,7 @@
 
         .chatmessage {
             background-color: $chatLocalMessageBackgroundColor;
+            color: white !important;
             border-radius: 6px 0px 6px 6px;
 
             &.privatemessage {
