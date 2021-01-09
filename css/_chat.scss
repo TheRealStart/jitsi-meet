@@ -130,7 +130,7 @@
     border-top: 1px solid $chatInputSeparatorColor;
     display: flex;
     padding: 5px 10px;
-    background-color: #9199B1;
+    background-color: #fff;
     ::placeholder{
         color: grey;
     }
@@ -141,7 +141,7 @@
 }
 
 .chat-input-is-active {
-    background-color: #1f2931 !important;
+    background-color: #EFF4F7 !important;
 }
 
 .remoteuser {
@@ -156,7 +156,7 @@
     border: 0px none;
     border-radius:0;
     box-shadow: none;
-    color: white;
+    color: black;
     font-size: 15px;
     padding: 10px;
     overflow-y: auto;
