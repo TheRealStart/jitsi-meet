@@ -23,7 +23,7 @@
  * TODO: when the old filmstrip has been removed, remove the "new-" prefix.
  */
 .new-toolbox {
-    bottom: calc((#{$newToolbarSize} * 2) * -1);
+    bottom: calc((#{$newToolbarSize + 10} * 2) * -1);
     left: 0;
     position: absolute;
     right: 0;
@@ -62,9 +62,10 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
+        
         margin-left: auto;
         margin-right: auto;
-        padding: 20px 16px;
+        padding: 5px 16px 30px 16px;
         position: relative;
         width: 100%;
         z-index: $toolbarZ;
@@ -74,6 +75,7 @@
         .button-group-right {
             display: flex;
             width: 33%;
+            align-items: center;
         }
 
         .button-group-center {
@@ -83,7 +85,7 @@
 
                 .toolbox-icon {
                     background-color: #fff;
-                    border-radius: 50%;
+                    border-radius: 37%;
                     border: 1px solid #d1dbe8;
                     margin: 0px 4px;
                     width: 38px;
@@ -95,15 +97,16 @@
                     }
         
                     &.toggled {
-                        background: #2a3a4b;
-                        border: 1px solid #5e6d7a;
+                        background: #1e2931;
+                        border: 1px solid #1e2931;
     
                         svg {
                             fill: #fff;
+                            width: 18px !important;
                         }
         
                         &:hover {
-                            background-color: #5e6d7a;
+                            background-color: #1e2931;
                         }
                     }
         
@@ -115,6 +118,7 @@
     
                     svg {
                         fill: #5e6d7a;
+                        width: 18px !important;
                     }
                 }
 
@@ -122,15 +126,16 @@
                     .toolbox-icon {
                         background-color: $hangupColor;
                         border: 1px solid $hangupColor;
-                        width: 40px;
-                        height: 40px;
-                
+                        width: 55px;
+                        height: 55px;
+                        border-radius: 50% !important;
                         &:hover {
                             background-color: $hangupColor;
                         }
 
                         svg {
                             fill: #fff;
+                            width: 25px !important;
                         }
                     }
                 }
@@ -252,13 +257,16 @@
 
         .toolbox-icon {
             display: flex;
-            border-radius: 5px;
+            border-radius: 37%;
+            background: #1e2931;
             flex-direction: column;
             font-size: 24px;
             height: $newToolbarSize;
             justify-content: center;
             width: $newToolbarSize;
-
+            svg {
+                width: 18px !important;
+            }
             &:hover, &.toggled {
                 background: $newToolbarButtonHoverColor;
             }
@@ -269,6 +277,7 @@
 
                 svg {
                     fill: #fff !important;
+
                 }
             }
         }

@@ -85,6 +85,8 @@ import MuteEveryoneButton from './MuteEveryoneButton';
 import OverflowMenuButton from './OverflowMenuButton';
 import OverflowMenuProfileItem from './OverflowMenuProfileItem';
 import ToolbarButton from './ToolbarButton';
+import { ToolboxButtonWithIcon } from '../../../base/toolbox/components';
+
 import VideoSettingsButton from './VideoSettingsButton';
 import TranslateButtonsDialog from '../../../conference/components/web/TranslateButtonsDialog';
 
