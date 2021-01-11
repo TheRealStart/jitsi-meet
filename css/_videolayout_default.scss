@@ -38,7 +38,7 @@
 
     &__background {
         @include topLeft();
-        background-color: black;
+        background-color: #1e2931;
         border-radius: $borderRadius;
         width: 100%;
         height: 100%;
@@ -502,8 +502,8 @@
 
 #dominantSpeakerAvatarContainer,
 .dynamic-shadow {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
 }
 
 #dominantSpeakerAvatar{
@@ -519,10 +519,10 @@
 }
 
 .dynamic-shadow {
-    border-radius: 50%;
+    border-radius: 37%;
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 55%;
     margin: -100px 0 0 -100px;
     transition: box-shadow 0.3s ease;
 }
