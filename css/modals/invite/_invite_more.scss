@@ -6,7 +6,7 @@
         width: 100%;
         text-align: center;
         z-index: $zindex2;
-        background-image: linear-gradient(to bottom,rgb(13, 19, 23),rgb(13, 19, 23, 0));
+        background-image: linear-gradient(to bottom rgba(13,19,23),rgba(13,19,23,0));
 
         &.elevated {
             z-index: $filmstripVideosZ + 1;

@@ -10,6 +10,7 @@ import { ToolboxButtonWithIcon } from '../../../base/toolbox/components';
 import { getMediaPermissionPromptVisibility } from '../../../overlay';
 import { AudioSettingsPopup, toggleAudioSettings } from '../../../settings';
 import { isAudioSettingsButtonDisabled } from '../../functions';
+import ToolbarButton from './ToolbarButton';
 import AudioMuteButton from '../AudioMuteButton';
 
 type Props = {
