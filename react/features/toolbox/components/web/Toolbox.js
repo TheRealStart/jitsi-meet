@@ -1356,8 +1356,7 @@ class Toolbox extends Component<Props, State> {
                         buttonsLeft.indexOf('closedcaptions') !== -1
                             && <ClosedCaptionButton />
                     }
-    {/* rorrooro */}
-                    { buttonsLeft.indexOf('chat') !== -1
+                    { this.props._enableTranslation
                         && <ToolbarButton
                                 icon = { Translate }
                                 onClick = { this._onOpenTanslateButton }
@@ -1474,6 +1473,7 @@ function _mapStateToProps(state) {
         _overflowMenuVisible: overflowMenuVisible,
         _raisedHand: localParticipant.raisedHand,
         _screensharing: localVideo && localVideo.videoType === 'desktop',
+        _enableTranslation : state['features/base/config'].enableTranslation,
         _sharingVideo: sharedVideoStatus === 'playing'
             || sharedVideoStatus === 'start'
             || sharedVideoStatus === 'pause',
