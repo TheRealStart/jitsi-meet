@@ -988,6 +988,7 @@ class Toolbox extends Component<Props, State> {
                 icon = { IconShareDesktop }
                 onClick = { this._onToolbarToggleScreenshare }
                 toggled = { _screensharing }
+                iconText = { t('dialog.shareScreen') }
                 tooltip = { tooltip } />
         );
     }
@@ -1338,6 +1339,7 @@ class Toolbox extends Component<Props, State> {
                                 icon = { IconChat }
                                 onClick = { this._onToolbarToggleChat }
                                 toggled = { _chatOpen }
+                                iconText = { t('chat.title') }
                                 tooltip = { t('toolbar.chat') } />
                             <ChatCounter />
                         </div> }
@@ -1349,6 +1351,7 @@ class Toolbox extends Component<Props, State> {
                             icon = { IconRaisedHand }
                             onClick = { this._onToolbarToggleRaiseHand }
                             toggled = { _raisedHand }
+                            iconText = { t('toolbar.raiseYourHandText') }
                             tooltip = { t('toolbar.raiseHand') } /> }
                     {
                         buttonsLeft.indexOf('closedcaptions') !== -1

@@ -102,7 +102,8 @@ export type Props = {
     /**
      * Whether this item is visible or not.
      */
-    visible: boolean
+    visible: boolean,
+    iconText: ?string
 };
 
 /**
@@ -124,7 +125,8 @@ export default class AbstractToolboxItem<P : Props> extends Component<P> {
         t: undefined,
         tooltip: '',
         tooltipPosition: 'top',
-        visible: true
+        visible: true,
+        iconText: null
     };
 
     /**
@@ -160,6 +162,17 @@ export default class AbstractToolboxItem<P : Props> extends Component<P> {
      */
     get tooltip(): ?string {
         return this._maybeTranslateAttribute(this.props.tooltip);
+    }
+
+    /**
+     * Helper property to get the icon text. If a translation function was
+     * provided then it will be translated using it.
+     *
+     * @protected
+     * @returns {?string}
+     */
+    get iconText(): ?string {
+        return this._maybeTranslateAttribute(this.props.iconText);
     }
 
     /**

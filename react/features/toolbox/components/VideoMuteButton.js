@@ -62,6 +62,7 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.videomute';
     label = 'toolbar.videomute';
     tooltip = 'toolbar.videomute';
+    iconText = 'welcomepage.audioVideoSwitch.video';
 
     /**
      * Initializes a new {@code VideoMuteButton} instance.
