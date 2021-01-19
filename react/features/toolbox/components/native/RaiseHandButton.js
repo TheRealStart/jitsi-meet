@@ -45,6 +45,7 @@ class RaiseHandButton extends AbstractButton<Props, *> {
     icon = IconRaisedHand;
     label = 'toolbar.raiseYourHand';
     toggledLabel = 'toolbar.lowerYourHand';
+    iconText = "toolbar.raiseYourHandText"
 
     /**
      * Handles clicking / pressing the button.

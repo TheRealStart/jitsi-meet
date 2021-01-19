@@ -84,22 +84,31 @@ class ToolbarButton extends AbstractToolbarButton<Props> {
      * @returns {ReactElement} The button of this {@code ToolbarButton}.
      */
     _renderButton(children) {
+        const { accessibilityLabel, 
+                toggled, 
+                onClick, 
+                tooltip, 
+                tooltipPosition, 
+                iconText  } = this.props
         return (
             <div
-                aria-label = { this.props.accessibilityLabel }
-                aria-pressed = { this.props.toggled }
+                aria-label = { accessibilityLabel }
+                aria-pressed = { toggled }
                 className = 'toolbox-button'
-                onClick = { this.props.onClick }
+                onClick = { onClick }
                 onKeyDown = { this._onKeyDown }
                 role = 'button'
                 tabIndex = { 0 }>
-                { this.props.tooltip
+                { tooltip
                     ? <Tooltip
-                        content = { this.props.tooltip }
-                        position = { this.props.tooltipPosition }>
+                        content = { tooltip }
+                        position = { tooltipPosition }>
                         { children }
                     </Tooltip>
                     : children }
+                <div className="iconDefContainer" >
+                    <span>{iconText ? iconText : tooltip }</span>
+                </div>
             </div>
         );
     }
