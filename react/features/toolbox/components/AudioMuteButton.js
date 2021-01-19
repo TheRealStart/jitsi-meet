@@ -46,6 +46,7 @@ class AudioMuteButton extends AbstractAudioMuteButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.mute';
     label = 'toolbar.mute';
     tooltip = 'toolbar.mute';
+    iconText = 'welcomepage.audioVideoSwitch.audio'
 
     /**
      * Initializes a new {@code AudioMuteButton} instance.

@@ -71,7 +71,8 @@ export default class AbstractButton<P: Props, S: *> extends Component<P, S> {
         styles: undefined,
         toggledStyles: undefined,
         tooltipPosition: 'top',
-        visible: true
+        visible: true,
+        iconText: undefined
     };
 
     /**
@@ -217,6 +218,10 @@ export default class AbstractButton<P: Props, S: *> extends Component<P, S> {
         return this.tooltip || '';
     }
 
+    _getIconText() {
+        return this.iconText ? this.iconText : this.tooltip
+    }
+
     /**
      * Helper function to be implemented by subclasses, which must return a
      * boolean value indicating if this button is disabled or not.
@@ -272,7 +277,8 @@ export default class AbstractButton<P: Props, S: *> extends Component<P, S> {
             label: this._getLabel(),
             styles: this._getStyles(),
             toggled: this._isToggled(),
-            tooltip: this._getTooltip()
+            tooltip: this._getTooltip(),
+            iconText: this._getIconText()
         };
 
         return (

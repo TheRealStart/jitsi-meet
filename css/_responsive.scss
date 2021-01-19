@@ -64,4 +64,21 @@
             display: none;
         }
     }
+
+    .new-toolbox {
+        .toolbox-content {
+            .button-group-center, .button-group-left, .button-group-right {
+                .toolbox-button {
+                    .toolbox-icon {
+                        width: 28px;
+                        height: 28px;
+                        svg {
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

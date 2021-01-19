@@ -91,11 +91,17 @@ export default class ToolboxItem extends AbstractToolboxItem<Props> {
 
         if (useTooltip) {
             children = (
-                <Tooltip
-                    content = { this.tooltip }
-                    position = { tooltipPosition }>
-                    { children }
-                </Tooltip>
+                <>
+                    <Tooltip
+                        content = { this.tooltip }
+                        position = { tooltipPosition }>
+                        { children }
+                    </Tooltip>             
+                    
+                    <div className="iconDefContainer" >
+                        <span>{this.iconText ? this.iconText: this.tooltip}</span>
+                    </div>
+                </>
             );
         }
 

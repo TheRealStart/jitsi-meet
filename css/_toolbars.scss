@@ -8,7 +8,7 @@
     color: $toolbarBadgeColor;
     // Do not inherit the font-family from the toolbar button, because it's an
     // icon style.
-    font-family: $baseFontFamily;
+    font-family: $jaftonBaseFont;
     font-size: 9px;
     font-weight: 700;
     line-height: 13px;
@@ -23,12 +23,16 @@
  * TODO: when the old filmstrip has been removed, remove the "new-" prefix.
  */
 .new-toolbox {
-    bottom: calc((#{$newToolbarSize + 10} * 2) * -1);
+    bottom: calc((#{$newToolbarSize + 35} * 2) * -1);
     left: 0;
     position: absolute;
     right: 0;
     transition: bottom .3s ease-in;
     width: 100%;
+
+    .iconDefContainer{
+        margin-top: 7px;
+    }
 
 
     &.visible {
@@ -65,7 +69,7 @@
         
         margin-left: auto;
         margin-right: auto;
-        padding: 5px 16px 30px 16px;
+        padding: 5px 16px 7px 16px;
         position: relative;
         width: 100%;
         z-index: $toolbarZ;
@@ -87,9 +91,9 @@
                     background-color: #fff;
                     border-radius: 37%;
                     border: 1px solid #d1dbe8;
-                    margin: 0px 4px;
-                    width: 38px;
-                    height: 38px;
+                    margin: 0px 5px;
+                    width: 45px;
+                    height: 45px;
         
                     &:hover {
                         background-color: #daebfa;
@@ -102,7 +106,7 @@
     
                         svg {
                             fill: #fff;
-                            width: 18px !important;
+                            width: 20px !important;
                         }
         
                         &:hover {
@@ -118,11 +122,14 @@
     
                     svg {
                         fill: #5e6d7a;
-                        width: 18px !important;
+                        width: 20px !important;
                     }
                 }
 
                 &:nth-child(2) {
+                    .iconDefContainer{
+                        padding-bottom: 10px;
+                    }
                     .toolbox-icon {
                         background-color: $hangupColor;
                         border: 1px solid $hangupColor;
@@ -261,11 +268,12 @@
             background: #1e2931;
             flex-direction: column;
             font-size: 24px;
+            margin: 0 auto;
             height: $newToolbarSize;
             justify-content: center;
             width: $newToolbarSize;
             svg {
-                width: 18px !important;
+                width: 20px !important;
             }
             &:hover, &.toggled {
                 background: $newToolbarButtonHoverColor;

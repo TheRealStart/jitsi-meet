@@ -1,4 +1,8 @@
 @import "themes/light";
+@font-face {
+    font-family: 'jaftonBaseFont';
+    src: url('../fonts/CIRCULARSTD-BOOK.TTF')  format('truetype')
+  }
 
 /**
  * Style variables
@@ -6,7 +10,7 @@
 $baseFontFamily: -apple-system, BlinkMacSystemFont, 'open_sanslight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $hangupColor: #FF0F0F;
 $hangupFontSize: 2em;
-
+$jaftonBaseFont: 'jaftonBaseFont', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 /**
  * Size variables.
  */
@@ -44,8 +48,8 @@ $AOTToolbarButtonHoverColor: rgba(14, 20, 35, 0.6);
 $AOTToolbarButtonToggleColor: rgba(14, 20, 35, 1);
 $newToolbarFontSize: 24px;
 $newToolbarHangupFontSize: 32px;
-$newToolbarSize: 40px;
-$newToolbarSizeWithPadding: calc(#{$newToolbarSize} + 24px);
+$newToolbarSize: 45px;
+$newToolbarSizeWithPadding: calc(#{$newToolbarSize + 50} + 24px);
 $toolbarTitleFontSize: 19px;
 $overflowMenuBG: initial;
 $overflowMenuItemHoverBG: #313D52;
