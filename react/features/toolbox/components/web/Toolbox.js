@@ -1247,13 +1247,13 @@ class Toolbox extends Component<Props, State> {
         let minSpaceBetweenButtons = 48;
         let widthPlusPaddingOfButton = 56;
 
-        if (this.state.windowWidth <= verySmallThreshold) {
-            minSpaceBetweenButtons = 26;
-            widthPlusPaddingOfButton = 28;
-        } else if (this.state.windowWidth <= smallThreshold) {
-            minSpaceBetweenButtons = 36;
-            widthPlusPaddingOfButton = 40;
-        }
+        //if (this.state.windowWidth <= verySmallThreshold) {
+        //    minSpaceBetweenButtons = 26;
+        //    widthPlusPaddingOfButton = 28;
+        //} else if (this.state.windowWidth <= smallThreshold) {
+        //    minSpaceBetweenButtons = 36;
+        //    widthPlusPaddingOfButton = 40;
+        //}
 
         const maxNumberOfButtonsPerGroup = Math.floor(
             (

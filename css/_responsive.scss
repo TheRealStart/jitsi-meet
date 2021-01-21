@@ -1,34 +1,3 @@
-@media only screen and (max-width: $smallScreen) {
-    .watermark {
-        width: 20%;
-        height: 20%;
-    }
-
-    .new-toolbox {
-        .toolbox-content {
-            .button-group-center, .button-group-left, .button-group-right {
-                .toolbox-button {
-                    .toolbox-icon {
-                        width: 28px;
-                        height: 28px;
-                        svg {
-                            width: 20px;
-                            height: 20px;
-                        }
-                    }
-
-                    &:nth-child(2) {
-                        .toolbox-icon {
-                            width: 30px;
-                            height: 30px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 @media only screen and (max-width: $verySmallScreen) {
     #videoResolutionLabel {
         display: none;
@@ -46,18 +15,22 @@
                 }
                 .toolbox-button {
                     .toolbox-icon {
-                        width: 18px;
-                        height: 18px;
+                        width: 38px;
+                        height: 38px;
                         svg {
-                            width: 12px;
-                            height: 12px;
+                            width: 20px;
+                            height: 20px;
                         }
                     }
 
                     &:nth-child(2) {
                         .toolbox-icon {
-                            width: 20px;
-                            height: 20px;
+                            width: 38px;
+                            height: 38px;
+                        }
+
+                        .iconDefContainer{
+                            padding-bottom: 0px;
                         }
                     }
                 }
