@@ -760,8 +760,12 @@
         "login": "Iniciar sessão",
         "logout": "Encerrar sessão",
         "lowerYourHand": "Baixar a mão",
+<<<<<<< HEAD
         "moreActions": "Mais ações",
         "moreOptions": "Mais opções",
+=======
+        "moreActions": "Ações",
+>>>>>>> aef484dbc (Conference made adaptive)
         "mute": "Mudo / Não mudo",
         "muteEveryone": "Silenciar todos",
         "noAudioSignalTitle": "Não há entrada de áudio vindo do seu microfone!",

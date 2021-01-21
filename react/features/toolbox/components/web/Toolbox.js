@@ -1251,6 +1251,7 @@ class Toolbox extends Component<Props, State> {
         let minSpaceBetweenButtons = 48;
         let widthPlusPaddingOfButton = 56;
 
+<<<<<<< HEAD
         if (this.state.windowWidth <= verySmallThreshold && !isMobileBrowser()) {
             minSpaceBetweenButtons = 26;
             widthPlusPaddingOfButton = 28;
@@ -1258,6 +1259,15 @@ class Toolbox extends Component<Props, State> {
             minSpaceBetweenButtons = 36;
             widthPlusPaddingOfButton = 40;
         }
+=======
+        //if (this.state.windowWidth <= verySmallThreshold) {
+        //    minSpaceBetweenButtons = 26;
+        //    widthPlusPaddingOfButton = 28;
+        //} else if (this.state.windowWidth <= smallThreshold) {
+        //    minSpaceBetweenButtons = 36;
+        //    widthPlusPaddingOfButton = 40;
+        //}
+>>>>>>> aef484dbc (Conference made adaptive)
 
         const maxNumberOfButtonsPerGroup = Math.floor(
             (
