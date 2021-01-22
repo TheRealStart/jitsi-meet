@@ -80,9 +80,10 @@ import { isToolboxVisible } from '../../functions';
 import DownloadButton from '../DownloadButton';
 import HangupButton from '../HangupButton';
 import HelpButton from '../HelpButton';
-import MuteEveryoneButton from '../MuteEveryoneButton';
 
 import AudioSettingsButton from './AudioSettingsButton';
+import MuteEveryoneButton from '../MuteEveryoneButton';
+import UnMuteEveryoneButton from "../UnMuteEveryoneButton";
 import OverflowMenuButton from './OverflowMenuButton';
 import OverflowMenuProfileItem from './OverflowMenuProfileItem';
 import ToolbarButton from './ToolbarButton';
@@ -1075,6 +1076,10 @@ class Toolbox extends Component<Props, State> {
                 key = 'mute-everyone'
                 showLabel = { true }
                 visible = { this._shouldShowButton('mute-everyone') } />,
+            <UnMuteEveryoneButton
+                key = 'unmute-everyone'
+                showLabel = { true }
+                visible = { true } />,
             this._shouldShowButton('stats')
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.speakerStats') }
@@ -1251,15 +1256,6 @@ class Toolbox extends Component<Props, State> {
         let minSpaceBetweenButtons = 48;
         let widthPlusPaddingOfButton = 56;
 
-<<<<<<< HEAD
-        if (this.state.windowWidth <= verySmallThreshold && !isMobileBrowser()) {
-            minSpaceBetweenButtons = 26;
-            widthPlusPaddingOfButton = 28;
-        } else if (this.state.windowWidth <= smallThreshold && !isMobileBrowser()) {
-            minSpaceBetweenButtons = 36;
-            widthPlusPaddingOfButton = 40;
-        }
-=======
         //if (this.state.windowWidth <= verySmallThreshold) {
         //    minSpaceBetweenButtons = 26;
         //    widthPlusPaddingOfButton = 28;
@@ -1267,7 +1263,6 @@ class Toolbox extends Component<Props, State> {
         //    minSpaceBetweenButtons = 36;
         //    widthPlusPaddingOfButton = 40;
         //}
->>>>>>> aef484dbc (Conference made adaptive)
 
         const maxNumberOfButtonsPerGroup = Math.floor(
             (

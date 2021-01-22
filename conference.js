@@ -83,6 +83,7 @@ import {
     participantConnectionStatusChanged,
     participantKicked,
     participantMutedUs,
+    participantUnMutedUs,
     participantPresenceChanged,
     participantRoleChanged,
     participantUpdated,
@@ -1953,7 +1954,11 @@ export default {
 
         room.on(JitsiConferenceEvents.TRACK_MUTE_CHANGED, (track, participantThatMutedUs) => {
             if (participantThatMutedUs) {
-                APP.store.dispatch(participantMutedUs(participantThatMutedUs));
+                if(track.isMuted()) {
+                    APP.store.dispatch(participantMutedUs(participantThatMutedUs));
+                } else {
+                    APP.store.dispatch(participantUnMutedUs(participantThatMutedUs));
+                }
             }
         });
 
