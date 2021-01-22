@@ -17,6 +17,7 @@ import {
     RemoteVideoMenu,
     VolumeSlider
 } from './';
+import ToggleMuteButton from "./ToggleMuteButton";
 
 declare var $: Object;
 declare var interfaceConfig: Object;
@@ -184,14 +185,9 @@ class RemoteVideoMenuTriggerButton extends Component<Props> {
         if (_isModerator) {
             if (!_disableRemoteMute) {
                 buttons.push(
-                    <MuteButton
+                    <ToggleMuteButton
                         isAudioMuted = { isAudioMuted }
-                        key = 'mute'
-                        participantID = { participantID } />
-                );
-                buttons.push(
-                    <MuteEveryoneElseButton
-                        key = 'mute-others'
+                        key = 'toggle-mute'
                         participantID = { participantID } />
                 );
             }
