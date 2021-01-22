@@ -5,7 +5,7 @@ import { MEDIA_TYPE } from '../../base/media';
 import {
     AbstractButton,
     type AbstractButtonProps
-} from '../../base/toolbox';
+} from '../../base/toolbox/components';
 import { isRemoteTrackMuted } from '../../base/tracks';
 
 import {muteRemote, unMuteRemote} from "../actions";
