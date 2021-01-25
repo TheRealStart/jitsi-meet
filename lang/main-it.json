@@ -740,9 +740,13 @@
         "closeChat": "Chiudi conversazione",
         "documentClose": "Chiudi documento condiviso",
         "documentOpen": "Apri documento condiviso",
+<<<<<<< HEAD
         "download": "Scarica le nostre app",
         "e2ee": "Crittografia punto-punto",
         "embedMeeting": "Incorpora riunione altrove",
+=======
+        "whiteboard": "",
+>>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "enterFullScreen": "Visualizza a schermo intero",
         "enterTileView": "Vedi tutti i partecipanti",
         "exitFullScreen": "Esci da schermo intero",
@@ -758,6 +762,7 @@
         "lowerYourHand": "Abbassa la mano",
         "moreActions": "Azioni",
         "moreOptions": "Più opzioni",
+<<<<<<< HEAD
         "mute": "Attiva / Disattiva microfono",
         "muteEveryone": "Zittisci tutti",
         "noAudioSignalTitle": "Non arrivano suoni dal tuo microfono!",
@@ -770,6 +775,12 @@
         "openChat": "Apri una conversazione",
         "pip": "Abilita visualizzazione immagine nell'immagine",
         "privateMessage": "invia un messaggio privato",
+=======
+        "mute": "Microfono Attiva / Disattiva",
+        "unMuteEveryone": "Unmute everyone",
+        "openChat": "Apri una chat",
+        "pip": "Abilita visualizzazione immagine nell’immagine",
+>>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "profile": "Modifica profilo",
         "raiseHand": "Alza / Abbassa la mano",
         "raiseYourHand": "Alza la mano",

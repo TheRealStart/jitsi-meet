@@ -761,6 +761,7 @@
         "closeChat": "Cerrar chat",
         "documentClose": "Cerrar documento compartido",
         "documentOpen": "Abrir documento compartido",
+        "whiteboard": "",
         "download": "Descarga nuestras aplicaciones",
         "embedMeeting": "Insertar reunión",
         "e2ee": "Cifrado de extremo a extremo",
@@ -781,10 +782,18 @@
         "moreOptions": "Más opciones",
         "mute": "Activar o silenciar el micrófono",
         "muteEveryone": "Silenciar a todos",
+<<<<<<< HEAD
         "noAudioSignalTitle": "¡No se registra audio de tu micrófono!",
         "noAudioSignalDesc": "Checa si no está silenciado en tu configuración del sistema o dispositivo, o cambia de micrófono.",
         "noAudioSignalDescSuggestion": "Si no lo silenciaste a propósito desde la configuración del sistema o el dispositivo, intenta usar este otro micrófono:",
         "noAudioSignalDialInDesc": "Además, puedes llamar usando:",
+=======
+        "unMuteEveryone": "Unmute everyone",
+        "noAudioSignalTitle": "¡No hay entrada proveniente de su micrófono!",
+        "noAudioSignalDesc": "Si no lo silenció a propósito desde la configuración del sistema o el dispositivo, considere cambiar el dispositivo.",
+        "noAudioSignalDescSuggestion": "Si no lo silenció a propósito desde la configuración del sistema o el dispositivo, considere usar el siguiente dispositivo:",
+        "noAudioSignalDialInDesc": "Usted puede además llamar usando:",
+>>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "noAudioSignalDialInLinkDesc": "Números de llamada",
         "noisyAudioInputTitle": "Tu micrófono parece estar ruidoso",
         "noisyAudioInputDesc": "Tu micrófono está haciendo ruido, siléncialo, ajusta su volumen en configuración del sistema, o cambia de micrófono.",

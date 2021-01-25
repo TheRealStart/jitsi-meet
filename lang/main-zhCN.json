@@ -740,6 +740,7 @@
         "closeChat": "关闭聊天",
         "documentClose": "关闭文档共享",
         "documentOpen": "开启文档共享",
+        "whiteboard": "",
         "download": "下载应用",
         "e2ee": "端到端加密",
         "embedMeeting": "嵌入会议",
@@ -759,6 +760,7 @@
         "moreActions": "更多操作",
         "moreOptions": "更多选项",
         "mute": "静音 / 解除静音",
+<<<<<<< HEAD
         "muteEveryone": "全员静音",
         "noAudioSignalTitle": "您的麦克风没有输入！",
         "noAudioSignalDesc": "如果您没有特意在系统设置或硬件静音，请考虑切换设备。",
@@ -767,6 +769,14 @@
         "noAudioSignalDialInLinkDesc": "拨入号码",
         "noisyAudioInputTitle": "您的麦克风似乎很吵！",
         "noisyAudioInputDesc": "听起来您的麦克风正在发出声音，请考虑静音或更改设备。",
+=======
+        "unMuteEveryone": "Unmute everyone",
+        "noAudioSignalTitle": "",
+        "noAudioSignalDesc": "",
+        "noAudioSignalDescSuggestion": "",
+        "noisyAudioInputTitle": "",
+        "noisyAudioInputDesc": "",
+>>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "openChat": "开启聊天",
         "pip": "进入子母画面模式",
         "privateMessage": "发送私信",
