@@ -98,9 +98,11 @@ export default class ToolboxItem extends AbstractToolboxItem<Props> {
                         { children }
                     </Tooltip>             
                     
-                    <div className="iconDefContainer" >
-                        <span>{this.iconText ? this.iconText: this.tooltip}</span>
-                    </div>
+                    { !showLabel 
+                        && <div className="iconDefContainer" >
+                            <span>{this.iconText ? this.iconText: this.tooltip}</span>
+                            </div>
+                    } 
                 </>
             );
         }

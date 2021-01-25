@@ -4,7 +4,8 @@ import type { Dispatch } from 'redux';
 
 import { createToolbarEvent, sendAnalytics } from '../../analytics';
 import { translate } from '../../base/i18n';
-import { IconShareDoc } from '../../base/icons';
+import { toggleScreensharing } from '../../base/tracks';
+import { IconWhiteboard } from '../../base/icons';
 import { connect } from '../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/components';
 import { toggleDocument } from '../actions';
@@ -28,9 +29,11 @@ type Props = AbstractButtonProps & {
  */
 class SharedDocumentButton extends AbstractButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.document';
-    icon = IconShareDoc;
+    icon = IconWhiteboard;
     label = 'toolbar.documentOpen';
     toggledLabel = 'toolbar.documentClose';
+    iconText = 'toolbar.whiteboard';
+    tooltip = 'toolbar.whiteboard';
 
     /**
      * Handles clicking / pressing the button, and opens / closes the appropriate dialog.
@@ -45,6 +48,11 @@ class SharedDocumentButton extends AbstractButton<Props, *> {
                 enable: !this.props._editing
             }));
         this.props.dispatch(toggleDocument());
+
+        if(!this.props._editing){
+            this.props.dispatch(toggleScreensharing());
+        }
+        
     }
 
     /**
