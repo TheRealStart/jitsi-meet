@@ -1056,10 +1056,6 @@ class Toolbox extends Component<Props, State> {
                     key = 'sharedvideo'
                     onClick = { this._onToolbarToggleSharedVideo }
                     text = { _sharingVideo ? t('toolbar.stopSharedVideo') : t('toolbar.sharedvideo') } />,
-            this._shouldShowButton('etherpad')
-                && <SharedDocumentButton
-                    key = 'etherpad'
-                    showLabel = { true } />,
             <VideoBlurButton
                 key = 'videobackgroundblur'
                 showLabel = { true }
@@ -1074,8 +1070,7 @@ class Toolbox extends Component<Props, State> {
                 visible = { this._shouldShowButton('mute-everyone') } />,
             <UnMuteEveryoneButton
                 key = 'unmute-everyone'
-                showLabel = { true }
-                visible = { true } />,
+                showLabel = { true }/>,
             this._shouldShowButton('stats')
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.speakerStats') }
@@ -1285,6 +1280,9 @@ class Toolbox extends Component<Props, State> {
         if (this._shouldShowButton('closedcaptions')) {
             buttonsLeft.push('closedcaptions');
         }
+        if (this._shouldShowButton('etherpad')) {
+            buttonsLeft.push('etherpad');
+        }
         if (overflowHasItems && showOverflowMenu) {
             buttonsRight.push('overflowmenu');
         }
@@ -1361,6 +1359,10 @@ class Toolbox extends Component<Props, State> {
                     {
                         buttonsLeft.indexOf('closedcaptions') !== -1
                             && <ClosedCaptionButton />
+                    }
+                    {
+                        buttonsLeft.indexOf('raisehand') !== -1 
+                            && <SharedDocumentButton />
                     }
                     { this.props._enableTranslation
                         && <ToolbarButton

@@ -585,6 +585,8 @@
         "closeChat": "",
         "documentClose": "",
         "documentOpen": "",
+        "whiteboard": "",
+        "unMuteEveryone": "",
         "enterFullScreen": "",
         "enterTileView": "",
         "exitFullScreen": "",

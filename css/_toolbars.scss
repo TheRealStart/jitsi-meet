@@ -127,15 +127,12 @@
                 }
 
                 &:nth-child(2) {
-                    .iconDefContainer{
-                        padding-bottom: 10px;
-                    }
                     .toolbox-icon {
                         background-color: $hangupColor;
                         border: 1px solid $hangupColor;
-                        width: 55px;
-                        height: 55px;
-                        border-radius: 50% !important;
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 37% !important;
                         &:hover {
                             background-color: $hangupColor;
                         }
@@ -275,8 +272,16 @@
             svg {
                 width: 20px !important;
             }
-            &:hover, &.toggled {
+            &:hover {
                 background: $newToolbarButtonHoverColor;
+            } 
+            
+            &.toggled {
+                background: white;
+
+                svg {
+                    fill: black;
+                }
             }
     
             &.disabled {
