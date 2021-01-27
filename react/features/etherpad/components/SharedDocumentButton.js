@@ -4,7 +4,7 @@ import type { Dispatch } from 'redux';
 
 import { createToolbarEvent, sendAnalytics } from '../../analytics';
 import { translate } from '../../base/i18n';
-import { toggleScreensharing } from '../../base/tracks';
+import { toggleScreensharing, getLocalVideoTrack } from '../../base/tracks';
 import { IconWhiteboard } from '../../base/icons';
 import { connect } from '../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/components';
@@ -48,11 +48,12 @@ class SharedDocumentButton extends AbstractButton<Props, *> {
                 enable: !this.props._editing
             }));
         this.props.dispatch(toggleDocument());
-
-        if(!this.props._editing){
+        
+        if((!this.props._screensharing && !this.props._editing)){
+            this.props.dispatch(toggleScreensharing());
+        }else if(this.props._screensharing) {
             this.props.dispatch(toggleScreensharing());
         }
-        
     }
 
     /**
@@ -78,9 +79,11 @@ class SharedDocumentButton extends AbstractButton<Props, *> {
 function _mapStateToProps(state: Object, ownProps: Object) {
     const { documentUrl, editing } = state['features/etherpad'];
     const { visible = Boolean(documentUrl) } = ownProps;
+    const localVideo = getLocalVideoTrack(state['features/base/tracks']);
 
     return {
         _editing: editing,
+        _screensharing: localVideo && localVideo.videoType === 'desktop',
         visible
     };
 }
