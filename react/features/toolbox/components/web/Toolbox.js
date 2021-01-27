@@ -1070,7 +1070,8 @@ class Toolbox extends Component<Props, State> {
                 visible = { this._shouldShowButton('mute-everyone') } />,
             <UnMuteEveryoneButton
                 key = 'unmute-everyone'
-                showLabel = { true }/>,
+                showLabel = { true }
+                visible = { this._shouldShowButton('mute-everyone') }/>,
             this._shouldShowButton('stats')
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.speakerStats') }
@@ -1286,9 +1287,6 @@ class Toolbox extends Component<Props, State> {
         if (overflowHasItems && showOverflowMenu) {
             buttonsRight.push('overflowmenu');
         }
-        if (this._shouldShowButton('invite')) {
-            buttonsRight.push('invite');
-        }
         if (this._shouldShowButton('security') || this._shouldShowButton('info')) {
             buttonsRight.push('security');
         }
@@ -1387,13 +1385,13 @@ class Toolbox extends Component<Props, State> {
                     }
                     { buttonsRight.indexOf('tileview') !== -1
                         && <TileViewButton /> }
-                    { buttonsRight.indexOf('invite') !== -1
+                    {/*{ buttonsRight.indexOf('invite') !== -1
                         && <ToolbarButton
                             accessibilityLabel =
                                 { t('toolbar.accessibilityLabel.invite') }
                             icon = { IconInviteMore }
                             onClick = { this._onToolbarOpenInvite }
-                            tooltip = { t('toolbar.invite') } /> }
+                            tooltip = { t('toolbar.invite') } /> }*/}
                     { buttonsRight.indexOf('security') !== -1
                         && <SecurityDialogButton customClass = 'security-toolbar-button' /> }
                     { buttonsRight.indexOf('overflowmenu') !== -1
