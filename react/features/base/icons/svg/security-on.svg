@@ -1,15 +1,1 @@
-<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M3.87597 3.00772L3 3.11722V4V13.6745C3 16.088 4.24334 18.3313 6.29001 19.6105L11.47 22.848L12 23.1792L12.53 22.848L17.71 19.6105C19.7567 18.3313 21 16.088 21 13.6745V4V3.11722L20.124 3.00772L12.124 2.00772L12 1.99222L11.876 2.00772L3.87597 3.00772Z" fill="url(#paint0_linear)" stroke="white" stroke-width="2"/>
-<path d="M20 4V13.6745C20 15.7433 18.9343 17.6661 17.18 18.7625L12 22V3L20 4Z" fill="url(#paint1_linear)"/>
-<path d="M9 11.4382L10.6848 13L15 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<defs>
-<linearGradient id="paint0_linear" x1="11.8143" y1="4.14215" x2="11.8143" y2="23" gradientUnits="userSpaceOnUse">
-<stop stop-color="#76CF9C"/>
-<stop offset="1" stop-color="#279255"/>
-</linearGradient>
-<linearGradient id="paint1_linear" x1="11.8143" y1="4.14215" x2="11.8143" y2="23" gradientUnits="userSpaceOnUse">
-<stop stop-color="#31B76A"/>
-<stop offset="1" stop-color="#18663A"/>
-</linearGradient>
-</defs>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g transform="translate(-1010 -599)"><rect width="32" height="32" transform="translate(1010 599)" fill="none"/><path d="M24.7,2.853,16.123.068a1.4,1.4,0,0,0-.865,0L6.681,2.853A6.675,6.675,0,0,0,2,9.177V16C2,26.084,14.595,31.653,15.134,31.885a1.4,1.4,0,0,0,1.112,0c.539-.232,13.134-5.8,13.134-15.885V9.177A6.675,6.675,0,0,0,24.7,2.853Zm-2.55,10.1-5.848,5.7a2.6,2.6,0,0,1-1.828.737h-.045a2.594,2.594,0,0,1-1.841-.8l-3.157-3.2a1.311,1.311,0,0,1-.391-1.324,1.354,1.354,0,0,1,1.021-.954,1.391,1.391,0,0,1,1.342.436l3.072,3.12,5.733-5.6a1.4,1.4,0,0,1,1.936,0,1.309,1.309,0,0,1,0,1.886Z" transform="translate(1010.31 599)"/></g></svg>

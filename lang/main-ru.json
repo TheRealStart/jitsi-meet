@@ -817,7 +817,7 @@
         "raiseHand": "Хочу говорить",
         "raiseYourHand": "Поднять руку",
         "raiseYourHandText": "Поднять руку",
-        "security": "Настройки безопасности",
+        "security": "Безопасность",
         "shareRoom": "Отправить приглашение",
         "sharedvideo": "Видео YouTube",
         "shortcuts": "Комбинации клавиш",
@@ -830,8 +830,8 @@
         "stopSubtitles": "Отключить субтитры",
         "stopvideoblur": "Отключить размытие фона",
         "talkWhileMutedPopup": "Пытаетесь говорить? У вас отключен звук.",
-        "tileViewToggle": "Вкл/выкл плитку",
-        "toggleCamera": "Переключить камеру",
+        "tileViewToggle": "Сменить вид",
+        "toggleCamera": "Вкл/выкл камеру",
         "videomute": "Камера"
     },
     "transcribing": {

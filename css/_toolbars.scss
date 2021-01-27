@@ -31,7 +31,7 @@
     width: 100%;
 
     .iconDefContainer{
-        margin-top: 7px;
+        margin-top: -5px;
     }
 
 
@@ -98,6 +98,9 @@
                     &:hover {
                         background-color: #daebfa;
                         border: 1px solid #daebfa;
+                        svg {
+                            fill: black;
+                        }
                     }
         
                     &.toggled {
@@ -110,7 +113,10 @@
                         }
         
                         &:hover {
-                            background-color: #1e2931;
+                            background-color: white;
+                            svg {
+                                fill: black;
+                            }
                         }
                     }
         
@@ -237,7 +243,7 @@
             cursor: pointer;
             display: inline-block;
             line-height: $newToolbarSize;
-            margin: 0 8px;
+            margin: 0 5px;
             text-align: center;
         }
 
@@ -272,17 +278,13 @@
             svg {
                 width: 20px !important;
             }
-            &:hover {
-                background: $newToolbarButtonHoverColor;
-            } 
-            
-            &.toggled {
+            &:hover, &.toggled {
                 background: white;
 
                 svg {
                     fill: black;
-                }
-            }
+                };
+            } 
     
             &.disabled {
                 cursor: initial !important;

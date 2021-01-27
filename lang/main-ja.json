@@ -740,13 +740,9 @@
         "closeChat": "チャットを閉じる",
         "documentClose": "共有ドキュメントを閉じる",
         "documentOpen": "共有ドキュメントを開く",
-<<<<<<< HEAD
         "download": "アプリのダウンロード",
         "e2ee": "エンドツーエンドの暗号化",
         "embedMeeting": "ミーティングの埋め込み",
-=======
-        "whiteboard": "",
->>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "enterFullScreen": "フルスクリーン表示",
         "enterTileView": "タイルビューを開始",
         "exitFullScreen": "フルスクリーンを終了",
@@ -760,7 +756,6 @@
         "login": "ログイン",
         "logout": "ログアウト",
         "lowerYourHand": "手を下げる",
-<<<<<<< HEAD
         "moreActions": "詳細アクション",
         "moreOptions": "詳細オプション",
         "mute": "ミュート/ミュート解除",
@@ -772,11 +767,6 @@
         "noAudioSignalDialInLinkDesc": "ダイアルイン番号",
         "noisyAudioInputTitle": "マイクの音がうるさいようです!",
         "noisyAudioInputDesc": "マイクがノイズを発しているようですので、ミュートするかデバイスの変更を検討してください。",
-=======
-        "moreActions": "その他のアクション",
-        "mute": "ミュート / ミュート解除",
-        "unMuteEveryone": "Unmute everyone",
->>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "openChat": "チャットを開く",
         "pip": "ピクチャーインピクチャーモードに入る",
         "privateMessage": "プライベートメッセージの送信",

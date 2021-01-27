@@ -760,19 +760,11 @@
         "closeChat": "Cerrar chat",
         "documentClose": "Cerrar documento compartido",
         "documentOpen": "Abrir documento compartido",
-<<<<<<< HEAD
         "embedMeeting": "Insertar reunión",
         "download": "Descarga nuestras aplicaciones",
         "e2ee": "Cifrado de extremo a extremo",
         "enterFullScreen": "Pantalla completa",
         "enterTileView": "Ver en cuadrícula",
-=======
-        "whiteboard": "",
-        "download": "Descargar nuestras aplicaciones",
-        "e2ee": "Cifrado Extremo-a-Extremo",
-        "enterFullScreen": "Ver pantalla completa",
-        "enterTileView": "Introducir vista de mosaico",
->>>>>>> d5a5aa40c (Screenshare when whiteboard is open)
         "exitFullScreen": "Salir de pantalla completa",
         "exitTileView": "Salir de vista de mosaico",
         "feedback": "Dejar sugerencias",

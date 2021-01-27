@@ -41,6 +41,9 @@
         }
 
         .toolbar-icon {
+            svg {
+                width: 11px;
+            }
             pointer-events: all;
         }
     }
