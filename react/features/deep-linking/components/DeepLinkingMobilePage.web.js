@@ -71,6 +71,7 @@ class DeepLinkingMobilePage extends Component<Props> {
         this._onDownloadApp = this._onDownloadApp.bind(this);
         this._onLaunchWeb = this._onLaunchWeb.bind(this);
         this._onOpenApp = this._onOpenApp.bind(this);
+        this._renderLaunchWebButton = this._renderLaunchWebButton.bind(this)
     }
 
     /**
@@ -162,16 +163,7 @@ class DeepLinkingMobilePage extends Component<Props> {
                                 </button>
                             </a>
                     } 
-                    {
-                        isSupportedMobileBrowser()
-                            && <a
-                                onClick = { this._onLaunchWeb }
-                                target = '_top'>
-                                <button className = { downloadButtonClassName }>
-                                    { t(`${_TNS}.launchWebButton`) }
-                                </button>
-                            </a>
-                    }
+                    { this._renderLaunchWebButton(downloadButtonClassName, t) }
                     { renderPromotionalFooter() }
                     <DialInSummary
                         className = 'deep-linking-dial-in'
@@ -180,6 +172,30 @@ class DeepLinkingMobilePage extends Component<Props> {
                 </div>
             </div>
         );
+    }
+
+    _renderLaunchWebButton(downloadButtonClassName, t){
+        let whichPlatform = Platform.OS.toUpperCase();
+        let isSupported = isSupportedMobileBrowser();
+        
+        if(!isSupported){
+            return (
+                <a  onClick = { this._onLaunchWeb }
+                    target = '_top'>
+                    <button className = { downloadButtonClassName }>
+                        { t(`${_TNS}.launchWebButton`) }
+                    </button>
+                </a>
+            )
+        }else {
+            return (
+                <div className="not-supported">
+                    <span> 
+                        We only support {whichPlatform === "IOS" ? "Safari" : "Chrome and Firefox"} on this device 
+                    </span>
+                </div>
+            )
+        }
     }
 
     /**

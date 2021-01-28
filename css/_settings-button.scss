@@ -1,17 +1,17 @@
 .settings-button {
     &-container {
         position: relative;
-
+        text-align: center;
         .toolbox-icon {
             align-items: center;
             cursor: pointer;
             display: flex;
             background-color: #fff;
-            border-radius: 50%;
+            border-radius: 37%;
             border: 1px solid #d1dbe8;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
 
             &:hover {
                 background-color: #daebfa;
@@ -19,8 +19,8 @@
             }
 
             &.toggled {
-                background: #2a3a4b;
-                border: 1px solid #5e6d7a;
+                background: #1e2931;
+                border: 1px solid #1e2931;
 
                 svg {
                     fill: #fff;
@@ -42,6 +42,7 @@
             }
 
             svg {
+                width: 20px;
                 fill: #5e6d7a;
             }
         }
@@ -57,8 +58,8 @@
         height: 16px;
         position: absolute;
         text-align: center;
-        top: 30%;
-        left: 60%;
+        top: 37%;
+        left: 65%;
         width: 16px;
 
         &> svg {
