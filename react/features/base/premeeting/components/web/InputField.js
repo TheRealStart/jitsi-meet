@@ -42,6 +42,12 @@ type Props = {
     type: string,
 
     /**
+     * Disabled whether input fieald is disabled or not
+     */
+
+    disabled: Boolean,
+
+    /**
      * Externally provided value.
      */
     value?: string
@@ -115,6 +121,7 @@ export default class InputField extends PureComponent<Props, State> {
         return (
             <input
                 autoFocus = { this.props.autoFocus }
+                disabled = { this.props.disabled }
                 className = { `field ${this.state.focused ? 'focused' : ''} ${this.props.className || ''}` }
                 data-testid = { this.props.testId ? this.props.testId : undefined }
                 onBlur = { this._onBlur }

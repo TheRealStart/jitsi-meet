@@ -12,6 +12,18 @@
     font-size: 16px !important;
 }
 
+.not-supported{
+    background-color:#9c6262;
+    border-color:#1EBABB;
+    padding: 7px 13px !important;
+    min-height: 50px;
+    border-radius: 8px;
+    line-height: 45px;
+    color: white;
+    margin: 18px auto 10px;
+    font-size: 16px !important;
+}
+
 .custom-text {
     color:#9199B1;
     font-size: 16px;
