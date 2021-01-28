@@ -319,6 +319,7 @@ class Prejoin extends Component<Props, State> {
                                 className = { showError ? 'error' : '' }
                                 hasError = { showError }
                                 onChange = { _setName }
+                                disabled = { name ? true : false }
                                 onSubmit = { joinConference }
                                 placeHolder = { t('dialog.enterDisplayName') }
                                 value = { name } />
