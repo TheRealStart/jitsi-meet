@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32.11" height="32" viewBox="0 0 32.11 32">
-  <g id="Group_163" data-name="Group 163" transform="translate(-570 -1579)">
+  <g id="mute-everyone" transform="translate(-570 -1579)">
     <g id="Group_156" data-name="Group 156">
       <g id="Group_83" data-name="Group 83">
         <g id="Group_82" data-name="Group 82">
-          <rect id="Rectangle_83" data-name="Rectangle 83" width="32" height="32" transform="translate(570 1579)" fill="#fff"/>
+          <rect id="Rectangle_83" data-name="Rectangle 83" width="32" height="32" transform="translate(570 1579)" fill="none"/>
         </g>
       </g>
       <path id="Union_79" data-name="Union 79" d="M635.443,1272a.557.557,0,1,1,0-1.113h1.264V1268.4a6.793,6.793,0,0,1-1.451-.281l.936-.911a5.759,5.759,0,0,0,1.087.1,5.484,5.484,0,0,0,5.548-5.406.571.571,0,0,1,1.142,0,6.4,6.4,0,0,1-1.776,4.419,6.733,6.733,0,0,1-4.342,2.075v2.489h1.264a.557.557,0,1,1,0,1.113Zm-6.554-1.314a.874.874,0,0,1,0-1.259l3.338-3.253a6.414,6.414,0,0,1-1.639-4.27.571.571,0,0,1,1.143,0,5.29,5.29,0,0,0,1.3,3.483l1.8-1.757a2.89,2.89,0,0,1-.579-1.726v-5.963a3.02,3.02,0,0,1,6.037,0v2.37l4.1-4a.931.931,0,0,1,1.293,0,.876.876,0,0,1,0,1.259l-15.512,15.113a.93.93,0,0,1-1.292,0Z" transform="translate(-57.849 339)"/>
