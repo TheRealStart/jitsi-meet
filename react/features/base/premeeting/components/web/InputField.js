@@ -85,6 +85,7 @@ export default class InputField extends PureComponent<Props, State> {
 
         this.state = {
             focused: false,
+            hasName: props.value ? true : false,
             value: props.value || ''
         };
 
@@ -121,7 +122,7 @@ export default class InputField extends PureComponent<Props, State> {
         return (
             <input
                 autoFocus = { this.props.autoFocus }
-                disabled = { this.props.disabled }
+                disabled = { this.state.hasName }
                 className = { `field ${this.state.focused ? 'focused' : ''} ${this.props.className || ''}` }
                 data-testid = { this.props.testId ? this.props.testId : undefined }
                 onBlur = { this._onBlur }

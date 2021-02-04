@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32.11" height="32" viewBox="0 0 32.11 32">
-  <g id="Group_164" data-name="Group 164" transform="translate(-570 -1649)">
+  <g id="mute-everyone-else" transform="translate(-570 -1649)">
     <g id="Group_157" data-name="Group 157" transform="translate(0 70)">
       <g id="Group_83" data-name="Group 83">
         <g id="Group_82" data-name="Group 82">
-          <rect id="Rectangle_83" data-name="Rectangle 83" width="32" height="32" transform="translate(570 1579)" fill="#fff"/>
+          <rect id="Rectangle_83" data-name="Rectangle 83" width="32" height="32" transform="translate(570 1579)" fill="none"/>
         </g>
       </g>
       <path id="Union_79" data-name="Union 79" d="M635.442,1272a.557.557,0,1,1,0-1.113h1.264V1268.4a6.6,6.6,0,0,1-6.119-6.495.571.571,0,0,1,1.143,0,5.549,5.549,0,0,0,11.095,0,.571.571,0,0,1,1.142,0,6.6,6.6,0,0,1-6.118,6.495v2.488h1.264a.557.557,0,1,1,0,1.113Zm-1.183-10.1v-5.962a3.02,3.02,0,0,1,6.037,0v5.962a3.02,3.02,0,0,1-6.037,0Z" transform="translate(-57.849 339)"/>
