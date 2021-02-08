@@ -4,7 +4,7 @@
     min-height: 131px;
     overflow: visible;
     visibility: visible;
-    width: 400px;
+    width: 50%;
 
     h1, h2, h3, h4, h5, h6 {
         color: $auiDialogColor;
@@ -39,7 +39,7 @@
                 &-main {
                     display: table-cell;
                     padding-right: 0;
-                    max-width: 400px;
+                    max-width: 600px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     vertical-align: middle;
@@ -94,6 +94,10 @@
     }
 
     .input-control {
+        border-radius: 10px;
+        height: 50px;
+        line-height: 50px;
+        margin: 20px 0;
         background-color: $auiDialogContentBg;
         color: $auiDialogColor;
     }
@@ -107,6 +111,30 @@
   .aui-dialog2-small .aui-dialog2-content {
     height: 100%;
   }
+}
+
+.aui-dialog2-small{
+    top: 10% !important;
+}
+
+.aui-dialog2-content{
+    padding: 40px 50px 10px 50px !important;
+}
+
+.dialog .aui-dialog2-footer {
+    border-radius: 0 0 27px 27px;
+    height: 60px;
+    padding: 10px 45px;
+}
+
+.dialog .aui-dialog2-content:first-child {
+    border-top-right-radius: 27px;
+    border-top-left-radius: 27px;
+}
+
+.dialog .aui-dialog2-content, .dialog .aui-dialog2-footer{
+    background-color: #1E2931;
+    border-color: #1E2931;
 }
 
 .modal-dialog-form {

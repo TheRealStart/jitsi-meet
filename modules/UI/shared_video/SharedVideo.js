@@ -101,21 +101,23 @@ export default class SharedVideoManager {
         }
 
         if (APP.conference.isLocalId(this.from)) {
-            showStopVideoPropmpt().then(
-                () => {
-                    // make sure we stop updates for playing before we send stop
-                    // if we stop it after receiving self presence, we can end
-                    // up sending stop playing, and on the other end it will not
-                    // stop
-                    if (this.intervalId) {
-                        clearInterval(this.intervalId);
-                        this.intervalId = null;
-                    }
-                    this.emitter.emit(
-                        UIEvents.UPDATE_SHARED_VIDEO, this.url, 'stop');
-                    sendAnalytics(createEvent('stopped'));
-                },
-                () => {}); // eslint-disable-line no-empty-function
+            //showStopVideoPropmpt().then(
+            //    () => {
+            //        // make sure we stop updates for playing before we send stop
+            //        // if we stop it after receiving self presence, we can end
+            //        // up sending stop playing, and on the other end it will not
+            //        // stop
+                   
+            //    },
+            //    () => {}); // eslint-disable-line no-empty-function
+
+            if (this.intervalId) {
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+            }
+            this.emitter.emit(
+                UIEvents.UPDATE_SHARED_VIDEO, this.url, 'stop');
+            sendAnalytics(createEvent('stopped'));
         } else {
             APP.UI.messageHandler.showWarning({
                 descriptionKey: 'dialog.alreadySharedVideoMsg',
@@ -730,8 +732,11 @@ function requestVideoLink() {
     return new Promise((resolve, reject) => {
         dialog = APP.UI.messageHandler.openDialogWithStates({
             state0: {
-                titleKey: 'dialog.shareVideoTitle',
+                //titleKey: 'dialog.shareVideoTitle',
                 html: `
+                   <div>
+                    <img src="../../../images/youtube.png" />
+                   </div>
                     <input name='sharedVideoUrl' type='text'
                            class='input-control'
                            data-i18n='[placeholder]defaultLink'

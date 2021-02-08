@@ -813,7 +813,8 @@
         "toggleCamera": "Activar o desactivar cámara",
         "videomute": "Iniciar o detener cámara",
         "startvideoblur": "Desenfocar mi fondo",
-        "stopvideoblur": "Desactivar desenfoque del fondo"
+        "stopvideoblur": "Desactivar el desenfoque de fondo",
+        "youtube": "YouTube"
     },
     "transcribing": {
         "ccButtonTooltip": "Iniciar o detener subtítulos",
