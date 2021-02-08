@@ -149,78 +149,83 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             break;
         }
 
-        const updatedSessionData
+        try {
+            const updatedSessionData
             = getSessionById(getState(), action.sessionData.id);
-        const { initiator, mode, terminator } = updatedSessionData;
-        const { PENDING, OFF, ON } = JitsiRecordingConstants.status;
+            const { initiator, mode, terminator } = updatedSessionData;
+            const { PENDING, OFF, ON } = JitsiRecordingConstants.status;
 
-        if (updatedSessionData.status === PENDING
-            && (!oldSessionData || oldSessionData.status !== PENDING)) {
-            dispatch(showPendingRecordingNotification(mode));
-        } else if (updatedSessionData.status !== PENDING) {
-            dispatch(hidePendingRecordingNotification(mode));
+            if (updatedSessionData.status === PENDING
+                && (!oldSessionData || oldSessionData.status !== PENDING)) {
+                dispatch(showPendingRecordingNotification(mode));
+            } else if (updatedSessionData.status !== PENDING) {
+                dispatch(hidePendingRecordingNotification(mode));
 
-            if (updatedSessionData.status === ON
-                && (!oldSessionData || oldSessionData.status !== ON)) {
-                if (initiator) {
-                    const initiatorName = initiator && getParticipantDisplayName(getState, initiator.getId());
+                if (updatedSessionData.status === ON
+                    && (!oldSessionData || oldSessionData.status !== ON)) {
+                    if (initiator) {
+                        const initiatorName = initiator && getParticipantDisplayName(getState, initiator.getId());
 
-                    initiatorName && dispatch(showStartedRecordingNotification(mode, initiatorName));
-                } else if (typeof recordingLimit === 'object') {
-                    // Show notification with additional information to the initiator.
-                    dispatch(showRecordingLimitNotification(mode));
-                }
+                        initiatorName && dispatch(showStartedRecordingNotification(mode, initiatorName));
+                    } else if (typeof recordingLimit === 'object') {
+                        // Show notification with additional information to the initiator.
+                        dispatch(showRecordingLimitNotification(mode));
+                    }
 
 
-                sendAnalytics(createRecordingEvent('start', mode));
+                    sendAnalytics(createRecordingEvent('start', mode));
 
-                if (disableRecordAudioNotification) {
-                    break;
-                }
+                    if (disableRecordAudioNotification) {
+                        break;
+                    }
 
-                let soundID;
+                    let soundID;
 
-                if (mode === JitsiRecordingConstants.mode.FILE) {
-                    soundID = RECORDING_ON_SOUND_ID;
-                } else if (mode === JitsiRecordingConstants.mode.STREAM) {
-                    soundID = LIVE_STREAMING_ON_SOUND_ID;
-                }
+                    if (mode === JitsiRecordingConstants.mode.FILE) {
+                        soundID = RECORDING_ON_SOUND_ID;
+                    } else if (mode === JitsiRecordingConstants.mode.STREAM) {
+                        soundID = LIVE_STREAMING_ON_SOUND_ID;
+                    }
 
-                if (soundID) {
-                    dispatch(playSound(soundID));
-                }
-            } else if (updatedSessionData.status === OFF
-                && (!oldSessionData || oldSessionData.status !== OFF)) {
-                dispatch(showStoppedRecordingNotification(
-                    mode, terminator && getParticipantDisplayName(getState, terminator.getId())));
-                let duration = 0, soundOff, soundOn;
+                    if (soundID) {
+                        dispatch(playSound(soundID));
+                    }
+                } else if (updatedSessionData.status === OFF
+                    && (!oldSessionData || oldSessionData.status !== OFF)) {
+                    dispatch(showStoppedRecordingNotification(
+                        mode, terminator && getParticipantDisplayName(getState, terminator.getId())));
+                    let duration = 0, soundOff, soundOn;
 
-                if (oldSessionData && oldSessionData.timestamp) {
-                    duration
-                        = (Date.now() / 1000) - oldSessionData.timestamp;
-                }
-                sendAnalytics(createRecordingEvent('stop', mode, duration));
+                    if (oldSessionData && oldSessionData.timestamp) {
+                        duration
+                            = (Date.now() / 1000) - oldSessionData.timestamp;
+                    }
+                    sendAnalytics(createRecordingEvent('stop', mode, duration));
 
-                if (disableRecordAudioNotification) {
-                    break;
-                }
+                    if (disableRecordAudioNotification) {
+                        break;
+                    }
 
-                if (mode === JitsiRecordingConstants.mode.FILE) {
-                    soundOff = RECORDING_OFF_SOUND_ID;
-                    soundOn = RECORDING_ON_SOUND_ID;
-                } else if (mode === JitsiRecordingConstants.mode.STREAM) {
-                    soundOff = LIVE_STREAMING_OFF_SOUND_ID;
-                    soundOn = LIVE_STREAMING_ON_SOUND_ID;
-                }
+                    if (mode === JitsiRecordingConstants.mode.FILE) {
+                        soundOff = RECORDING_OFF_SOUND_ID;
+                        soundOn = RECORDING_ON_SOUND_ID;
+                    } else if (mode === JitsiRecordingConstants.mode.STREAM) {
+                        soundOff = LIVE_STREAMING_OFF_SOUND_ID;
+                        soundOn = LIVE_STREAMING_ON_SOUND_ID;
+                    }
 
-                if (soundOff && soundOn) {
-                    dispatch(stopSound(soundOn));
-                    dispatch(playSound(soundOff));
+                    if (soundOff && soundOn) {
+                        dispatch(stopSound(soundOn));
+                        dispatch(playSound(soundOff));
+                    }
                 }
             }
-        }
 
-        break;
+            break;
+        } catch (error) {
+            console.log(error);
+        }
+        
     }
     }
 

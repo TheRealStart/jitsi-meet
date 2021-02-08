@@ -109,6 +109,8 @@ function handleSharingVideoStatus(store, videoId, { state, time, from }, confere
             name: YOUTUBE_PARTICIPANT_NAME
         }));
 
+        
+
         dispatch(pinParticipant(videoId));
     }
 
