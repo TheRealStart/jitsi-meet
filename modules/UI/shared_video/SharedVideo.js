@@ -185,7 +185,7 @@ export default class SharedVideoManager {
                     playerVars: {
                         'origin': location.origin,
                         'fs': '0',
-                        'autoplay': 0,
+                        'autoplay': 1,
                         'controls': showControls,
                         'rel': 0
                     },
@@ -278,7 +278,7 @@ export default class SharedVideoManager {
             // do not relay on autoplay as it is not sending all of the events
             // in onPlayerStateChange
 
-            player.playVideo();
+            // player.playVideo();
 
             const iframe = player.getIframe();
 
@@ -290,9 +290,9 @@ export default class SharedVideoManager {
 
             // prevents pausing participants not sharing the video
             // to pause the video
-            if (!APP.conference.isLocalId(self.from)) {
-                $('#sharedVideo').css('pointer-events', 'none');
-            }
+            // if (!APP.conference.isLocalId(self.from)) {
+            //     $('#sharedVideo').css('pointer-events', 'none');
+            // }
 
             VideoLayout.addLargeVideoContainer(
                 SHARED_VIDEO_CONTAINER_TYPE, self.sharedVideo);
@@ -309,68 +309,6 @@ export default class SharedVideoManager {
             }));
 
             APP.store.dispatch(pinParticipant(self.url));
-
-            var moviePlayer = iframe.contentWindow.document.getElementById('movie_player');
-
-            if (!moviePlayer.classList.contains('playing-mode')) {
-                function simulate(element, eventName)
-                {
-                    var options = extend(defaultOptions, arguments[2] || {});
-                    var oEvent, eventType = null;
-                    for (var name in eventMatchers)
-                    {
-                        if (eventMatchers[name].test(eventName)) { eventType = name; break; }
-                    }
-                    if (!eventType)
-                        throw new SyntaxError('Only HTMLEvents and MouseEvents interfaces are supported');
-                    if (document.createEvent)
-                    {
-                        oEvent = document.createEvent(eventType);
-                        if (eventType == 'HTMLEvents')
-                        {
-                            oEvent.initEvent(eventName, options.bubbles, options.cancelable);
-                        }
-                        else
-                        {
-                            oEvent.initMouseEvent(eventName, options.bubbles, options.cancelable, document.defaultView,
-                            options.button, options.pointerX, options.pointerY, options.pointerX, options.pointerY,
-                            options.ctrlKey, options.altKey, options.shiftKey, options.metaKey, options.button, element);
-                        }
-                        element.dispatchEvent(oEvent);
-                    }
-                    else
-                    {
-                        options.clientX = options.pointerX;
-                        options.clientY = options.pointerY;
-                        var evt = document.createEventObject();
-                        oEvent = extend(evt, options);
-                        element.fireEvent('on' + eventName, oEvent);
-                    }
-                    return element;
-                }
-                function extend(destination, source) {
-                    for (var property in source)
-                    destination[property] = source[property];
-                    return destination;
-                }
-                var eventMatchers = {
-                    'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
-                    'MouseEvents': /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/
-                }
-                var defaultOptions = {
-                    pointerX: 0,
-                    pointerY: 0,
-                    button: 0,
-                    ctrlKey: false,
-                    altKey: false,
-                    shiftKey: false,
-                    metaKey: false,
-                    bubbles: true,
-                    cancelable: true
-                }
-
-                simulate(moviePlayer, 'click');
-            }
 
             // If we are sending the command and we are starting the player
             // we need to continuously send the player current time position
@@ -569,7 +507,7 @@ export default class SharedVideoManager {
 
                 // revert to original behavior (prevents pausing
                 // for participants not sharing the video to pause it)
-                $('#sharedVideo').css('pointer-events', 'auto');
+                // $('#sharedVideo').css('pointer-events', 'auto');
 
                 this.emitter.emit(
                     UIEvents.UPDATE_SHARED_VIDEO, null, 'removed');
