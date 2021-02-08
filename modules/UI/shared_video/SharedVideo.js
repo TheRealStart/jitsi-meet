@@ -310,14 +310,6 @@ export default class SharedVideoManager {
 
             APP.store.dispatch(pinParticipant(self.url));
 
-            // If we are sending the command and we are starting the player
-            // we need to continuously send the player current time position
-            if (APP.conference.isLocalId(self.from)) {
-                self.intervalId = setInterval(
-                    self.fireSharedVideoEvent.bind(self),
-                    updateInterval);
-            }
-
             var moviePlayer = iframe.contentWindow.document.getElementById('movie_player');
 
             if (!moviePlayer.classList.contains('playing-mode')) {
@@ -378,6 +370,14 @@ export default class SharedVideoManager {
                 }
 
                 simulate(moviePlayer, 'click');
+            }
+
+            // If we are sending the command and we are starting the player
+            // we need to continuously send the player current time position
+            if (APP.conference.isLocalId(self.from)) {
+                self.intervalId = setInterval(
+                    self.fireSharedVideoEvent.bind(self),
+                    updateInterval);
             }
         };
 
