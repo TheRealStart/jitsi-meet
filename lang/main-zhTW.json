@@ -677,7 +677,8 @@
         "noAudioSignalDialInLinkDesc": "撥入號碼",
         "noAudioSignalDialInDesc": "您亦可使用下述方式撥入：",
         "muteEveryone": "靜音所有人",
-        "moreOptions": "更多選項"
+        "moreOptions": "更多選項",
+        "youtube": "YouTube"
     },
     "transcribing": {
         "ccButtonTooltip": "啟動/停止 字幕",

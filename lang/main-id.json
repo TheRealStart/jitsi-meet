@@ -685,7 +685,8 @@
         "toggleCamera": "Toggle camera",
         "videomute": "Start / Stop camera",
         "startvideoblur": "Blur my background",
-        "stopvideoblur": "Disable background blur"
+        "stopvideoblur": "Disable background blur",
+        "youtube": "YouTube"
     },
     "transcribing": {
         "ccButtonTooltip": "Start / Stop subtitles",

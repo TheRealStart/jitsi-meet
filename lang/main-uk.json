@@ -692,7 +692,8 @@
         "toggleCamera": "Перемкнути камеру",
         "videomute": "Камера",
         "startvideoblur": "Розмивати тло",
-        "stopvideoblur": "Вимкнути розмиття тла"
+        "stopvideoblur": "Вимкнути розмиття тла",
+        "youtube": "YouTube"
     },
     "transcribing": {
         "ccButtonTooltip": "Показувати субтитри",
