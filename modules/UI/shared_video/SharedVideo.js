@@ -377,7 +377,7 @@ export default class SharedVideoManager {
                     cancelable: true
                 }
 
-                simulate(player, 'click')
+                simulate(moviePlayer, 'click');
             }
         };
 
