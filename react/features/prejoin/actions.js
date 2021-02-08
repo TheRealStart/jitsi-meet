@@ -242,11 +242,15 @@ export function joinConferenceWithoutAudio() {
  */
 export function makePrecallTest(conferenceOptions: Object) {
     return async function(dispatch: Function) {
-        await JitsiMeetJS.precallTest.init(conferenceOptions);
+        try {
+            await JitsiMeetJS.precallTest.init(conferenceOptions);
 
-        const results = await JitsiMeetJS.precallTest.execute();
+            const results = await JitsiMeetJS.precallTest.execute();
 
-        dispatch(setPrecallTestResults(results));
+            dispatch(setPrecallTestResults(results));
+        } catch (error) {
+            console.log(error);
+        }
     };
 }
 
