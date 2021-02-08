@@ -290,9 +290,9 @@ export default class SharedVideoManager {
 
             // prevents pausing participants not sharing the video
             // to pause the video
-            if (!APP.conference.isLocalId(self.from)) {
-                $('#sharedVideo').css('pointer-events', 'none');
-            }
+            // if (!APP.conference.isLocalId(self.from)) {
+            //     $('#sharedVideo').css('pointer-events', 'none');
+            // }
 
             VideoLayout.addLargeVideoContainer(
                 SHARED_VIDEO_CONTAINER_TYPE, self.sharedVideo);
@@ -507,7 +507,7 @@ export default class SharedVideoManager {
 
                 // revert to original behavior (prevents pausing
                 // for participants not sharing the video to pause it)
-                $('#sharedVideo').css('pointer-events', 'auto');
+                // $('#sharedVideo').css('pointer-events', 'auto');
 
                 this.emitter.emit(
                     UIEvents.UPDATE_SHARED_VIDEO, null, 'removed');
