@@ -829,7 +829,8 @@
         "talkWhileMutedPopup": "Пытаетесь говорить? У вас отключен звук.",
         "tileViewToggle": "Сменить вид",
         "toggleCamera": "Вкл/выкл камеру",
-        "videomute": "Камера"
+        "videomute": "Камера",
+        "youtube": "YouTube"
     },
     "transcribing": {
         "ccButtonTooltip": "Вкл. / Выкл. субтитры",

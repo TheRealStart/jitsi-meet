@@ -24,6 +24,7 @@ import {
     IconRec,
     IconShareDesktop,
     IconShareVideo, 
+    IconYoutube,
     Translate
 } from '../../../base/icons';
 import {
@@ -1124,6 +1125,7 @@ class Toolbox extends Component<Props, State> {
         const {
             _chatOpen,
             _raisedHand,
+            _sharingVideo,
             t
         } = this.props;
 
@@ -1192,6 +1194,14 @@ class Toolbox extends Component<Props, State> {
                         onClick = { this._onToolbarOpenLocalRecordingInfoDialog }
                         text = { t('localRecording.dialogTitle') } />
                 );
+            case 'youtube': 
+                return (
+                    <OverflowMenuItem
+                        icon = { IconYoutube }
+                        key = 'youTube'
+                        onClick = { this._onToolbarToggleSharedVideo }
+                        text = { t(`toolbar.youtube`) }/>
+                )
             default:
                 return null;
             }
@@ -1234,6 +1244,7 @@ class Toolbox extends Component<Props, State> {
             _chatOpen,
             _overflowMenuVisible,
             _raisedHand,
+            _sharingVideo,
             t
         } = this.props;
         const overflowMenuContent = this._renderOverflowMenuContent();
@@ -1297,6 +1308,9 @@ class Toolbox extends Component<Props, State> {
         if (this._shouldShowButton('localrecording')) {
             buttonsRight.push('localrecording');
         }
+        
+        buttonsRight.push('youtube');
+       
 
         const movedButtons = [];
 
@@ -1385,6 +1399,14 @@ class Toolbox extends Component<Props, State> {
                     }
                     { buttonsRight.indexOf('tileview') !== -1
                         && <TileViewButton /> }
+
+                    { buttonsRight.indexOf('youtube') !== -1
+                        &&  <ToolbarButton
+                                icon = { IconYoutube }
+                                onClick = { this._onToolbarToggleSharedVideo }
+                                toggled = { _sharingVideo }
+                                iconText = { t('toolbar.youtube') }
+                                tooltip = { t('toolbar.youtube') } /> }
                     {/*{ buttonsRight.indexOf('invite') !== -1
                         && <ToolbarButton
                             accessibilityLabel =
