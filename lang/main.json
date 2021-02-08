@@ -853,6 +853,7 @@
     },
     "videothumbnail": {
         "domute": "Mute",
+        "doUnMute": "Unmute",
         "domuteOthers": "Mute everyone else",
         "flip": "Flip",
         "grantModerator": "Grant Moderator",
