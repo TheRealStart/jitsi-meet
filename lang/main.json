@@ -851,6 +851,7 @@
     "videothumbnail": {
         "connectionInfo": "Connection Info",
         "domute": "Mute",
+        "doUnMute": "Unmute",
         "domuteOthers": "Mute everyone else",
         "flip": "Flip",
         "grantModerator": "Grant Moderator",
