@@ -447,7 +447,7 @@
         "mutedRemotelyTitle": "You have been muted by {{participantDisplayName}}!",
         "mutedRemotelyDescription": "You can always unmute when you're ready to speak. Mute back when you're done to keep noise away from the meeting.",
         "passwordRemovedRemotely": "$t(lockRoomPasswordUppercase) removed by another participant",
-        "unMutedRemotelyTitle": "You have been un muted by {{participantDisplayName}}!",
+        "unMutedRemotelyTitle": "You have been unmuted by {{participantDisplayName}}!",
         "unMutedRemotelyDescription": "You can always mute when you're not ready to speak.",
         "passwordSetRemotely": "$t(lockRoomPasswordUppercase) set by another participant",
         "raisedHand": "{{name}} would like to speak.",
