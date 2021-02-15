@@ -82,11 +82,17 @@
             align-items: center;
         }
 
+        .button-group-left, .button-group-right {
+            .toolbox-button {
+                width: 71px;
+            }
+        }
+
         .button-group-center {
             justify-content: center;
 
             .toolbox-button {
-
+                padding:0 7px;
                 .toolbox-icon {
                     background-color: #fff;
                     border-radius: 37%;
