@@ -6,6 +6,15 @@
     transform: rotate(-90deg);
 }
 
+.display-avatar-with-name{
+    .avatar-container {
+        z-index: 111;
+    } 
+    .videocontainer__background{
+        background-color: #F0F4F7 !important;
+    }
+}
+
 /**
  * Overrides for video containers that should not be centered aligned to avoid=
  * clashing with the filmstrip.
