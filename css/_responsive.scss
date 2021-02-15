@@ -1,3 +1,67 @@
+@media only screen and (max-width: $midSmallScreen){
+    .new-toolbox {
+        .toolbox-content {
+            .button-group-left, .button-group-right {
+                .toolbox-button {
+                    width: 50px;
+                }
+            }
+
+            .button-group-center{
+                .toolbox-button{
+                    padding: 0 4px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $smallScreen){
+    .new-toolbox {
+        .toolbox-content {
+            .button-group-center, .button-group-left, .button-group-right {
+                .settings-button-small-icon {
+                    display: none;
+                }
+                .toolbox-button {
+                    width: auto;
+                    .toolbox-icon {
+                        width: 35px;
+                        height: 35px;
+                        svg {
+                            width: 17px;
+                            height: 17px;
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        .toolbox-icon {
+                            width: 35px;
+                            height: 35px;
+                        }
+
+                        .iconDefContainer{
+                            padding-bottom: 0px;
+                        }
+                    }
+                }
+            }
+
+            .button-group-left, .button-group-right {
+                .toolbox-button {
+                    width: auto;
+                }
+            }
+
+            .button-group-center{
+                .toolbox-button{
+                    padding: 0 2px;
+                }
+            }
+        }
+    }
+}
+
 @media only screen and (max-width: $verySmallScreen) {
     .welcome {
         display: block;

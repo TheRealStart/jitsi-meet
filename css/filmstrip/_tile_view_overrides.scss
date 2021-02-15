@@ -50,4 +50,10 @@
     .videocontainer__toptoolbar {
         z-index: auto;
     }
+
+    .videocontainer {
+        .indicator-container{
+            margin-right: 7px !important;
+        }
+    }
 }

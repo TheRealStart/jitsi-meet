@@ -137,6 +137,22 @@
     border-color: #1E2931;
 }
 
+.button-control_primary{
+    background-color: #56B7BA !important;
+    border-color:#56B7BA !important;
+    border-radius: 4px !important;
+    color: #1E2931 !important;
+}
+
+.button-control {
+    border-radius: 4px !important;
+}
+
+.button-control:hover {
+    border-radius: 4px !important;
+    background-color: #56B7BA !important;
+}
+
 .modal-dialog-form {
     margin-top: 5px !important;
 
