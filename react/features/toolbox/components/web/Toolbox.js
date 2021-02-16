@@ -1298,6 +1298,9 @@ class Toolbox extends Component<Props, State> {
         if (overflowHasItems && showOverflowMenu) {
             buttonsRight.push('overflowmenu');
         }
+        if (this._shouldShowButton('invite')) {
+            buttonsRight.push('invite');
+        }
         if (this._shouldShowButton('security') || this._shouldShowButton('info')) {
             buttonsRight.push('security');
         }
@@ -1407,13 +1410,13 @@ class Toolbox extends Component<Props, State> {
                                 toggled = { _sharingVideo }
                                 iconText = { t('toolbar.youtube') }
                                 tooltip = { t('toolbar.youtube') } /> }
-                    {/*{ buttonsRight.indexOf('invite') !== -1
+                    { buttonsRight.indexOf('invite') !== -1
                         && <ToolbarButton
                             accessibilityLabel =
                                 { t('toolbar.accessibilityLabel.invite') }
                             icon = { IconInviteMore }
                             onClick = { this._onToolbarOpenInvite }
-                            tooltip = { t('toolbar.invite') } /> }*/}
+                            tooltip = { t('toolbar.invite') } /> }
                     { buttonsRight.indexOf('security') !== -1
                         && <SecurityDialogButton customClass = 'security-toolbar-button' /> }
                     { buttonsRight.indexOf('overflowmenu') !== -1
