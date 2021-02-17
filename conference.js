@@ -1749,6 +1749,7 @@ export default {
         }
 
         this.videoSwitchInProgress = true;
+        const isVideoMuted = this.isLocalVideoMuted();
 
         return this._createDesktopTrack(options)
             .then(async streams => {
@@ -1780,6 +1781,7 @@ export default {
                     APP.store.dispatch(toggleScreenshotCaptureEffect(true));
                 }
                 sendAnalytics(createScreenSharingEvent('started'));
+                this.muteVideo(false)
                 logger.log('Screen sharing started');
             })
             .catch(error => {

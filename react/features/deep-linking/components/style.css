@@ -13,13 +13,13 @@
 }
 
 .not-supported{
-    background-color:#9c6262;
-    border-color:#1EBABB;
+    background-color:#EFF4F7;
+    border-color:#EFF4F7;
     padding: 7px 13px !important;
     min-height: 50px;
     border-radius: 8px;
-    line-height: 45px;
-    color: white;
+    line-height: 46px;
+    color: #1F2931;
     margin: 18px auto 10px;
     font-size: 16px !important;
 }

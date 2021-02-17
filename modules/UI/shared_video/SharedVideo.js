@@ -734,13 +734,17 @@ function requestVideoLink() {
             state0: {
                 //titleKey: 'dialog.shareVideoTitle',
                 html: `
-                   <div>
-                    <img src="../../../images/youtube.png" />
-                   </div>
+                    <div>
+                        <img src="../../../images/youtube.png" />
+                    </div>
                     <input name='sharedVideoUrl' type='text'
                            class='input-control'
-                           data-i18n='[placeholder]defaultLink'
-                           autofocus>`,
+                           placeholder='Paste YouTube Link Here'
+                           autofocus>
+                    <div>
+                        <span class="youtube_ex_text" >e.g https://www.youtube.com/sdlkjSKDKJFKsdkjfa</span>
+                    </div>`,
+                    
                 persistent: false,
                 buttons: [
                     { title: cancelButton,
