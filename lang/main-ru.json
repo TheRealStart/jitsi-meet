@@ -262,6 +262,7 @@
         "muteEveryoneElseTitle": "Заглушить всех, за исключением {{whom}}?",
         "muteEveryoneSelf": "себя",
         "muteEveryoneStartMuted": "Теперь у всех микрофоны выключены",
+        "notice": "Примечание!",
         "muteEveryoneTitle": "Заглушить всех?",
         "muteParticipantBody": "Вы не можете включить им микрофон, но они могут сделать это сами в любое время.",
         "muteParticipantButton": "Заглушить",
