@@ -21,6 +21,8 @@ import Filmstrip from '../videolayout/Filmstrip';
 import LargeContainer from '../videolayout/LargeContainer';
 import VideoLayout from '../videolayout/VideoLayout';
 
+import { showNotification } from '../../../react/features/notifications';
+
 const logger = Logger.getLogger(__filename);
 
 export const SHARED_VIDEO_CONTAINER_TYPE = 'sharedvideo';
@@ -325,6 +327,18 @@ export default class SharedVideoManager {
             // store the error player, so we can remove it
             self.errorInPlayer = event.target;
         };
+
+        const notification = showNotification({
+            descriptionKey: 'dialog.shareVideoGuide',
+            isDismissAllowed: false,
+            titleKey: "dialog.notice"
+        }); 
+
+        var shareVideoFirstTime =  window.localStorage.getItem('share_video_first_time');
+        if (!shareVideoFirstTime) {
+            APP.store.dispatch(notification);
+            window.localStorage.setItem('share_video_first_time', true);
+        }    
     }
 
     /**
