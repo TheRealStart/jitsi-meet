@@ -306,6 +306,7 @@
         "sendPrivateMessageTitle": "Отправить личное сообщение?",
         "serviceUnavailable": "Служба недоступна",
         "sessTerminated": "Связь прервана",
+        "shareVideoGuide": "Чтобы смотреть видео одновременно со всеми участниками, каждый участник должен начать видео самостоятельно",
         "shareVideoLinkError": "Пожалуйста, укажите корректную ссылку Youtube.",
         "shareVideoTitle": "Поделиться видео",
         "shareYourScreen": "Показать экран",
