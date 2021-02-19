@@ -1898,6 +1898,18 @@ export default {
 
             logger.log(`USER ${id} connnected:`, user);
             APP.UI.addUser(user);
+
+            if (!this.isLocalId(id)) {
+                const notification = showNotification({
+                    descriptionKey: 'dialog.userJoinedDescription',
+                    descriptionArguments: {
+                        userDisplayName: user._displayName
+                    },
+                    isDismissAllowed: false,
+                    titleKey: "dialog.userJoinedTitle"
+                });
+                APP.store.dispatch(notification);
+            }
         });
 
         room.on(JitsiConferenceEvents.USER_LEFT, (id, user) => {
@@ -1911,6 +1923,18 @@ export default {
             logger.log(`USER ${id} LEFT:`, user);
 
             APP.UI.onSharedVideoStop(id);
+
+            if (!this.isLocalId(id)) {
+                const notification = showNotification({
+                    descriptionKey: 'dialog.userLeftDescription',
+                    descriptionArguments: {
+                        userDisplayName: user._displayName
+                    },
+                    isDismissAllowed: false,
+                    titleKey: "dialog.userLeftTitle"
+                });
+                APP.store.dispatch(notification);
+            }
         });
 
         room.on(JitsiConferenceEvents.USER_STATUS_CHANGED, (id, status) => {
