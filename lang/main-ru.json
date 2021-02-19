@@ -326,6 +326,10 @@
         "transcribing": "Расшифровка",
         "unlockRoom": "Убрать $t(lockRoomPassword)",
         "userPassword": "пароль пользователя",
+        "userJoinedTitle": "Присоединился новый пользователь",
+        "userJoinedDescription": "{{ userDisplayName }} присоединился в конференцию!",
+        "userLeftTitle": "Пользователь покинул комнату",
+        "userLeftDescription": "{{ userDisplayName }} покинул конференцию!",
         "yourEntireScreen": "Весь экран"
     },
     "documentSharing": {
