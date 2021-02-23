@@ -156,6 +156,8 @@ let _connectionPromise;
  */
 let _prevMutePresenterVideo = Promise.resolve();
 
+var isConferenceJoined = false;
+
 /*
  * Logic to open a desktop picker put on the window global for
  * lib-jitsi-meet to detect and invoke
@@ -1855,6 +1857,7 @@ export default {
     _setupListeners() {
         // add local streams when joined to the conference
         room.on(JitsiConferenceEvents.CONFERENCE_JOINED, () => {
+            isConferenceJoined = true;
             this._onConferenceJoined();
         });
 
@@ -1884,17 +1887,19 @@ export default {
             APP.store.dispatch(updateRemoteParticipantFeatures(user));
             logger.log(`USER ${id} connnected:`, user);
             APP.UI.addUser(user);
-
-            if (!this.isLocalId(id)) {
-                const notification = showNotification({
-                    descriptionKey: 'dialog.userJoinedDescription',
-                    descriptionArguments: {
-                        userDisplayName: user._displayName
-                    },
-                    isDismissAllowed: false,
-                    titleKey: "dialog.userJoinedTitle"
-                });
-                APP.store.dispatch(notification);
+            
+            if (isConferenceJoined) {
+                if (!this.isLocalId(id)) {
+                    const notification = showNotification({
+                        descriptionKey: 'dialog.userJoinedDescription',
+                        descriptionArguments: {
+                            userDisplayName: user._displayName
+                        },
+                        isDismissAllowed: false,
+                        titleKey: "dialog.userJoinedTitle"
+                    });
+                    APP.store.dispatch(notification);
+                }
             }
         });
 
