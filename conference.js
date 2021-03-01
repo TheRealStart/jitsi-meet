@@ -114,7 +114,7 @@ import {
     maybeOpenFeedbackDialog,
     submitFeedback
 } from './react/features/feedback';
-import { showNotification } from './react/features/notifications';
+import { NOTIFICATION_TIMEOUT, showNotification } from './react/features/notifications';
 import { mediaPermissionPromptVisibilityChanged } from './react/features/overlay';
 import { suspendDetected } from './react/features/power-monitor';
 import {
@@ -1887,20 +1887,22 @@ export default {
             APP.store.dispatch(updateRemoteParticipantFeatures(user));
             logger.log(`USER ${id} connnected:`, user);
             APP.UI.addUser(user);
+
+            // let notificationProps;
             
-            if (isConferenceJoined) {
-                if (!this.isLocalId(id)) {
-                    const notification = showNotification({
-                        descriptionKey: 'dialog.userJoinedDescription',
-                        descriptionArguments: {
-                            userDisplayName: user._displayName
-                        },
-                        isDismissAllowed: false,
-                        titleKey: "dialog.userJoinedTitle"
-                    });
-                    APP.store.dispatch(notification);
-                }
-            }
+            // if (isConferenceJoined) {
+            //     if (!this.isLocalId(id)) {
+            //         notificationProps = {
+            //             descriptionKey: 'dialog.userJoinedDescription',
+            //             descriptionArguments: {
+            //                 userDisplayName: user._displayName
+            //             },
+            //             isDismissAllowed: false,
+            //             titleKey: "dialog.userJoinedTitle"
+            //         }
+            //         APP.store.dispatch(showNotification(notificationProps, NOTIFICATION_TIMEOUT));
+            //     }
+            // }
         });
 
         room.on(JitsiConferenceEvents.USER_LEFT, (id, user) => {
@@ -1915,17 +1917,19 @@ export default {
 
             APP.UI.onSharedVideoStop(id);
 
-            if (!this.isLocalId(id)) {
-                const notification = showNotification({
-                    descriptionKey: 'dialog.userLeftDescription',
-                    descriptionArguments: {
-                        userDisplayName: user._displayName
-                    },
-                    isDismissAllowed: false,
-                    titleKey: "dialog.userLeftTitle"
-                });
-                APP.store.dispatch(notification);
-            }
+            // let notificationProps;
+
+            // if (!this.isLocalId(id)) {
+            //     notificationProps = {
+            //         descriptionKey: 'dialog.userLeftDescription',
+            //         descriptionArguments: {
+            //             userDisplayName: user._displayName
+            //         },
+            //         isDismissAllowed: false,
+            //         titleKey: "dialog.userLeftTitle"
+            //     }
+            //     APP.store.dispatch(showNotification(notificationProps, NOTIFICATION_TIMEOUT));
+            // }
         });
 
         room.on(JitsiConferenceEvents.USER_STATUS_CHANGED, (id, status) => {
