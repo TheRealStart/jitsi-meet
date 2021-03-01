@@ -102,6 +102,14 @@
         color: $auiDialogColor;
     }
 
+    .gdirive-input {
+        height: 42px;
+        line-height: 42px;
+        margin: 20px 0 5px 0;
+        background-color: $auiDialogContentBg;
+        color: $auiDialogColor;
+    }
+
     .youtube_ex_text{
         font-size: 14px;
         color: #9199B1;
@@ -165,6 +173,14 @@
         background: $modalMockAKInputBackground;
         border: $modalMockAKInputBorder;
         color: inherit;
+    }
+
+    .gdirive-input {
+        height: 45px;
+        line-height: 50px;
+        border-radius: 10px;
+        background-color: $auiDialogContentBg;
+        color: $auiDialogColor;
     }
 
     &-error {
