@@ -28,12 +28,7 @@ export default class GoogleDriveDialog extends Component {
                                 <div className="gdrive-con" >
                                     Choose file from <img className="gdrive-img" src='../../../../images/google-drive-dialog.png' />
                                 </div>
-                                {/*<div className="gdrive-con">
-                                    <img className="gdrive-img" src='../../../../images/google-drive-dialog.png' />
-                                </div>*/}
                             </span>
-                            
-                            <input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File" />
                         </div>
                     </div>
                 </div>

@@ -120,7 +120,7 @@ const Filmstrip = {
             const heightToWidthPercent = 100 / interfaceConfig.LOCAL_THUMBNAIL_RATIO;
 
             thumbs.localThumb.css({
-                'padding-top': `${heightToWidthPercent}%`,
+                'padding-top': `100%`,
                 width: '',
                 height: '',
                 'min-width': '',
