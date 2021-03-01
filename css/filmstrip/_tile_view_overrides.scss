@@ -10,11 +10,94 @@
         max-height: initial;
         max-width: initial;
     }
+
     #localVideoContainer{
         padding-top: 0 !important;
         .avatar-container{
             width: 27.5% !important;
         }
+    }
+
+    .displayNameContainer{
+        visibility: visible;
+        .displayname{
+            top: 90%;
+            left: 10px;
+            width: fit-content;
+            border: 1px solid #0D1317;
+            background-color: #0D1317;
+            border-radius: 5px;
+        }
+    }
+
+    .videocontainer__toolbar{
+        top: 0;
+        .indicator-container{
+            float: right;
+            .toolbar-icon>div{
+                width: 22px;
+                height: 22px;
+                align-items: center;
+            }
+        }
+    }
+
+    .toolbar-icon>div{ 
+        margin-top: 5px;
+        border: 1px solid #0D1317;
+        border-radius: 37%;
+        background-color: #0D1317;
+    }
+    
+    @media only screen and (min-width: 700px){
+        .toolbar-icon>div{ 
+            padding: 10px;
+        }
+
+        .videocontainer {
+            .indicator-container{
+                margin-right: 10px;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1024px){
+        .toolbar-icon>div{ 
+            padding: 10px;
+        }
+    }
+
+    @media only screen and (max-width: 900px){
+        .toolbar-icon>div{ 
+            padding: 8px;
+        }
+    }
+
+    @media only screen and (max-width: 700px){
+        .toolbar-icon>div{ 
+            padding: 6px;
+        }
+    }
+
+    @media only screen and (max-width: 500px){
+        .videocontainer {
+            .indicator-container{
+                margin-right: 7px;
+            }
+        }
+        .videocontainer__toolbar{ 
+            top: auto;
+            .indicator-container{
+                float: left;
+                .toolbar-icon>div{ 
+                    padding: 0px;
+                    border: none;
+                    background-color: transparent;
+                    margin-top: 0;
+                }
+            }
+        }
+
     }
 
     /**
@@ -56,11 +139,5 @@
     .remotevideomenu,
     .videocontainer__toptoolbar {
         z-index: auto;
-    }
-
-    .videocontainer {
-        .indicator-container{
-            margin-right: 7px !important;
-        }
     }
 }
