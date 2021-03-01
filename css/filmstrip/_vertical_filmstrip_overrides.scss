@@ -5,7 +5,12 @@
 .vertical-filmstrip .filmstrip__toolbar {
     transform: rotate(-90deg);
 }
-
+#localVideoContainer{
+    padding-top: 100% !important;
+    .avatar-container{
+        width: 50% !important;
+    }
+}
 .display-avatar-with-name{
     .avatar-container {
         z-index: 111;

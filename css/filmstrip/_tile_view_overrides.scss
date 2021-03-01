@@ -10,6 +10,12 @@
         max-height: initial;
         max-width: initial;
     }
+    #localVideoContainer{
+        padding-top: 0 !important;
+        .avatar-container{
+            width: 27.5% !important;
+        }
+    }
 
     /**
      * Hide various features that should not be displayed while in tile view.
