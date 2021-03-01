@@ -178,7 +178,7 @@ class DeepLinkingMobilePage extends Component<Props> {
         let whichPlatform = Platform.OS.toUpperCase();
         let isSupported = isSupportedMobileBrowser();
         
-        if(!isSupported){
+        if(isSupported){
             return (
                 <a  onClick = { this._onLaunchWeb }
                     target = '_top'>

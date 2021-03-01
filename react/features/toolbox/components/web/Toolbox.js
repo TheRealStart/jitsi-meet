@@ -9,6 +9,7 @@ import {
     sendAnalytics
 } from '../../../analytics';
 import { openDialog, toggleDialog } from '../../../base/dialog';
+import { GoogleDriveDialog } from '../../../google-drive';
 import { isMobileBrowser } from '../../../base/environment/utils';
 import { translate } from '../../../base/i18n';
 import {
@@ -17,6 +18,7 @@ import {
     IconExitFullScreen,
     IconFeedback,
     IconFullScreen,
+    IconGoogleDrive,
     IconInviteMore,
     IconOpenInNew,
     IconPresentation,
@@ -243,7 +245,7 @@ class Toolbox extends Component<Props, State> {
         this._onMouseOver = this._onMouseOver.bind(this);
         this._onResize = this._onResize.bind(this);
         this._onSetOverflowVisible = this._onSetOverflowVisible.bind(this);
-
+        this._openGoogleDriveDialog = this._openGoogleDriveDialog.bind(this);
         this._onShortcutToggleChat = this._onShortcutToggleChat.bind(this);
         this._onShortcutToggleFullScreen = this._onShortcutToggleFullScreen.bind(this);
         this._onShortcutToggleRaiseHand = this._onShortcutToggleRaiseHand.bind(this);
@@ -795,7 +797,10 @@ class Toolbox extends Component<Props, State> {
         this._doOpenVideoQuality();
     }
 
-
+    _openGoogleDriveDialog(){
+        
+        this.props.dispatch(openDialog(GoogleDriveDialog));
+    }
     _onOpenTanslateButton(){
         this._doOpenTranslateButtons()
     }
@@ -1313,6 +1318,7 @@ class Toolbox extends Component<Props, State> {
         }
         
         buttonsRight.push('youtube');
+        buttonsRight.push('googledrive');
        
 
         const movedButtons = [];
@@ -1402,6 +1408,14 @@ class Toolbox extends Component<Props, State> {
                     }
                     { buttonsRight.indexOf('tileview') !== -1
                         && <TileViewButton /> }
+                    
+                    { buttonsRight.indexOf('googledrive') !== -1
+                        &&  <ToolbarButton
+                                icon = { IconGoogleDrive }
+                                onClick = { this._openGoogleDriveDialog }
+                                //toggled = { _sharingVideo }
+                                iconText = { t('toolbar.googleDrive') }
+                                tooltip = { t('toolbar.googleDrive') } />  }
 
                     { buttonsRight.indexOf('youtube') !== -1
                         &&  <ToolbarButton

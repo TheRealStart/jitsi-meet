@@ -43,6 +43,7 @@ export { default as IconExitFullScreen } from './exit-full-screen.svg';
 export { default as IconFeedback } from './feedback.svg';
 export { default as IconFullScreen } from './full-screen.svg';
 export { default as IconGoogle } from './google.svg';
+export { default as IconGoogleDrive } from './drive.svg';
 export { default as IconHangup } from './hangup.svg';
 export { default as IconHelp } from './help.svg';
 export { default as IconInfo } from './info.svg';
