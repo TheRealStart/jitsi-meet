@@ -276,7 +276,7 @@
     overflow: hidden;
     white-space: nowrap;
     line-height: $thumbnailToolbarHeight;
-    z-index: $zindex2;
+    z-index: 999;
 }
 
 #alwaysOnTop .displayname {

@@ -21,7 +21,6 @@
     .displayNameContainer{
         visibility: visible;
         .displayname{
-            top: 90%;
             left: 10px;
             width: fit-content;
             border: 1px solid #0D1317;
@@ -49,9 +48,13 @@
         background-color: #0D1317;
     }
     
-    @media only screen and (min-width: 700px){
+    @media only screen and (min-width: 701px){
         .toolbar-icon>div{ 
             padding: 10px;
+        }
+
+        .displayname {
+            top: 90%;
         }
 
         .videocontainer {
@@ -76,6 +79,13 @@
     @media only screen and (max-width: 700px){
         .toolbar-icon>div{ 
             padding: 6px;
+            margin-right: 7px;
+        }
+
+        .displayname{
+            top: 80%;
+            left: 10px;
+            font-size: 8px;
         }
     }
 
@@ -85,18 +95,23 @@
                 margin-right: 7px;
             }
         }
-        .videocontainer__toolbar{ 
-            top: auto;
-            .indicator-container{
-                float: left;
-                .toolbar-icon>div{ 
-                    padding: 0px;
-                    border: none;
-                    background-color: transparent;
-                    margin-top: 0;
-                }
-            }
+
+        .toolbar-icon>div{ 
+            padding: 2px;
+            margin-right: 2px;
         }
+        //.videocontainer__toolbar{ 
+        //    top: auto;
+        //    .indicator-container{
+        //        float: left;
+        //        .toolbar-icon>div{ 
+        //            padding: 0px;
+        //            border: none;
+        //            background-color: transparent;
+        //            margin-top: 0;
+        //        }
+        //    }
+        //}
 
     }
 
