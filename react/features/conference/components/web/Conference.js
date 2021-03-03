@@ -27,7 +27,6 @@ import type { AbstractProps } from '../AbstractConference';
 import Labels from './Labels';
 import { default as Notice } from './Notice';
 import { default as Subject } from './Subject';
-import SelectLanguage from './TranslateButtons';
 import logger from '../../logger';
 declare var APP: Object;
 declare var interfaceConfig: Object;
@@ -206,9 +205,6 @@ class Conference extends AbstractConference<Props, *> {
                 { this.renderNotificationsContainer() }
 
                 <CalleeInfoContainer />
-                { this.props._enableTranslation && <SelectLanguage  /> }
-
-                <SelectLanguage  />
 
                 { _showPrejoin && <Prejoin />}
             </div>
