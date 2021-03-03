@@ -1302,7 +1302,7 @@ class Toolbox extends Component<Props, State> {
         if (this._shouldShowButton('etherpad')) {
             buttonsLeft.push('etherpad');
         }
-        if (overflowHasItems && showOverflowMenu) {
+        if (overflowHasItems) {
             buttonsRight.push('overflowmenu');
         }
         if (this._shouldShowButton('invite')) {
