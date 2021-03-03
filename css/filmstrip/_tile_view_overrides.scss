@@ -17,6 +17,89 @@
         }
     }
 
+    .displayNameContainer{
+        visibility: visible;
+        .displayname{
+            left: 10px;
+            width: fit-content;
+            border: 1px solid #0D1317;
+            background-color: #0D1317;
+            border-radius: 5px;
+        }
+    }
+
+    .videocontainer__toolbar{
+        top: 0;
+        .indicator-container{
+            float: right;
+            .toolbar-icon>div{
+                width: 22px;
+                height: 22px;
+                align-items: center;
+            }
+        }
+    }
+
+    .toolbar-icon>div{ 
+        margin-top: 5px;
+        border: 1px solid #0D1317;
+        border-radius: 37%;
+        background-color: #0D1317;
+    }
+    
+    @media only screen and (min-width: 701px){
+        .toolbar-icon>div{ 
+            padding: 10px;
+        }
+
+        .displayname {
+            top: 90%;
+        }
+
+        .videocontainer {
+            .indicator-container{
+                margin-right: 10px;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1024px){
+        .toolbar-icon>div{ 
+            padding: 10px;
+        }
+    }
+
+    @media only screen and (max-width: 900px){
+        .toolbar-icon>div{ 
+            padding: 8px;
+        }
+    }
+
+    @media only screen and (max-width: 700px){
+        .toolbar-icon>div{ 
+            padding: 6px;
+            margin-right: 7px;
+        }
+
+        .displayname{
+            top: 80%;
+            left: 10px;
+            font-size: 8px;
+        }
+    }
+
+    @media only screen and (max-width: 500px){
+        .videocontainer {
+            .indicator-container{
+                margin-right: 7px;
+            }
+        }
+
+        .toolbar-icon>div{ 
+            padding: 2px;
+            margin-right: 2px;
+        }
+    }
     /**
      * Hide various features that should not be displayed while in tile view.
      */
@@ -55,11 +138,5 @@
     .remotevideomenu,
     .videocontainer__toptoolbar {
         z-index: auto;
-    }
-
-    .videocontainer {
-        .indicator-container{
-            margin-right: 7px !important;
-        }
     }
 }

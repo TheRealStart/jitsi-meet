@@ -1783,7 +1783,7 @@ export default {
                     APP.store.dispatch(toggleScreenshotCaptureEffect(true));
                 }
                 sendAnalytics(createScreenSharingEvent('started'));
-                this.muteVideo(false)
+                this.muteVideo(isVideoMuted)
                 logger.log('Screen sharing started');
             })
             .catch(error => {
