@@ -11,6 +11,26 @@
         width: 50% !important;
     }
 }
+.displayname{
+    background-color: #0D1317;
+    opacity: 0.7;
+    border-radius: 4px;
+}
+.videocontainer__toolbar{
+    text-align: center !important;
+    bottom: 15px;
+    .indicator-container{
+        background: #0d1317b3;
+        margin: 5px;
+        padding: 1px 5px;
+        border-radius: 4px;
+    
+        .indicator-icon-container{
+            margin: 0 auto;
+        }
+    }
+}
+
 .display-avatar-with-name{
     .avatar-container {
         z-index: 111;
