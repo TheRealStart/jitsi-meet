@@ -1254,6 +1254,7 @@ class Toolbox extends Component<Props, State> {
             _overflowMenuVisible,
             _raisedHand,
             _sharingVideo,
+            _hasJWT,
             t
         } = this.props;
         const overflowMenuContent = this._renderOverflowMenuContent();
@@ -1426,15 +1427,18 @@ class Toolbox extends Component<Props, State> {
                                 toggled = { _sharingVideo }
                                 iconText = { t('toolbar.youtube') }
                                 tooltip = { t('toolbar.youtube') } /> }
-                    { buttonsRight.indexOf('invite') !== -1
-                        && <ToolbarButton
+                    { (buttonsRight.indexOf('invite') !== -1 && _hasJWT )
+                        &&  <ToolbarButton
                             accessibilityLabel =
                                 { t('toolbar.accessibilityLabel.invite') }
                             icon = { IconInviteMore }
+                            visible = { _hasJWT }
                             onClick = { this._onToolbarOpenInvite }
                             tooltip = { t('toolbar.invite') } /> }
                     { buttonsRight.indexOf('security') !== -1
-                        && <SecurityDialogButton customClass = 'security-toolbar-button' /> }
+                        && <SecurityDialogButton 
+                            visible = {false} 
+                            customClass = 'security-toolbar-button' /> }
                     { buttonsRight.indexOf('overflowmenu') !== -1
                         && <OverflowMenuButton
                             isOpen = { _overflowMenuVisible }
@@ -1479,6 +1483,7 @@ function _mapStateToProps(state) {
         callStatsID,
         enableFeaturesBasedOnToken
     } = state['features/base/config'];
+    const hasJwt = Boolean(state['features/base/jwt'].jwt)
     const sharedVideoStatus = state['features/shared-video'].status;
     const {
         fullScreen,
@@ -1510,6 +1515,7 @@ function _mapStateToProps(state) {
         _desktopSharingDisabledTooltipKey: desktopSharingDisabledTooltipKey,
         _dialog: Boolean(state['features/base/dialog'].component),
         _feedbackConfigured: Boolean(callStatsID),
+        _hasJWT: hasJwt,
         _isProfileDisabled: Boolean(state['features/base/config'].disableProfile),
         _isVpaasMeeting: isVpaasMeeting(state),
         _fullScreen: fullScreen,
