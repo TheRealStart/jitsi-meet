@@ -1431,8 +1431,8 @@ class Toolbox extends Component<Props, State> {
                             icon = { IconInviteMore }
                             onClick = { this._onToolbarOpenInvite }
                             tooltip = { t('toolbar.invite') } /> }
-                    { buttonsRight.indexOf('security') !== -1
-                        && <SecurityDialogButton customClass = 'security-toolbar-button' /> }
+                    {/*{ buttonsRight.indexOf('security') !== -1
+                        && <SecurityDialogButton customClass = 'security-toolbar-button' /> }*/}
                     { buttonsRight.indexOf('overflowmenu') !== -1
                         && <OverflowMenuButton
                             isOpen = { _overflowMenuVisible }
