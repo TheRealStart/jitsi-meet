@@ -32,7 +32,8 @@ import {
 import {
     getLocalParticipant,
     getParticipants,
-    participantUpdated
+    participantUpdated,
+    PARTICIPANT_ROLE
 } from '../../../base/participants';
 import { connect, equals } from '../../../base/redux';
 import { OverflowMenuItem } from '../../../base/toolbox/components';
@@ -1250,6 +1251,7 @@ class Toolbox extends Component<Props, State> {
             _overflowMenuVisible,
             _raisedHand,
             _sharingVideo,
+            _isModerator,
             t
         } = this.props;
         const overflowMenuContent = this._renderOverflowMenuContent();
@@ -1424,7 +1426,7 @@ class Toolbox extends Component<Props, State> {
                                 toggled = { _sharingVideo }
                                 iconText = { t('toolbar.youtube') }
                                 tooltip = { t('toolbar.youtube') } /> }
-                    { buttonsRight.indexOf('invite') !== -1
+                    { ( buttonsRight.indexOf('invite') !== -1 && _isModerator)
                         && <ToolbarButton
                             accessibilityLabel =
                                 { t('toolbar.accessibilityLabel.invite') }
@@ -1522,6 +1524,7 @@ function _mapStateToProps(state) {
         _tileViewEnabled: shouldDisplayTileView(state),
         _localParticipantID: localParticipant.id,
         _localRecState: localRecordingStates,
+        _isModerator: Boolean(localParticipant?.role === PARTICIPANT_ROLE.MODERATOR),
         _locked: locked,
         _overflowMenuVisible: overflowMenuVisible,
         _raisedHand: localParticipant.raisedHand,
