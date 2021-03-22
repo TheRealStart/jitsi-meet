@@ -178,7 +178,7 @@ class DeepLinkingMobilePage extends Component<Props> {
         let whichPlatform = Platform.OS.toUpperCase();
         let isSupported = isSupportedMobileBrowser();
         
-        if(isSupported){
+        if(!isSupported){
             return (
                 <a  onClick = { this._onLaunchWeb }
                     target = '_top'>
@@ -188,10 +188,14 @@ class DeepLinkingMobilePage extends Component<Props> {
                 </a>
             )
         }else {
+            let iphoneSupportText = `Unfortunately, we don't support this browser on iPhone. 
+                Please, use Safari or download Missed.com app from AppStore`;
+            let androidSupportText = `Unfortunately, we don't support this browser on Android. Please, install and open this link from Chrome, 
+                Mozilla Firefox or download Missed.com app from Play Market`
             return (
                 <div className="not-supported">
                     <span> 
-                        We only support {whichPlatform === "IOS" ? "Safari" : "Chrome and Firefox"} on this device 
+                       { whichPlatform === "IOS" ? iphoneSupportText : androidSupportText } 
                     </span>
                 </div>
             )
