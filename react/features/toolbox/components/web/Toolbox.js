@@ -799,9 +799,9 @@ class Toolbox extends Component<Props, State> {
     }
 
     _openGoogleDriveDialog(){
-        
         this.props.dispatch(openDialog(GoogleDriveDialog));
     }
+    
     _onOpenTanslateButton(){
         this._doOpenTranslateButtons()
     }
@@ -1411,13 +1411,12 @@ class Toolbox extends Component<Props, State> {
                     { buttonsRight.indexOf('tileview') !== -1
                         && <TileViewButton /> }
                     
-                    {/*{ buttonsRight.indexOf('googledrive') !== -1
+                    { buttonsRight.indexOf('googledrive') !== -1
                         &&  <ToolbarButton
                                 icon = { IconGoogleDrive }
                                 onClick = { this._openGoogleDriveDialog }
-                                //toggled = { _sharingVideo }
                                 iconText = { t('toolbar.googleDrive') }
-                                tooltip = { t('toolbar.googleDrive') } />  }*/}
+                                tooltip = { t('toolbar.googleDrive') } />  }
 
                     { buttonsRight.indexOf('youtube') !== -1
                         &&  <ToolbarButton
