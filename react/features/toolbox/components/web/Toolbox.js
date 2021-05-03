@@ -90,7 +90,7 @@ import UnMuteEveryoneButton from "./UnMuteEveryoneButton";
 import OverflowMenuButton from './OverflowMenuButton';
 import OverflowMenuProfileItem from './OverflowMenuProfileItem';
 import ToolbarButton from './ToolbarButton';
-import { ToolboxButtonWithIcon } from '../../../base/toolbox/components';
+import { getRoomName } from '../../../base/conference';
 
 import VideoSettingsButton from './VideoSettingsButton';
 import TranslateButtonsDialog from '../../../conference/components/web/TranslateButtonsDialog';
@@ -324,6 +324,17 @@ class Toolbox extends Component<Props, State> {
         });
 
         window.addEventListener('resize', this._onResize);
+
+        const { _roomName, _jwt } = this.props;
+        let fullUrl = `wss://jingo.edugenux.com/ws/conference/${_roomName}/?token=${_jwt}`;
+
+        const socket = new WebSocket(fullUrl);
+
+        // Listen for messages
+        socket.addEventListener('message', function (event) {
+            console.log('Mine message from server ', event.data);
+        });
+
     }
 
     /**
@@ -1509,6 +1520,7 @@ function _mapStateToProps(state) {
     // NB: We compute the buttons again here because if URL parameters were used to
     // override them we'd miss it.
     const buttons = new Set(interfaceConfig.TOOLBAR_BUTTONS);
+    const { jwt } = state['features/base/jwt'];
 
     return {
         _chatOpen: state['features/chat'].isOpen,
@@ -1533,7 +1545,9 @@ function _mapStateToProps(state) {
             || sharedVideoStatus === 'start'
             || sharedVideoStatus === 'pause',
         _visible: isToolboxVisible(state),
-        _visibleButtons: equals(visibleButtons, buttons) ? visibleButtons : buttons
+        _visibleButtons: equals(visibleButtons, buttons) ? visibleButtons : buttons,
+        _roomName: getRoomName(state),
+        _jwt: jwt
     };
 }
 

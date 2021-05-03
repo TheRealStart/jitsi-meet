@@ -6,6 +6,7 @@ import { Dialog, openDialog, hideDialog } from '../../base/dialog';
 import DisplayFileContentDialog from './DisplayFileContentDialog';
 import  { SCOPES, CLIENT_ID, GPICKER_API_KEY } from '../constants';
 import GooglePicker from 'google-picker-component';
+import { getRoomName } from '../../base/conference';
 import { setGoogleApiUser, setGoogleDriveFiles } from '../actions';
 import Header from './Header';
 
@@ -15,7 +16,22 @@ class GoogleDriveDialog extends Component {
         googleDriveApiStatus: null,
         loading: false,
         googleDriveFiles: null
-    }  
+    }
+    
+    handleGoogleDriveFileSelect = fileUrl => {
+        const { _roomName, _jwt } = this.props;
+        console.log(`mine ${_roomName} jwt is ${_jwt}`)
+        let fullUrl = `wss://jingo.edugenux.com/ws/conference/${_roomName}/?token=${_jwt}`;
+        this.props.dispatch( openDialog(DisplayFileContentDialog, { embedUrl: fileUrl}))
+        let gdriveUrlObject = {
+            type: "gdrive",
+            url: fileUrl
+        }
+        let gdriveUrlJSON = JSON.stringify(gdriveUrlObject);
+        const socket = new WebSocket(fullUrl);
+
+        socket.send(gdriveUrlJSON);
+    }
 
     render() {
         return (
@@ -32,14 +48,14 @@ class GoogleDriveDialog extends Component {
                             placeholder='Paste Google Drive Link Here'
                             autoFocus />
                         <div>
-                            <span className="youtube_ex_text" >Press "Share" button at your Google Drive file and paste it here</span>
+                            <span className="youtube_ex_text">Press "Share" button at your Google Drive file and paste it here</span>
                         </div>
                         <div className="separator">OR</div>
                         <div className={"button-wrapper " + (this.state.loading ? 'disabled' : null)} >
                             <GooglePicker clientId={ CLIENT_ID}
                                 developerKey={GPICKER_API_KEY}
                                 scope={SCOPES}
-                                onChange={data => this.props.dispatch( openDialog( DisplayFileContentDialog, { embedUrl: data.docs[0].embedUrl } ) )}
+                                onChange={data => this.handleGoogleDriveFileSelect(data.docs[0].embedUrl)}
                                 onAuthFailed={data => console.log('on auth failed:', data)}
                                 multiselect={false}
                                 authImmediate={false}
@@ -62,10 +78,11 @@ class GoogleDriveDialog extends Component {
 } 
 
 function _mapStateToProps(state){
-    const { authRequired } = state['features/base/conference'];
+    const { jwt } = state['features/base/jwt'];
 
     return {
-        _room: authRequired && authRequired.getName()
+        _roomName: getRoomName(state),
+        _jwt: jwt
     };
 }
 

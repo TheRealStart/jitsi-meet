@@ -10,9 +10,7 @@ let Iframe = props => {
     )
 }
 
-
 class DisplayFileContentDialog extends Component {
-
     render(){
         return (
             <Dialog
