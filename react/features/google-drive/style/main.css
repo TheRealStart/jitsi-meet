@@ -17,3 +17,17 @@
     padding: 6px;
     border: 1px solid;
 }
+
+.dialogCloseButton {
+    border: none;
+    border-radius: 5px;
+}
+
+.contentContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.margin20px {
+    margin: 20px;
+}

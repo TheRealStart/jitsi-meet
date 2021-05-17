@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from '../../base/redux';
 import { Dialog, hideDialog, openDialog } from '../../base/dialog';
+import '../style/main.css';
 
 let Iframe = props => {
     return (
@@ -35,10 +36,10 @@ class DisplayFileContentDialog extends Component {
                 submitDisabled = { true }
                 customHeader = { () => {
                     return (
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }} > 
-                            <div style={{ margin: '20px' }}>Google Drive</div>
-                            <div style={{ margin: '20px' }}>
-                                <button style={{ border: "none", borderRadius: '5px' }} onClick={this.toggleDismiss} >Close modal</button>
+                        <div className="contentContainer"> 
+                            <div className="margin20px">Google Drive</div>
+                            <div className="margin20px">
+                                <button className="dialogCloseButton" onClick={this.toggleDismiss} >Close modal</button>
                             </div>
                         </div>
                     )
