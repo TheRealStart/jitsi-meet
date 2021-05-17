@@ -11,5 +11,6 @@ import '../prejoin/reducer';
 import '../screenshot-capture/reducer';
 import '../shared-video/reducer';
 import '../talk-while-muted/reducer';
+import '../google-drive/reducer';
 
 import './reducers.any';

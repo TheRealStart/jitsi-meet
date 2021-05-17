@@ -1,0 +1,33 @@
+.container {
+    padding: 5px;
+    border: 1px solid;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+.filename {
+    display: inline-block;
+    width: 85%;
+}
+
+.selectButton{
+    display: inline-block;
+    background: #56b7ba !important;
+    border-radius: 5px;
+    padding: 6px;
+    border: 1px solid;
+}
+
+.dialogCloseButton {
+    border: none;
+    border-radius: 5px;
+}
+
+.contentContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.margin20px {
+    margin: 20px;
+}
