@@ -1,4 +1,6 @@
-import { SET_GOOGLE_API_USER_INFO, SET_GOOGLE_DRIVE_FILES } from './actionTypes'
+import { SET_GOOGLE_API_USER_INFO, 
+         SET_GOOGLE_DRIVE_FILES,
+         SET_WEBSOCKET } from './actionTypes'
 
 const setGoogleApiUser = userInfo => {
     return {
@@ -14,7 +16,15 @@ const setGoogleDriveFiles = filesArray => {
     }
 }
 
+const setWebsocketForGooglDrive = socketInstance => {
+    return {
+        type: SET_WEBSOCKET,
+        payload: socketInstance
+    }
+}
+
 export {
     setGoogleApiUser,
-    setGoogleDriveFiles
+    setGoogleDriveFiles,
+    setWebsocketForGooglDrive
 }

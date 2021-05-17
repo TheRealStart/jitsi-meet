@@ -8,7 +8,7 @@ import {
     createToolbarEvent,
     sendAnalytics
 } from '../../../analytics';
-import { openDialog, toggleDialog } from '../../../base/dialog';
+import { hideDialog, openDialog, toggleDialog } from '../../../base/dialog';
 import { GoogleDriveDialog } from '../../../google-drive';
 import { isMobileBrowser } from '../../../base/environment/utils';
 import { translate } from '../../../base/i18n';
@@ -94,6 +94,8 @@ import { getRoomName } from '../../../base/conference';
 
 import VideoSettingsButton from './VideoSettingsButton';
 import TranslateButtonsDialog from '../../../conference/components/web/TranslateButtonsDialog';
+import { setWebsocketForGooglDrive } from '../../../google-drive/actions';
+import DisplayFileContentDialog from '../../../google-drive/components/DisplayFileContentDialog';
 
 /**
  * The type of the React {@code Component} props of {@link Toolbox}.
@@ -324,17 +326,6 @@ class Toolbox extends Component<Props, State> {
         });
 
         window.addEventListener('resize', this._onResize);
-
-        const { _roomName, _jwt } = this.props;
-        let fullUrl = `wss://jingo.edugenux.com/ws/conference/${_roomName}/?token=${_jwt}`;
-
-        const socket = new WebSocket(fullUrl);
-
-        // Listen for messages
-        socket.addEventListener('message', function (event) {
-            console.log('Mine message from server ', event.data);
-        });
-
     }
 
     /**
@@ -343,6 +334,19 @@ class Toolbox extends Component<Props, State> {
      * @inheritdoc
      */
     componentDidUpdate(prevProps) {
+        let that = null;
+        let { gdriveSocket } = this.props._customSocket;
+        if(gdriveSocket){
+            that = this;
+            gdriveSocket.addEventListener('message', function (event) {
+                if(JSON.parse(event.data).type !== "gdrive_stop" || JSON.parse(event.data).error_message ){
+                    that.props.dispatch( openDialog(DisplayFileContentDialog, { embedUrl: JSON.parse(event.data).gdrive_share_link}))
+                }else {
+                    that.props.dispatch( hideDialog(DisplayFileContentDialog) )
+                }
+            });
+        }
+
         // Ensure the dialog is closed when the toolbox becomes hidden.
         if (prevProps._overflowMenuVisible && !this.props._visible) {
             this._onSetOverflowVisible(false);
@@ -1521,6 +1525,7 @@ function _mapStateToProps(state) {
     // override them we'd miss it.
     const buttons = new Set(interfaceConfig.TOOLBAR_BUTTONS);
     const { jwt } = state['features/base/jwt'];
+    const socket = state['features/google-drive'];
 
     return {
         _chatOpen: state['features/chat'].isOpen,
@@ -1547,7 +1552,8 @@ function _mapStateToProps(state) {
         _visible: isToolboxVisible(state),
         _visibleButtons: equals(visibleButtons, buttons) ? visibleButtons : buttons,
         _roomName: getRoomName(state),
-        _jwt: jwt
+        _jwt: jwt,
+        _customSocket: socket
     };
 }
 

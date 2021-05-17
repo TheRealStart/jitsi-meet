@@ -2,12 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from '../../base/redux';
 import Spinner from '@atlaskit/spinner';
-import { Dialog, openDialog, hideDialog } from '../../base/dialog';
-import DisplayFileContentDialog from './DisplayFileContentDialog';
+import { Dialog } from '../../base/dialog';
 import  { SCOPES, CLIENT_ID, GPICKER_API_KEY } from '../constants';
 import GooglePicker from 'google-picker-component';
 import { getRoomName } from '../../base/conference';
-import { setGoogleApiUser, setGoogleDriveFiles } from '../actions';
 import Header from './Header';
 
 class GoogleDriveDialog extends Component {
@@ -15,22 +13,39 @@ class GoogleDriveDialog extends Component {
         signedInUser: null,
         googleDriveApiStatus: null,
         loading: false,
-        googleDriveFiles: null
+        googleDriveFiles: null,
+        shareLink: ""
     }
     
     handleGoogleDriveFileSelect = fileUrl => {
-        const { _roomName, _jwt } = this.props;
-        console.log(`mine ${_roomName} jwt is ${_jwt}`)
-        let fullUrl = `wss://jingo.edugenux.com/ws/conference/${_roomName}/?token=${_jwt}`;
-        this.props.dispatch( openDialog(DisplayFileContentDialog, { embedUrl: fileUrl}))
+        const { _socket } = this.props;
         let gdriveUrlObject = {
             type: "gdrive",
-            url: fileUrl
+            gdrive_share_link: fileUrl
         }
         let gdriveUrlJSON = JSON.stringify(gdriveUrlObject);
-        const socket = new WebSocket(fullUrl);
+        _socket.send(gdriveUrlJSON);
+    }
 
-        socket.send(gdriveUrlJSON);
+    handleEnterClick = e => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            let urlRegEx = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
+            if(this.state.shareLink && urlRegEx.test(this.state.shareLink)){
+                const { _socket } = this.props;
+                let link = this.state.shareLink.replace('view', 'preview')
+                let gdriveUrlObject = {
+                    type: "gdrive",
+                    gdrive_share_link: link
+                }
+                let gdriveUrlJSON = JSON.stringify(gdriveUrlObject);
+                _socket.send(gdriveUrlJSON);
+            }
+        }
+    }
+
+    hanldeChange = e =>{
+        this.setState({ shareLink: e.target.value })
     }
 
     render() {
@@ -40,12 +55,16 @@ class GoogleDriveDialog extends Component {
                 customHeader = { Header }
                 hideCancelButton = { true }
                 submitDisabled = { true }
+                disableBlanketClickDismiss = { this.state.modalDismiss }
                 titleKey = 'Google drive'>
                 <div>
                     <div>
                         <input type='text'
                             className='input-control  gdirive-input'
                             placeholder='Paste Google Drive Link Here'
+                            value = { this.state.shareLink }
+                            onChange = { this.hanldeChange }
+                            onKeyDown = { this.handleEnterClick }
                             autoFocus />
                         <div>
                             <span className="youtube_ex_text">Press "Share" button at your Google Drive file and paste it here</span>
@@ -79,10 +98,12 @@ class GoogleDriveDialog extends Component {
 
 function _mapStateToProps(state){
     const { jwt } = state['features/base/jwt'];
+    const { gdriveSocket } = state['features/google-drive'];
 
     return {
         _roomName: getRoomName(state),
-        _jwt: jwt
+        _jwt: jwt,
+        _socket: gdriveSocket
     };
 }
 

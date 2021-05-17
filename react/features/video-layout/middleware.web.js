@@ -13,6 +13,8 @@ import {
 import { MiddlewareRegistry } from '../base/redux';
 import { TRACK_ADDED, TRACK_REMOVED } from '../base/tracks';
 import { SET_FILMSTRIP_VISIBLE } from '../filmstrip';
+import { setWebsocketForGooglDrive } from '../google-drive/actions';
+import { getRoomName } from '../base/conference';
 
 import './middleware.any';
 
@@ -34,6 +36,15 @@ MiddlewareRegistry.register(store => next => action => {
 
     switch (action.type) {
     case CONFERENCE_JOINED:
+        const { dispatch, getState } = store;
+        const { jwt } = getState()['features/base/jwt'];
+        
+        const myRoomName = getRoomName(getState());
+        
+        let fullUrl = `wss://jingo.missed.com/ws/conference/${myRoomName}/?token=${jwt}`;
+        const socket = new WebSocket(fullUrl);
+        dispatch(setWebsocketForGooglDrive(socket))
+
         VideoLayout.mucJoined();
         break;
 
