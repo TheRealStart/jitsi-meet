@@ -1336,8 +1336,6 @@ class Toolbox extends Component<Props, State> {
         
         buttonsRight.push('youtube');
         buttonsRight.push('googledrive');
-       
-
         const movedButtons = [];
 
         if (buttonsLeft.length > maxNumberOfButtonsPerGroup) {
@@ -1440,13 +1438,13 @@ class Toolbox extends Component<Props, State> {
                                 toggled = { _sharingVideo }
                                 iconText = { t('toolbar.youtube') }
                                 tooltip = { t('toolbar.youtube') } /> }
-                    { ( buttonsRight.indexOf('invite') !== -1 && _isModerator)
+                    {/*{ ( buttonsRight.indexOf('invite') !== -1 && _isModerator)
                         && <ToolbarButton
                             accessibilityLabel =
                                 { t('toolbar.accessibilityLabel.invite') }
                             icon = { IconInviteMore }
                             onClick = { this._onToolbarOpenInvite }
-                            tooltip = { t('toolbar.invite') } /> }
+                            tooltip = { t('toolbar.invite') } /> }*/}
                     {/*{ buttonsRight.indexOf('security') !== -1
                         && <SecurityDialogButton customClass = 'security-toolbar-button' /> }*/}
                     { buttonsRight.indexOf('overflowmenu') !== -1

@@ -3,7 +3,7 @@ const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/r
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+const SCOPES = ['https://www.googleapis.com/auth/drive.readonly'];
 
 const CLIENT_ID = "147925489211-5l3pdulpqcohrmefa3pdm3kf6j088g40.apps.googleusercontent.com";
 const API_KEY = "oMSsYbpnpRtciGVN9SUQe65I";
