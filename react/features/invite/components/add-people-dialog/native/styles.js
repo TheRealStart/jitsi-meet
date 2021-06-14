@@ -110,6 +110,15 @@ export default {
         paddingVertical: 8
     },
 
+    buttonWrapper: {
+        paddingHorizontal: 15
+    },
+
+    customButtonStyle: {
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+    },
+
     searchIcon: {
         color: DARK_GREY,
         fontSize: ICON_SIZE

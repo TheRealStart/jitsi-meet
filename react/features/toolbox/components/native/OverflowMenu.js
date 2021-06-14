@@ -10,15 +10,10 @@ import { IconDragHandle } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { SharedDocumentButton } from '../../../etherpad';
-import { InviteButton } from '../../../invite';
 import { LobbyModeButton } from '../../../lobby/components/native';
 import { AudioRouteButton } from '../../../mobile/audio-mode';
 import { LiveStreamButton, RecordButton } from '../../../recording';
-import { RoomLockButton } from '../../../room-lock';
 import { ClosedCaptionButton } from '../../../subtitles';
-import { TileViewButton } from '../../../video-layout';
-import { VideoShareButton } from '../../../youtube-player/components';
-import HelpButton from '../HelpButton';
 import MuteEveryoneButton from '../MuteEveryoneButton';
 
 import AudioOnlyButton from './AudioOnlyButton';
@@ -27,6 +22,12 @@ import RaiseHandButton from './RaiseHandButton';
 import ScreenSharingButton from './ScreenSharingButton.js';
 import ToggleCameraButton from './ToggleCameraButton';
 import styles from './styles';
+
+// import { InviteButton } from '../../../invite';
+// import { RoomLockButton } from '../../../room-lock';
+// import { TileViewButton } from '../../../video-layout';
+// import { VideoShareButton } from '../../../youtube-player/components';
+// import HelpButton from '../HelpButton';
 
 /**
  * The type of the React {@code Component} props of {@link OverflowMenu}.
@@ -129,7 +130,7 @@ class OverflowMenu extends PureComponent<Props, State> {
                 onSwipe = { this._onSwipe }
                 renderHeader = { this._renderMenuExpandToggle }>
                 <AudioRouteButton { ...buttonProps } />
-                <InviteButton { ...buttonProps } />
+                {/* <InviteButton { ...buttonProps } /> */}
                 <AudioOnlyButton { ...buttonProps } />
                 <RaiseHandButton { ...buttonProps } />
                 <LobbyModeButton { ...buttonProps } />
@@ -137,15 +138,15 @@ class OverflowMenu extends PureComponent<Props, State> {
                 <MoreOptionsButton { ...moreOptionsButtonProps } />
                 <Collapsible collapsed = { !showMore }>
                     <ToggleCameraButton { ...buttonProps } />
-                    <TileViewButton { ...buttonProps } />
+                    {/* <TileViewButton { ...buttonProps } /> */}
                     <RecordButton { ...buttonProps } />
                     <LiveStreamButton { ...buttonProps } />
-                    <VideoShareButton { ...buttonProps } />
-                    <RoomLockButton { ...buttonProps } />
+                    {/* <VideoShareButton { ...buttonProps } /> */}
+                    {/* <RoomLockButton { ...buttonProps } /> */}
                     <ClosedCaptionButton { ...buttonProps } />
                     <SharedDocumentButton { ...buttonProps } />
                     <MuteEveryoneButton { ...buttonProps } />
-                    <HelpButton { ...buttonProps } />
+                    {/* <HelpButton { ...buttonProps } /> */}
                 </Collapsible>
             </BottomSheet>
         );

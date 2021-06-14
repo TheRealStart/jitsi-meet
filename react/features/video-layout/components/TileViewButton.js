@@ -73,7 +73,7 @@ class TileViewButton<P: Props> extends AbstractButton<P, *> {
      * @returns {boolean}
      */
     _isToggled() {
-        return this.props._tileViewEnabled;
+        return !this.props._tileViewEnabled;
     }
 }
 
@@ -87,8 +87,9 @@ class TileViewButton<P: Props> extends AbstractButton<P, *> {
  */
 function _mapStateToProps(state, ownProps) {
     const enabled = getFeatureFlag(state, TILE_VIEW_ENABLED, true);
-    const lonelyMeeting = getParticipantCount(state) < 2;
-    const { visible = enabled && !lonelyMeeting } = ownProps;
+
+    // const lonelyMeeting = getParticipantCount(state) < 2;
+    const { visible = enabled } = ownProps;
 
     return {
         _tileViewEnabled: shouldDisplayTileView(state),
