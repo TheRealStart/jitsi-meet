@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from '../../base/redux';
 import Spinner from '@atlaskit/spinner';
 import { Dialog } from '../../base/dialog';
-import  { SCOPES, CLIENT_ID, GPICKER_API_KEY } from '../constants';
+import  { SCOPES, CLIENT_ID, GPICKER_API_KEY, APP_ID } from '../constants';
 import GooglePicker from 'google-picker-component';
 import { getRoomName } from '../../base/conference';
 import Header from './Header';
@@ -74,6 +74,7 @@ class GoogleDriveDialog extends Component {
                             <GooglePicker clientId={ CLIENT_ID}
                                 developerKey={GPICKER_API_KEY}
                                 scope={SCOPES}
+                                appId={APP_ID}
                                 onChange={data => this.handleGoogleDriveFileSelect(data.docs[0].embedUrl)}
                                 onAuthFailed={data => console.log('on auth failed:', data)}
                                 multiselect={false}
