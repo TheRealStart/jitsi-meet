@@ -75,6 +75,7 @@ class GoogleDriveDialog extends Component {
                                 developerKey={GPICKER_API_KEY}
                                 scope={SCOPES}
                                 appId={APP_ID}
+                                origin={'https://docs.google.com'}
                                 onChange={data => this.handleGoogleDriveFileSelect(data.docs[0].embedUrl)}
                                 onAuthFailed={data => console.log('on auth failed:', data)}
                                 multiselect={false}
