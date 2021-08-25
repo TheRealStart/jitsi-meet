@@ -13,7 +13,7 @@ import { openWebApp } from '../actions';
 import { _TNS } from '../constants';
 import { generateDeepLinkingURL } from '../functions';
 import { renderPromotionalFooter } from '../renderPromotionalFooter';
-import "./style.css";
+import './style.css';
 
 declare var interfaceConfig: Object;
 
@@ -71,7 +71,7 @@ class DeepLinkingMobilePage extends Component<Props> {
         this._onDownloadApp = this._onDownloadApp.bind(this);
         this._onLaunchWeb = this._onLaunchWeb.bind(this);
         this._onOpenApp = this._onOpenApp.bind(this);
-        this._renderLaunchWebButton = this._renderLaunchWebButton.bind(this)
+        this._renderLaunchWebButton = this._renderLaunchWebButton.bind(this);
     }
 
     /**
@@ -133,9 +133,12 @@ class DeepLinkingMobilePage extends Component<Props> {
                                 src = 'images/deep-linking-image.png' />
                             : null
                     }
-                    <p className = { `${_SNS}__text` }>
-                        { t(`${_TNS}.appNotInstalled`, { app: NATIVE_APP_NAME }) }
-                    </p>
+                    {
+                        Platform.OS.toUpperCase() !== 'IOS'
+                        && <p className = { `${_SNS}__text` }>
+                            {t(`${_TNS}.appNotInstalled`, { app: NATIVE_APP_NAME })}
+                        </p>
+                    }
                     {/* <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.ifHaveApp`) }
                     </p>
@@ -149,12 +152,16 @@ class DeepLinkingMobilePage extends Component<Props> {
                             { t(`${_TNS}.joinInApp`) }
                         </button>
                     </a> */}
-                    <p className = { `${_SNS}__text` }>
-                        { t(`${_TNS}.ifDoNotHaveApp`) }
-                    </p>
-                    { 
-                        Platform.OS.toUpperCase() !== "IOS" && 
-                            <a { ...onOpenLinkProperties }
+                    {
+                        Platform.OS.toUpperCase() !== 'IOS'
+                        && <p className = { `${_SNS}__text` }>
+                            {t(`${_TNS}.ifDoNotHaveApp`)}
+                        </p>
+                    }
+                    {
+                        Platform.OS.toUpperCase() !== 'IOS'
+                            && <a
+                                { ...onOpenLinkProperties }
                                 href = { this._generateDownloadURL() }
                                 onClick = { this._onDownloadApp }
                                 target = '_top'>
@@ -162,7 +169,7 @@ class DeepLinkingMobilePage extends Component<Props> {
                                     { t(`${_TNS}.downloadApp`) }
                                 </button>
                             </a>
-                    } 
+                    }
                     { this._renderLaunchWebButton(downloadButtonClassName, t) }
                     { renderPromotionalFooter() }
                     <DialInSummary
@@ -174,32 +181,41 @@ class DeepLinkingMobilePage extends Component<Props> {
         );
     }
 
-    _renderLaunchWebButton(downloadButtonClassName, t){
-        let whichPlatform = Platform.OS.toUpperCase();
-        let isSupported = isSupportedMobileBrowser();
-        
-        if(!isSupported){
+    _renderLaunchWebButton(downloadButtonClassName, t) {
+        const whichPlatform = Platform.OS.toUpperCase();
+        const isSupported = isSupportedMobileBrowser();
+
+        // eslint-disable-next-line no-negated-condition
+        if (isSupported) {
             return (
-                <a  onClick = { this._onLaunchWeb }
+                <a
+                    onClick = { this._onLaunchWeb }
                     target = '_top'>
                     <button className = { downloadButtonClassName }>
                         { t(`${_TNS}.launchWebButton`) }
                     </button>
                 </a>
-            )
-        }else {
-            let iphoneSupportText = `Unfortunately, we don't support this browser on iPhone. 
-                Please, use Safari or download Missed.com app from AppStore`;
-            let androidSupportText = `Unfortunately, we don't support this browser on Android. Please, install and open this link from Chrome, 
-                Mozilla Firefox or download Missed.com app from Play Market`
-            return (
-                <div className="not-supported">
-                    <span> 
-                       { whichPlatform === "IOS" ? iphoneSupportText : androidSupportText } 
-                    </span>
-                </div>
-            )
+            );
         }
+
+        // const iphoneSupportText = `Unfortunately, we don't support this browser on iPhone.
+        //         Please, use Safari or download Missed.com app from AppStore`;
+
+        // eslint-disable-next-line max-len
+        const iphoneSupportText = 'Unfortunately, we don\'t support this browser on iOS. Please open this link from Safari';
+
+        // eslint-disable-next-line max-len
+        const androidSupportText = `Unfortunately, we don't support this browser on Android. Please, install and open this link from Chrome, 
+                Mozilla Firefox or download Missed.com app from Play Market`;
+
+        return (
+            <div className = 'not-supported'>
+                <span>
+                    { whichPlatform === 'IOS' ? iphoneSupportText : androidSupportText }
+                </span>
+            </div>
+        );
+
     }
 
     /**
