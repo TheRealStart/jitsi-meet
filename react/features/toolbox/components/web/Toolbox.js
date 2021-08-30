@@ -1335,7 +1335,7 @@ class Toolbox extends Component<Props, State> {
         }
         
         buttonsRight.push('youtube');
-        buttonsRight.push('googledrive');
+        // buttonsRight.push('googledrive');
         const movedButtons = [];
 
         if (buttonsLeft.length > maxNumberOfButtonsPerGroup) {
