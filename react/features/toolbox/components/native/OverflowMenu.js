@@ -20,7 +20,7 @@ import { ClosedCaptionButton } from '../../../subtitles';
 import { TileViewButton } from '../../../video-layout';
 import styles from '../../../video-menu/components/native/styles';
 import { getMovableButtons } from '../../functions.native';
-import HelpButton from '../HelpButton';
+// import HelpButton from '../HelpButton';
 
 import AudioOnlyButton from './AudioOnlyButton';
 import RaiseHandButton from './RaiseHandButton';
@@ -153,7 +153,7 @@ class OverflowMenu extends PureComponent<Props, State> {
                 <Divider style = { styles.divider } />
                 <ClosedCaptionButton { ...buttonProps } />
                 <SharedDocumentButton { ...buttonProps } />
-                <HelpButton { ...buttonProps } />
+                {/*<HelpButton { ...buttonProps } />*/}
             </BottomSheet>
         );
     }

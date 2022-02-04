@@ -80,7 +80,7 @@ import { THRESHOLDS, NOT_APPLICABLE, DRAWER_MAX_HEIGHT, NOTIFY_CLICK_MODE } from
 import { isDesktopShareButtonDisabled, isToolboxVisible } from '../../functions';
 import DownloadButton from '../DownloadButton';
 import HangupButton from '../HangupButton';
-import HelpButton from '../HelpButton';
+// import HelpButton from '../HelpButton';
 import MuteEveryoneButton from '../MuteEveryoneButton';
 import MuteEveryonesVideoButton from '../MuteEveryonesVideoButton';
 
@@ -784,11 +784,11 @@ class Toolbox extends Component<Props> {
             group: 4
         };
 
-        const help = {
-            key: 'help',
-            Content: HelpButton,
-            group: 4
-        };
+        // const help = {
+        //     key: 'help',
+        //     Content: HelpButton,
+        //     group: 4
+        // };
 
         return {
             microphone,
@@ -820,7 +820,7 @@ class Toolbox extends Component<Props> {
             // embed,
             // feedback,
             download,
-            help
+            // help
         };
     }
 

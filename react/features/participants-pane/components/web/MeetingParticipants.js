@@ -22,7 +22,7 @@ import { getSortedParticipantIds, shouldRenderInviteButton } from '../../functio
 import { useParticipantDrawer } from '../../hooks';
 
 import ClearableInput from './ClearableInput';
-import { InviteButton } from './InviteButton';
+// import { InviteButton } from './InviteButton';
 import MeetingParticipantContextMenu from './MeetingParticipantContextMenu';
 import MeetingParticipantItems from './MeetingParticipantItems';
 

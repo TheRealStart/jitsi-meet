@@ -36,7 +36,7 @@ import type { AbstractProps } from '../AbstractConference';
 import AlwaysOnLabels from './AlwaysOnLabels';
 import { navigate } from './ConferenceNavigationContainerRef';
 import ExpandedLabelPopup from './ExpandedLabelPopup';
-import LonelyMeetingExperience from './LonelyMeetingExperience';
+// import LonelyMeetingExperience from './LonelyMeetingExperience';
 import TitleBar from './TitleBar';
 import { EXPANDED_LABEL_TIMEOUT } from './constants';
 import { screen } from './routes';
@@ -361,7 +361,7 @@ class Conference extends AbstractConference<Props, State> {
                         <DisplayNameLabel participantId = { _largeVideoParticipantId } />
                     </Container> }
 
-                    <LonelyMeetingExperience />
+                    {/*<LonelyMeetingExperience />*/}
 
                     { _shouldDisplayTileView || <><Filmstrip /><Toolbox /></> }
                 </View>

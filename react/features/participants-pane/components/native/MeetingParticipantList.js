@@ -5,11 +5,11 @@ import { FlatList } from 'react-native';
 import { Button, withTheme } from 'react-native-paper';
 
 import { translate } from '../../../base/i18n';
-import { Icon, IconInviteMore } from '../../../base/icons';
+// import { Icon, IconInviteMore } from '../../../base/icons';
 import { getLocalParticipant, getParticipantCountWithFake, getRemoteParticipants } from '../../../base/participants';
 import { connect } from '../../../base/redux';
 import { getBreakoutRooms, getCurrentRoomId } from '../../../breakout-rooms/functions';
-import { doInvitePeople } from '../../../invite/actions.native';
+// import { doInvitePeople } from '../../../invite/actions.native';
 import { participantMatchesSearch, shouldRenderInviteButton } from '../../functions';
 
 import ClearableInput from './ClearableInput';
@@ -43,7 +43,7 @@ type Props = {
     /**
      * Whether or not to show the invite button.
      */
-    _showInviteButton: boolean,
+    // _showInviteButton: boolean,
 
     /**
      * The remote participants.
@@ -90,7 +90,7 @@ class MeetingParticipantList extends PureComponent<Props> {
         super(props);
 
         this._keyExtractor = this._keyExtractor.bind(this);
-        this._onInvite = this._onInvite.bind(this);
+        // this._onInvite = this._onInvite.bind(this);
         this._renderParticipant = this._renderParticipant.bind(this);
         this._onSearchStringChange = this._onSearchStringChange.bind(this);
     }
@@ -107,29 +107,29 @@ class MeetingParticipantList extends PureComponent<Props> {
         return item;
     }
 
-    _onInvite: () => void;
+    // _onInvite: () => void;
 
     /**
      * Handles ivite button presses.
      *
      * @returns {void}
      */
-    _onInvite() {
-        this.props.dispatch(doInvitePeople());
-    }
+    // _onInvite() {
+    //     this.props.dispatch(doInvitePeople());
+    // }
 
     /**
      * Renders the "invite more" icon.
      *
      * @returns {ReactElement}
      */
-    _renderInviteMoreIcon() {
-        return (
-            <Icon
-                size = { 20 }
-                src = { IconInviteMore } />
-        );
-    }
+    // _renderInviteMoreIcon() {
+    //     return (
+    //         <Icon
+    //             size = { 20 }
+    //             src = { IconInviteMore } />
+    //     );
+    // }
 
     _renderParticipant: Object => Object;
 
@@ -178,7 +178,7 @@ class MeetingParticipantList extends PureComponent<Props> {
             _currentRoom,
             _localParticipant,
             _participantsCount,
-            _showInviteButton,
+            // _showInviteButton,
             _sortedRemoteParticipants,
             t
         } = this.props;
@@ -199,16 +199,16 @@ class MeetingParticipantList extends PureComponent<Props> {
             <CollapsibleList
                 containerStyle = { containerStyle }
                 title = { title } >
-                {
-                    _showInviteButton
-                    && <Button
-                        children = { t('participantsPane.actions.invite') }
-                        icon = { this._renderInviteMoreIcon }
-                        labelStyle = { styles.inviteLabel }
-                        mode = 'contained'
-                        onPress = { this._onInvite }
-                        style = { styles.inviteButton } />
-                }
+                {/*{*/}
+                {/*    _showInviteButton*/}
+                {/*    && <Button*/}
+                {/*        children = { t('participantsPane.actions.invite') }*/}
+                {/*        icon = { this._renderInviteMoreIcon }*/}
+                {/*        labelStyle = { styles.inviteLabel }*/}
+                {/*        mode = 'contained'*/}
+                {/*        onPress = { this._onInvite }*/}
+                {/*        style = { styles.inviteButton } />*/}
+                {/*}*/}
                 <ClearableInput
                     onChange = { this._onSearchStringChange }
                     placeholder = { t('participantsPane.search') }
@@ -237,7 +237,7 @@ class MeetingParticipantList extends PureComponent<Props> {
 function _mapStateToProps(state): Object {
     const _participantsCount = getParticipantCountWithFake(state);
     const { remoteParticipants } = state['features/filmstrip'];
-    const _showInviteButton = shouldRenderInviteButton(state);
+    // const _showInviteButton = shouldRenderInviteButton(state);
     const _remoteParticipants = getRemoteParticipants(state);
     const currentRoomId = getCurrentRoomId(state);
     const _currentRoom = getBreakoutRooms(state)[currentRoomId];
@@ -246,7 +246,7 @@ function _mapStateToProps(state): Object {
         _currentRoom,
         _participantsCount,
         _remoteParticipants,
-        _showInviteButton,
+        // _showInviteButton,
         _sortedRemoteParticipants: remoteParticipants,
         _localParticipant: getLocalParticipant(state)
     };
