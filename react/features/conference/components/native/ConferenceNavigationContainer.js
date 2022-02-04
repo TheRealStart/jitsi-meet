@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 
 import { Chat, ChatAndPolls } from '../../../chat';
 import { SharedDocument } from '../../../etherpad';
-import AddPeopleDialog
-    from '../../../invite/components/add-people-dialog/native/AddPeopleDialog';
+// import AddPeopleDialog
+//     from '../../../invite/components/add-people-dialog/native/AddPeopleDialog';
 import LobbyScreen from '../../../lobby/components/native/LobbyScreen';
 import { ParticipantsPane } from '../../../participants-pane/components/native';
 import SecurityDialog
@@ -26,7 +26,7 @@ import {
 import {
     chatScreenOptions,
     conferenceScreenOptions,
-    inviteScreenOptions,
+    // inviteScreenOptions,
     lobbyScreenOptions,
     navigationContainerTheme,
     participantsScreenOptions,
@@ -103,13 +103,13 @@ const ConferenceNavigationContainer = () => {
                         component = { LobbyScreen }
                         name = { screen.lobby }
                         options = { lobbyScreenOptions } />
-                    <ConferenceStack.Screen
-                        component = { AddPeopleDialog }
-                        name = { screen.conference.invite }
-                        options = {{
-                            ...inviteScreenOptions,
-                            title: t('addPeople.add')
-                        }} />
+                    {/*<ConferenceStack.Screen*/}
+                    {/*    component = { AddPeopleDialog }*/}
+                    {/*    name = { screen.conference.invite }*/}
+                    {/*    options = {{*/}
+                    {/*        ...inviteScreenOptions,*/}
+                    {/*        title: t('addPeople.add')*/}
+                    {/*    }} />*/}
                     <ConferenceStack.Screen
                         component = { SharedDocument }
                         name = { screen.conference.sharedDocument }

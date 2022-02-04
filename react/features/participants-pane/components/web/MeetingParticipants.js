@@ -48,7 +48,7 @@ type Props = {
     overflowDrawer: boolean,
     searchString: string,
     setSearchString: Function,
-    showInviteButton: boolean,
+    // showInviteButton: boolean,
     sortedParticipantIds: Array<string>
 };
 
@@ -68,7 +68,7 @@ function MeetingParticipants({
     participantsCount,
     searchString,
     setSearchString,
-    showInviteButton,
+    // showInviteButton,
     sortedParticipantIds = []
 }: Props) {
     const dispatch = useDispatch();
@@ -104,7 +104,7 @@ function MeetingParticipants({
                     ? `${currentRoom.name} (${participantsCount})`
                     : t('participantsPane.headings.participantsList', { count: participantsCount })}
             </div>
-            {showInviteButton && <InviteButton />}
+            {/*{showInviteButton && <InviteButton />}*/}
             <ClearableInput
                 onChange = { setSearchString }
                 placeholder = { t('participantsPane.search') }
@@ -154,7 +154,7 @@ function _mapStateToProps(state): Object {
     // and we will not re-render on change, but if count changes we will do
     const participantsCount = getParticipantCountWithFake(state);
 
-    const showInviteButton = shouldRenderInviteButton(state) && isToolbarButtonEnabled('invite', state);
+    // const showInviteButton = shouldRenderInviteButton(state) && isToolbarButtonEnabled('invite', state);
 
     const overflowDrawer = showOverflowDrawer(state);
 
@@ -165,7 +165,7 @@ function _mapStateToProps(state): Object {
         currentRoom,
         overflowDrawer,
         participantsCount,
-        showInviteButton,
+        // showInviteButton,
         sortedParticipantIds
     };
 }

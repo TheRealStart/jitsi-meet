@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { Watermarks } from '../../base/react';
+// import { Watermarks } from '../../base/react';
 import { connect } from '../../base/redux';
 import { setColorAlpha } from '../../base/util';
 import { SharedVideo } from '../../shared-video/components/web';
@@ -88,7 +88,7 @@ class LargeVideo extends Component<Props> {
                 <SharedVideo />
                 <div id = 'etherpad' />
 
-                <Watermarks />
+                {/*<Watermarks />*/}
 
                 <div
                     id = 'dominantSpeaker'

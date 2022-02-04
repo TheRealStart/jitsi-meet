@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import { getConferenceName, getConferenceTimestamp } from '../../../base/conference/functions';
 import { getFeatureFlag, CONFERENCE_TIMER_ENABLED, MEETING_NAME_ENABLED } from '../../../base/flags';
 import { connect } from '../../../base/redux';
-import InviteButton from '../../../invite/components/add-people-dialog/native/InviteButton';
+// import InviteButton from '../../../invite/components/add-people-dialog/native/InviteButton';
 import AudioDeviceToggleButton from '../../../mobile/audio-mode/components/AudioDeviceToggleButton';
 import { PictureInPictureButton } from '../../../mobile/picture-in-picture';
 import { isToolboxVisible } from '../../../toolbox/functions.native';
@@ -85,7 +85,7 @@ const TitleBar = (props: Props) => (<>
             <AudioDeviceToggleButton styles = { styles.inviteButton } />
         </View>
         <View style = { styles.titleBarButtonContainer }>
-            <InviteButton styles = { styles.inviteButton } />
+            {/*<InviteButton styles = { styles.inviteButton } />*/}
         </View>
     </View>}
 </>);

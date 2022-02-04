@@ -28,10 +28,10 @@ import { getLocalVideoTrack } from '../../../base/tracks';
 import { toggleChat } from '../../../chat';
 import { ChatButton } from '../../../chat/components';
 import { DominantSpeakerName } from '../../../display-name';
-import { EmbedMeetingButton } from '../../../embed-meeting';
+// import { EmbedMeetingButton } from '../../../embed-meeting';
 import { SharedDocumentButton } from '../../../etherpad';
-import { FeedbackButton } from '../../../feedback';
-import { InviteButton } from '../../../invite/components/add-people-dialog';
+// import { FeedbackButton } from '../../../feedback';
+// import { InviteButton } from '../../../invite/components/add-people-dialog';
 import { isVpaasMeeting } from '../../../jaas/functions';
 import { KeyboardShortcutsButton } from '../../../keyboard-shortcuts';
 import { LocalRecordingButton } from '../../../local-recording';
@@ -147,7 +147,7 @@ type Props = {
     /**
      * Whether or not call feedback can be sent.
      */
-    _feedbackConfigured: boolean,
+    // _feedbackConfigured: boolean,
 
     /**
      * Whether or not the app is currently in full screen.
@@ -597,7 +597,7 @@ class Toolbox extends Component<Props> {
      */
     _getAllButtons() {
         const {
-            _feedbackConfigured,
+            // _feedbackConfigured,
             _isIosMobile,
             _isMobile,
             _screenSharing
@@ -649,11 +649,11 @@ class Toolbox extends Component<Props> {
             group: 2
         };
 
-        const invite = {
-            key: 'invite',
-            Content: InviteButton,
-            group: 2
-        };
+        // const invite = {
+        //     key: 'invite',
+        //     Content: InviteButton,
+        //     group: 2
+        // };
 
         const tileview = {
             key: 'tileview',
@@ -766,17 +766,17 @@ class Toolbox extends Component<Props> {
             group: 4
         };
 
-        const embed = this._isEmbedMeetingVisible() && {
-            key: 'embedmeeting',
-            Content: EmbedMeetingButton,
-            group: 4
-        };
+        // const embed = this._isEmbedMeetingVisible() && {
+        //     key: 'embedmeeting',
+        //     Content: EmbedMeetingButton,
+        //     group: 4
+        // };
 
-        const feedback = _feedbackConfigured && {
-            key: 'feedback',
-            Content: FeedbackButton,
-            group: 4
-        };
+        // const feedback = _feedbackConfigured && {
+        //     key: 'feedback',
+        //     Content: FeedbackButton,
+        //     group: 4
+        // };
 
         const download = {
             key: 'download',
@@ -798,7 +798,7 @@ class Toolbox extends Component<Props> {
             chat,
             raisehand,
             participants,
-            invite,
+            // invite,
             tileview,
             toggleCamera,
             videoQuality,
@@ -817,8 +817,8 @@ class Toolbox extends Component<Props> {
             speakerStats,
             settings,
             shortcuts,
-            embed,
-            feedback,
+            // embed,
+            // feedback,
             download,
             help
         };
@@ -1390,7 +1390,7 @@ function _mapStateToProps(state, ownProps) {
         _desktopSharingButtonDisabled: isDesktopShareButtonDisabled(state),
         _desktopSharingDisabledTooltipKey: desktopSharingDisabledTooltipKey,
         _dialog: Boolean(state['features/base/dialog'].component),
-        _feedbackConfigured: Boolean(callStatsID),
+        // _feedbackConfigured: Boolean(callStatsID),
         _fullScreen: fullScreen,
         _isProfileDisabled: Boolean(disableProfile),
         _isIosMobile: isIosMobileBrowser(),
